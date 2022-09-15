@@ -10,7 +10,7 @@ $(document).ready(function() {
     var barData = {}
     var continuousMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
-        width = vw(100) - 300  - margin.left - margin.right,
+        width = vw(95) - 250  - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
     var dataRef = firebase.database().ref('/data/')
@@ -39,7 +39,8 @@ $(document).ready(function() {
       document.getElementById("mySidebar").classList.toggle('show-sidebar')
       document.getElementById("main").classList.toggle('sidebar-margin')
     }
-    const average = array => array.reduce((a, b) => a + b) / array.length;
+    const average = arr => sum(arr) / arr.length
+    const sum = arr => {var sum=0; var i=arr.length; while(i--) {sum += arr[i]}; return sum}
     function capsidWidget(name, data){
        var widget = document.createElement('div')
        var widgetTitle = document.createElement('h3')
@@ -58,9 +59,10 @@ $(document).ready(function() {
        searchOutput.appendChild(widget)
     } 
     function stDev (array) {
-      const n = array.length
-      const mean = array.reduce((a, b) => a + b) / n
-      return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
+        if (!array || array.length === 0) {return 0;}
+        const n = array.length
+        const mean = array.reduce((a, b) => a + b) / n
+        return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
     }
     function searchCapsid(){
         searchOutput.innerHTML = ''
@@ -73,19 +75,29 @@ $(document).ready(function() {
         var d = Object.values(globalData).filter(e => (x in e) &&
         (y in e) && !(isNaN(e[x])) && !(isNaN(e[y])))
         var filtered = []
-        console.log(d)
-        console.log(filters)
         var filtered = d.filter(e => {
             var passFilter = true
             Object.keys(filters).forEach(function(key, index) {
             if (!(key in e)) passFilter = false
-            else {
-                if (!(filters[key].includes(String(e[key])))) passFilter = false
-            }
+            else if (!(filters[key].includes(String(e[key])))) passFilter = false
         })
             return passFilter
         })
         return filtered.map(e =>[e[x], e[y]])
+    }
+    function save(filename, data) {
+        const blob = new Blob(data, {type: 'text/csv'});
+        if(window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveBlob(blob, filename);
+        }
+        else{
+            const elem = window.document.createElement('a');
+            elem.href = window.URL.createObjectURL(blob);
+            elem.download = filename;        
+            document.body.appendChild(elem);
+            elem.click();        
+            document.body.removeChild(elem);
+        }
     }
     function makeScatter(id, metrics, filters){
         var d = filterContinuous(metrics, filters)
@@ -132,7 +144,6 @@ $(document).ready(function() {
             .attr("y", 0 - (margin.top / 2))
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
-            .style("text-decoration", "underline")
             .text(`${xMetric} vs ${yMetric} (n = ${d.length})`);
         var xDropdown = document.createElement('select')
         var yDropdown = document.createElement('select')
@@ -162,6 +173,9 @@ $(document).ready(function() {
         var yAveEl = document.createElement('p')
         var xStdevEl = document.createElement('p')
         var yStdevEl = document.createElement('p')
+        var filterWidget = document.getElementById(id + 'filters')
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        exportBtn.onclick = () => {save('data.txt', d.map(e => e + '\n'))}
         xDropdown.id = id + 'xMetric'
         yDropdown.id = id + 'yMetric'
         xAveEl.innerHTML = 'Average: ' + xAve
@@ -201,11 +215,16 @@ $(document).ready(function() {
             graphEl.innerHTML = ''
             makeScatter(id, [x,y], filters)
             })
+        var exportBtn = document.createElement('button')
+        exportBtn.id = id + 'exportBtn'
+        exportBtn.classList.add('fa')
+        exportBtn.classList.add('fa-download')
         delBtn.classList.add('fa-trash-o')
         delBtn.classList.add('fa')
         delBtn.addEventListener('click', () => {graphWidget.remove();})
         filterWidget.classList.add('filter-container')
         filterWidget.appendChild(delBtn)
+        filterWidget.appendChild(exportBtn)
         filterWidget.appendChild(updateBtn)
         createFilters(filterWidget)
         graphWidget.appendChild(filterWidget)
@@ -278,7 +297,7 @@ $(document).ready(function() {
         for (let i = 0; i < filters.length; i++) {
           if (filters[i].checked) {
             filterClass = filters[i].parentElement.name
-            if (!(filterClass in Object.keys(filterObj))) filterObj[filterClass] = []
+            if (!(filterClass in filterObj)) filterObj[filterClass] = []
             filterObj[filterClass].push(filters[i].id)
           }
         }
