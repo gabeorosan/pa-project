@@ -148,7 +148,14 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-
+.dropup-content {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  background-color: #f1f1f1;
+  min-width: 170px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
@@ -170,13 +177,29 @@
     position: relative;
     margin-left: 250px;
 }
-.x-axis-container {
+.bar-x-container {
+    display: flex;
+    align-items: center;
     position: absolute;
-    bottom: -50px;
+    bottom: 5vh;
+    left: 30vw;
+}
+.x-axis-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: -5vh;
     left: 30vw;
 }
 .y-axis-container {
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 50%;
     left: -250px;
+}
+
+.stat-button{
+    font-size: 16px;
+    margin-right: 5px;
 }
