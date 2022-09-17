@@ -4,6 +4,7 @@ $(document).ready(function() {
     const openBtn = document.getElementById('openbtn')
     const scatterBtn = document.getElementById('scatter-btn')
     const barBtn = document.getElementById('bar-btn')
+    const pieBtn = document.getElementById('pie-btn')
     const searchOutput = document.getElementById('search-output')
     const graphContainer = document.getElementById('graph-container')
     var continuousMetrics; var discreteMetrics; var globalData; var filters;
@@ -30,6 +31,7 @@ $(document).ready(function() {
     openBtn.addEventListener("click", toggleNav)
     scatterBtn.addEventListener("click", newScatter)
     barBtn.addEventListener("click", newBar)
+    pieBtn.addEventListener("click", newPie)
     function vw(percent) {
       var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       return (percent * w) / 100;
@@ -68,15 +70,33 @@ $(document).ready(function() {
         var virus = globalData[searchInput.value]
         capsidWidget(searchInput.value, virus)
     }
-    function filterDiscrete(discrete, classes, continuous, filters) {
+    function filterCount(discrete, filterObj) {
+        var res = {}
+        var d = Object.values(globalData).filter(e => {return ((discrete in e))})
+        var filtered = d.filter(e => {
+            var passFilter = true
+            Object.keys(filterObj).forEach(function(key, index) {
+            if (!(key in e)) passFilter = false
+            else if (!(filters[key].includes(String(e[key])))) passFilter = false
+        })
+            return passFilter
+        })
+        var classes = filters[discrete]
+        for (let i=0;i<classes.length;i++) {
+            var classMatch = filtered.filter(e => {return (e[discrete] == classes[i])})
+            res[classes[i]] = classMatch.length
+        }
+        return res
+    }
+    function filterDiscrete(discrete, classes, continuous, filterObj) {
         var res = []
         var d = Object.values(globalData).filter(e => {return ((discrete in e) && (continuous in e) &&
         (!(isNaN(e[continuous]))))})
         var filtered = d.filter(e => {
             var passFilter = true
-            Object.keys(filters).forEach(function(key, index) {
+            Object.keys(filterObj).forEach(function(key, index) {
             if (!(key in e)) passFilter = false
-            else if (!(filters[key].includes(String(e[key])))) passFilter = false
+            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
         })
             return passFilter
         })
@@ -88,7 +108,7 @@ $(document).ready(function() {
         }
         return res
     }
-    function filterContinuous(metrics, filters) {
+    function filterContinuous(metrics,filterObj) {
         var x = metrics[0]
         var y = metrics[1]
         var d = Object.values(globalData).filter(e => (x in e) &&
@@ -96,9 +116,9 @@ $(document).ready(function() {
         var filtered = []
         var filtered = d.filter(e => {
             var passFilter = true
-            Object.keys(filters).forEach(function(key, index) {
+            Object.keys(filterObj).forEach(function(key, index) {
             if (!(key in e)) passFilter = false
-            else if (!(filters[key].includes(String(e[key])))) passFilter = false
+            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
         })
             return passFilter
         })
@@ -412,6 +432,101 @@ $(document).ready(function() {
         var barDiscrete = getRandom(discreteMetrics, 1)
         makeBar(id, barDiscrete, getRandom(filters[barDiscrete], 5), getRandom(continuousMetrics, 1), {})
     }
+    function makePie(id, discrete, filterObj){
+        var data = filterCount(discrete, filterObj)
+        console.log(data)
+        var w = 450
+            h = 450
+            m = 40
+        var radius = Math.min(w, height) / 2 - m
+
+        var graphEl = document.getElementById(id + 'graph')
+        var svg = d3.select(`#${id}graph`)
+          .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+          .append("g")
+            .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+
+        var fakedata = {a: 9, b: 20, c:30, d:8, e:12}
+
+        var color = d3.scaleOrdinal()
+          .domain(data)
+          .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"])
+
+        var pie = d3.pie()
+          .value(function(d) {return d.value; })
+        var data_ready = pie(d3.entries(data))
+
+        svg
+          .selectAll('whatever')
+          .data(data_ready)
+          .enter()
+          .append('path')
+          .attr('d', d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius)
+          )
+          .attr('fill', function(d){ return(color(d.data.key)) })
+          .attr("stroke", "black")
+          .style("stroke-width", "2px")
+          .style("opacity", 0.7)
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        exportBtn.onclick = () => {save('data.txt', Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
+        var xAxisContainer = document.createElement('div')
+        var xDropdown = document.createElement('select')
+        for (let i=0;i<discreteMetrics.length;i++){
+            var m = discreteMetrics[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (discrete == m){
+                dropOption.selected = 'selected'
+            }
+            xDropdown.appendChild(dropOption)
+        }
+        xDropdown.id = id + 'xMetric'
+        xAxisContainer.classList.add('pie-x-container')
+        xAxisContainer.appendChild(xDropdown)
+        graphEl.appendChild(xAxisContainer)
+    }
+    function newPie(){
+        var id = "id" + Math.random().toString(16).slice(2)
+        var graphWidget = document.createElement('div')
+        var graphEl = document.createElement('div')
+        graphWidget.classList.add('graph-widget')
+        graphEl.id = id + 'graph'
+        graphEl.classList.add('graph-element')
+        var filterWidget = document.createElement('div')
+        filterWidget.id = id + 'filters'
+        var delBtn = document.createElement('button')
+        var updateBtn = document.createElement('button')
+        updateBtn.classList.add('fa')
+        updateBtn.classList.add('fa-refresh')
+        updateBtn.addEventListener('click', () => {
+            var xDropdown = document.getElementById(id + 'xMetric')
+            var x = xDropdown.value
+            var filterObj = loadFilters(id)
+            graphEl.innerHTML = ''
+            makePie(id, x, filterObj)
+            })
+        var exportBtn = document.createElement('button')
+        exportBtn.id = id + 'exportBtn'
+        exportBtn.classList.add('fa')
+        exportBtn.classList.add('fa-download')
+        delBtn.classList.add('fa-trash-o')
+        delBtn.classList.add('fa')
+        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(delBtn)
+        filterWidget.appendChild(exportBtn)
+        filterWidget.appendChild(updateBtn)
+        createFilters(filterWidget)
+        graphWidget.appendChild(filterWidget)
+        graphWidget.appendChild(graphEl)
+        graphContainer.appendChild(graphWidget)
+        makePie(id, getRandom(discreteMetrics, 1), {})
+    } 
     function createFilters(widget){
         for (k in filters) {
             var id = "idnumber" + Math.random().toString(16).slice(2)

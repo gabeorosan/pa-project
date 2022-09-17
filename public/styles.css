@@ -177,6 +177,13 @@
     position: relative;
     margin-left: 250px;
 }
+.pie-x-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 200px;
+}
 .bar-x-container {
     display: flex;
     align-items: center;
