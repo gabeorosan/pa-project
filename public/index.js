@@ -5,6 +5,7 @@ $(document).ready(function() {
     const scatterBtn = document.getElementById('scatter-btn')
     const barBtn = document.getElementById('bar-btn')
     const pieBtn = document.getElementById('pie-btn')
+    const heatmapBtn = document.getElementById('heatmap-btn')
     const searchOutput = document.getElementById('search-output')
     const graphContainer = document.getElementById('graph-container')
     var continuousMetrics; var discreteMetrics; var globalData; var filters;
@@ -32,6 +33,7 @@ $(document).ready(function() {
     scatterBtn.addEventListener("click", newScatter)
     barBtn.addEventListener("click", newBar)
     pieBtn.addEventListener("click", newPie)
+    heatmapBtn.addEventListener("click", newHeatmap)
     function vw(percent) {
       var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       return (percent * w) / 100;
@@ -85,6 +87,42 @@ $(document).ready(function() {
         for (let i=0;i<classes.length;i++) {
             var classMatch = filtered.filter(e => {return (e[discrete] == classes[i])})
             res[classes[i]] = classMatch.length
+        }
+        return res
+    }
+    function filterDiscreteObj(discreteObj, continuous, filterObj) {
+        var discreteFields = Object.keys(discreteObj)
+        var discX = discreteFields[0]
+        var discY = discreteFields[1]
+        var discreteVals = Object.values(discreteObj)
+        var res = []
+        var d = Object.values(globalData).filter(e => {return ((continuous in e) &&
+        (!(isNaN(e[continuous]))))})
+        var filtered = d.filter(e => {
+            var passFilter = true
+            Object.keys(filterObj).forEach(function(key, index) {
+            if (!(key in e)) passFilter = false
+            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
+        })
+            return passFilter
+        })
+        var discreteFiltered = filtered.filter(e => {
+            var passFilter = true
+            Object.keys(discreteObj).forEach(function(key, index) {
+            if (!(key in e)) passFilter = false
+            else if (!(discreteObj[key].includes(String(e[key])))) passFilter = false
+        })
+            return passFilter
+        })
+        for (let i=0;i<discreteVals[0].length;i++) {
+            var x = discreteVals[0][i]
+            for (let j=0;j<discreteVals[1].length;j++) {
+                var y = discreteVals[1][j]
+                var classFilter = discreteFiltered.filter(e => {return ((e[discX] == x) && (e[discY] == y))})
+                var classAvg = average(classFilter.map(e => {return e[continuous]}))
+                if (isNaN(classAvg)) classAvg = 0
+                res.push([x, y, Math.round(classAvg)])
+            }
         }
         return res
     }
@@ -434,7 +472,6 @@ $(document).ready(function() {
     }
     function makePie(id, discrete, filterObj){
         var data = filterCount(discrete, filterObj)
-        console.log(data)
         var w = 450
             h = 450
             m = 40
@@ -526,6 +563,146 @@ $(document).ready(function() {
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
         makePie(id, getRandom(discreteMetrics, 1), {})
+    } 
+    function makeHeatmap(id, discreteObj, continuous, filterObj){
+        var cats = Object.keys(discreteObj)
+        var myGroups = Object.values(discreteObj)[0]
+        var myVars = Object.values(discreteObj)[1]
+        var data = filterDiscreteObj(discreteObj, continuous, filterObj)
+        var myVals = data.map(e => e[2])
+        var valMax = Math.max.apply(null, myVals)
+        var svg = d3.select(`#${id}graph`)
+        .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        var x = d3.scaleBand()
+          .range([ 0, width ])
+          .domain(myGroups)
+          .padding(0.01);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+
+        var y = d3.scaleBand()
+          .range([ height, 0 ])
+          .domain(myVars)
+          .padding(0.01);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text(`average ${continuous} by ${cats[0]} vs ${cats[1]}`);
+
+        var myColor = d3.scaleLinear()
+          .range(["white", "#69b3a2"])
+          .domain([1, valMax])
+
+          svg.selectAll()
+              .data(data, function(d) {return d[0]+':'+d[1];})
+              .enter()
+              .append("rect")
+              .attr("x", function(d) { return x(d[0]) })
+              .attr("y", function(d) { return y(d[1]) })
+              .attr("width", x.bandwidth() )
+              .attr("height", y.bandwidth() )
+              .style("fill", function(d) { return myColor(d[2])} )
+
+        var graphEl = document.getElementById(`${id}graph`)
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        exportBtn.onclick = () => {save('data.txt', data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
+        var xAxisContainer = document.createElement('div')
+        var yAxisContainer = document.createElement('div')
+        var xDropdown = document.createElement('select')
+        var yDropdown = document.createElement('select')
+        for (let i=0;i<discreteMetrics.length;i++){
+            var m = discreteMetrics[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (cats[1] == m){
+                dropOption.selected = 'selected'
+            }
+            yDropdown.appendChild(dropOption)
+        }
+        for (let i=0;i<discreteMetrics.length;i++){
+            var m = discreteMetrics[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (cats[0] == m){
+                dropOption.selected = 'selected'
+            }
+            xDropdown.appendChild(dropOption)
+        }
+        xDropdown.id = id + 'xMetric'
+        yDropdown.id = id + 'yMetric'
+        xAxisContainer.classList.add('x-axis-container')
+        yAxisContainer.classList.add('y-axis-container')
+        xAxisContainer.appendChild(xDropdown)
+        yAxisContainer.appendChild(yDropdown)
+        graphEl.appendChild(xAxisContainer)
+        graphEl.appendChild(yAxisContainer)
+    }
+    function newHeatmap(){
+        var id = "id" + Math.random().toString(16).slice(2)
+        var graphWidget = document.createElement('div')
+        var graphEl = document.createElement('div')
+        graphWidget.classList.add('graph-widget')
+        graphEl.id = id + 'graph'
+        graphEl.classList.add('graph-element')
+        var filterWidget = document.createElement('div')
+        filterWidget.id = id + 'filters'
+        var delBtn = document.createElement('button')
+        var updateBtn = document.createElement('button')
+        updateBtn.classList.add('fa')
+        updateBtn.classList.add('fa-refresh')
+        updateBtn.addEventListener('click', () => {
+            var xDropdown = document.getElementById(id + 'xMetric')
+            var yDropdown = document.getElementById(id + 'yMetric')
+            var x = xDropdown.value
+            var y = yDropdown.value
+            var filterObj = loadFilters(id)
+            var discX = filterObj[x]
+            var discY = filterObj[y]
+            if ( discX == null ) discX = getRandom(filters[x], 10)
+            if ( discY == null ) discY = getRandom(filters[y], 10)
+            delete filterObj[x]
+            delete filterObj[y]
+            var discreteObj = {}
+            discreteObj[x] = discX
+            discreteObj[y] = discY
+            graphEl.innerHTML = ''
+            var cont = getRandom(continuousMetrics, 1)
+            makeHeatmap(id, discreteObj, cont, filterObj)
+            })
+        var exportBtn = document.createElement('button')
+        exportBtn.id = id + 'exportBtn'
+        exportBtn.classList.add('fa')
+        exportBtn.classList.add('fa-download')
+        delBtn.classList.add('fa-trash-o')
+        delBtn.classList.add('fa')
+        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(delBtn)
+        filterWidget.appendChild(exportBtn)
+        filterWidget.appendChild(updateBtn)
+        createFilters(filterWidget)
+        graphWidget.appendChild(filterWidget)
+        graphWidget.appendChild(graphEl)
+        graphContainer.appendChild(graphWidget)
+        var metrics = getRandom(discreteMetrics, 2)
+        var discreteObj = {}
+        discreteObj[metrics[0]] = getRandom(filters[metrics[0]], 10)
+        discreteObj[metrics[1]] = getRandom(filters[metrics[1]], 10)
+        var cont = getRandom(continuousMetrics, 1)
+        makeHeatmap(id, discreteObj, cont, {})
     } 
     function createFilters(widget){
         for (k in filters) {

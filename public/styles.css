@@ -2,19 +2,17 @@
     margin: 0;
     padding: 0;
 }
-/* The sidebar menu */
 .sidebar {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  height: 100%; 
+  width: 0; 
+  position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
-  background-color: #aaa; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
+  background-color: #aaa; 
+  overflow-x: hidden; 
 }
 
-/* The sidebar links */
 .sidebar a {
   text-decoration: none;
   font-size: 25px;
@@ -22,12 +20,10 @@
   display: block;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
   color: #111;
 }
 
-/* Position and style the close button (top right corner) */
 .sidebar .closebtn {
     color: #fff;
   position: absolute;
@@ -37,7 +33,6 @@
   margin-left: 50px;
 }
 
-/* The button used to open the sidebar */
 .openbtn {
   font-size: 20px;
   cursor: pointer;
@@ -52,12 +47,10 @@
   background-color: #444;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
@@ -75,7 +68,6 @@
 .buttons-container *{
     margin: 10px;
 }
-/* Style the collapsible content. Note: hidden by default */
 .content {
   display: none;
   overflow: hidden;
@@ -127,18 +119,15 @@
   cursor: pointer;
 }
 
-/* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
   background-color: #ccc;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -156,7 +145,6 @@
   min-width: 170px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
 .fa {
@@ -172,6 +160,9 @@
 }
 .graph-widget {
     margin-bottom: 100px;
+}
+.graph-element * {
+    overflow: visible;
 }
 .graph-element {
     position: relative;
@@ -209,4 +200,9 @@
 .stat-button{
     font-size: 16px;
     margin-right: 5px;
+}
+
+text {
+    margin: 40px;
+    padding: 250px;
 }
