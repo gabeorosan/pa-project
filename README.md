@@ -1,4 +1,4 @@
-# Vquery
+# Web application
 
 url: https://pa-project-66d90.web.app/
 
@@ -14,7 +14,9 @@ excluded). Click the refresh button on the top left to update the graph. For sel
 you want to show Tnumbers 1 & 3 on a bar graph), change the axis dropdown to the category - tnumber - and select the
 tnumbers that you want to be included in the filter dropdown.
 
-# SIP
+# SIP outline
+
+This is the outline for my (Gabe Orosan-Weine) SIP at Kalamazoo College under Dr.Wilson
 
 # Background
 
@@ -24,7 +26,7 @@ medical relevance for pharmaceutical and vaccine design, and could be useful for
 the main ways capsids are characterized is by their Triangulation number (T-number), describing the number of
 proteins that form a virus's Asymmetric Unit (AU), which is then rotated to form the full capsid. While this
 classification is useful for some purposes, it is lacking in that it does not take into account the orientation of
-proteins or 3-dimensional nature of the capsid structure, and thus does not have the ability to delineate some structural properties
+proteins or 3-dimensional nature of the capsid structure, and thus does not have the ability to delineate some structural properties 
 of interest.
 Viral capsids are primarily either helical or spherical, the latter of which being the main focus
 of our research. The name spherical is a bit of a misnomer; spherical viruses are classified as such if they exhibit
@@ -32,8 +34,7 @@ icosahedral symmetry (meaning they are symmetric along 2, 3, and 5-fold axes). P
 of point arrays (formed by rotation and extending the icosahedral shell in pre-determined ways) to identify geometric
 contraints that must be obeyed by the capsid (Wilson 2020). One of the main findings has been that the protrusions of
 viruses are placed on gauge points along the icosahedral great circles of the capsid, and this has lead to the
-uncovering of a relationship between gauge points and the genome of viruses (Wilson and Roof 2021).
-
+uncovering of a relationship between gauge points and the genome of viruses (Wilson and Roof 2021). 
 
 # Goals
 
@@ -145,7 +146,7 @@ database file, writing the result into a new JSON file. For the SCOP data, I mai
 from SCOP's download page containing all of the classifications for each capsid. From Nasir and Caetano-Anollés, 2017
 Dr.Wilson and I compiled a list of the translation from the fold names used in SCOP to the names used in Nasir and/or
 Krupovica and Koonin, 2017 and I used this to write the desired fold name to the database data for each capsid if it was
-listed on SCOP. I also wrote a script to output a text file containing the frequency of each AA in each protein capsid.
+listed on SCOP. I also wrote a script to output a text file containing the frequency of each AA in each protein capsid. 
 Additionally, in order to make the most relevant data quickly available, I parsed the GP and AA data resulting from
 franken_pas.m and find_aas.py respectively to find the closes GP and most common AA within 5 Angstroms of the stored
 PAs.
@@ -153,7 +154,7 @@ Finally, I made a couple other endpoints in Firebase: one containing all the fie
 the dataset had - this serves as the list of filters which are shown on the website - and another with the list of discrete
 (tnumber, GP, etc.) and
 continuous metrics (average radius, weight) properties to be used for the options for the axes for different kinds of
-graphs.
+graphs. 
 
 # vquery
 
@@ -183,18 +184,28 @@ the x and y-axis metrics and the number of data points, and with dropdowns initi
 axis. When a user clicks on the scatter plot
 button initially, I decided to choose randomly from the list of continuous variables, loaded from the properties endpoint in
 Firebase. The graph element is inserted into the page, along with all the filters, and the user has the option to
-refresh the .
+refresh the graph by clicking the refresh buttton after changing any of the filters & axes. Additionally, I added a download button which allows the
+user to download a txt file containing the x and y coordinates of each point.
 
 ## Bar Graph
 
-...
+The main difference between the bar graph and scatter plot is that the x-axis is a list of classes from a category, and
+the y-axis is the average of a continuous variable over those classes. The x-axis dropdown thus contains all discrete
+variables in the database, and whichever one is selected then looks to the filter dropdown checkboxes to determine which
+classes in that category to include. One possible addition could be give the option to plot the counts, or functions
+other than the average over a given continuous metric.
 
 ## Pie Chart
 
-...
+The function to create a pie chart takes in a single category and plots the count of each class within that family.
+Because of space concerns, the slices on the pie chart are not labeled but the downloadable data contains the class
+label and value for each slice.
 
 ## Heatmap
 
-...
-
+To create the heatmap, a list of classes has to be supplied for both the x and y axes; this is done the
+same way as the bar chart where it is random at first and then the item selected in the axis dropdown turns the filters
+for that category into the classes used in the heatmap. Then, the average of the selected continuous variable is
+calculated and used to determine the degree of shading for the each box corresponding to the intersection of a class
+for each axis.
 
