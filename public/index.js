@@ -28,6 +28,36 @@ $(document).ready(function() {
         filters = res.val()
     })
 
+    document.getElementById('input-file')
+      .addEventListener('change', getFile)
+
+    function getFile(event) {
+        const input = event.target
+      if ('files' in input && input.files.length > 0) {
+          readFileContent(input.files[0]).then(content => {
+            var ids = content.split('\n').map(s => s.toLowerCase())
+            const asArray = Object.entries(globalData);
+            const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
+            globalData = Object.fromEntries(filtered);
+          })
+      }
+    }
+
+    function placeFileContent(target, file) {
+        readFileContent(file).then(content => {
+        target.value = content
+      }).catch(error => console.log(error))
+    }
+
+    function readFileContent(file) {
+        const reader = new FileReader()
+      return new Promise((resolve, reject) => {
+        reader.onload = event => resolve(event.target.result)
+        reader.onerror = error => reject(error)
+        reader.readAsText(file)
+      })
+    }
+
     searchCapsidButton.addEventListener("click", searchCapsid)
     openBtn.addEventListener("click", toggleNav)
     scatterBtn.addEventListener("click", newScatter)
@@ -176,15 +206,8 @@ $(document).ready(function() {
             document.body.removeChild(elem);
         }
     }
-    function numSig(n) {
-        n = Math.abs(String(n).replace(".", "")); //remove decimal and make positive
-        if (n == 0) return 0;
-        while (n != 0 && n % 10 == 0) n /= 10; //kill the 0s at the end of n
-
-        return Math.floor(Math.log(n) / log10) + 1; //get number of digits
-    }
     function roundLast(x) {
-        var res = '1'.padEnd(String(x).length + 1, "0")
+        var res = '1'.padEnd(String(Math.round(x)).length + 1, "0")
         return res
     }
     function makeScatter(id, metrics, filterList){
@@ -214,7 +237,7 @@ $(document).ready(function() {
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
         var y = d3.scaleLinear()
-                .domain([0, roundLast(yMax)])
+                .domain([0,yMax])
                 .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -372,7 +395,7 @@ $(document).ready(function() {
             .attr("transform", "translate(-10,0)rotate(-45)")
             .style("text-anchor", "end");
         var y = d3.scaleLinear()
-          .domain([0, roundLast(yMax)])
+          .domain([0, yMax])
           .range([ height, 0]);
         svg.append("g")
           .call(d3.axisLeft(y));
@@ -571,6 +594,7 @@ $(document).ready(function() {
         var data = filterDiscreteObj(discreteObj, continuous, filterObj)
         var myVals = data.map(e => e[2])
         var valMax = Math.max.apply(null, myVals)
+        if (!valMax) valMax = 1
         var svg = d3.select(`#${id}graph`)
         .append("svg")
           .attr("width", width + margin.left + margin.right)
@@ -596,6 +620,7 @@ $(document).ready(function() {
         svg.append("text")
             .attr("x", (width / 2))
             .attr("y", 0 - (margin.top / 2))
+            .attr("id", `${id}continuous`)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
             .text(`average ${continuous} by ${cats[0]} vs ${cats[1]}`);
@@ -614,6 +639,9 @@ $(document).ready(function() {
               .attr("height", y.bandwidth() )
               .style("fill", function(d) { return myColor(d[2])} )
 
+        var contDropdown = document.createElement('select')
+        contDropdown.classList.add('cont-dropdown') 
+        contDropdown.id = id + 'cont'
         var graphEl = document.getElementById(`${id}graph`)
         var exportBtn = document.getElementById(id + 'exportBtn')
         exportBtn.onclick = () => {save('data.txt', data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
@@ -649,6 +677,17 @@ $(document).ready(function() {
         yAxisContainer.appendChild(yDropdown)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
+        for (let i=0;i<continuousMetrics.length;i++) {
+            var m = continuousMetrics[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (continuous == m){
+                dropOption.selected = 'selected'
+            }
+            contDropdown.appendChild(dropOption)
+        graphEl.appendChild(contDropdown)
+        }
     }
     function newHeatmap(){
         var id = "id" + Math.random().toString(16).slice(2)
@@ -678,8 +717,9 @@ $(document).ready(function() {
             var discreteObj = {}
             discreteObj[x] = discX
             discreteObj[y] = discY
+            var contDropdown = document.getElementById(id + 'cont')
+            var cont = contDropdown.value
             graphEl.innerHTML = ''
-            var cont = getRandom(continuousMetrics, 1)
             makeHeatmap(id, discreteObj, cont, filterObj)
             })
         var exportBtn = document.createElement('button')
