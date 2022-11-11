@@ -125,7 +125,7 @@ Next, I ran franken_pas.m by using the Matlab CLI, and finished by calling group
 each point array recorded for the capsid and moves the resulting xlsx files into xlfiles/. This process is repeated for each
 line in the input file (which should the PDBIDs).
 
-#Organizing results and accessory data
+# Organizing results and accessory data
 
 ## xlfiles to JSON pipeline
 

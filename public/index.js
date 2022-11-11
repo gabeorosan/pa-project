@@ -22,6 +22,7 @@ $(document).ready(function() {
     })
     propRef.get().then(res => {
         continuousMetrics = res.val()['continuous']
+        continuousMetrics.push('count')
         discreteMetrics = res.val()['discrete']
     })
     filterRef.get().then(res => {
@@ -126,8 +127,9 @@ $(document).ready(function() {
         var discY = discreteFields[1]
         var discreteVals = Object.values(discreteObj)
         var res = []
-        var d = Object.values(globalData).filter(e => {return ((continuous in e) &&
-        (!(isNaN(e[continuous]))))})
+        var contIsCount = continuous == 'count'
+        var d = Object.values(globalData).filter(e => {return ((continuous in e || contIsCount) &&
+        (contIsCount || !(isNaN(e[continuous]))))})
         var filtered = d.filter(e => {
             var passFilter = true
             Object.keys(filterObj).forEach(function(key, index) {
@@ -149,7 +151,8 @@ $(document).ready(function() {
             for (let j=0;j<discreteVals[1].length;j++) {
                 var y = discreteVals[1][j]
                 var classFilter = discreteFiltered.filter(e => {return ((e[discX] == x) && (e[discY] == y))})
-                var classAvg = average(classFilter.map(e => {return e[continuous]}))
+                var classTotal = classFilter.map(e => {return contIsCount ? 1 : e[continuous]})
+                var classAvg = contIsCount ?  sum(classTotal) : average(classTotal)
                 if (isNaN(classAvg)) classAvg = 0
                 res.push([x, y, Math.round(classAvg)])
             }
@@ -710,8 +713,8 @@ $(document).ready(function() {
             var filterObj = loadFilters(id)
             var discX = filterObj[x]
             var discY = filterObj[y]
-            if ( discX == null ) discX = getRandom(filters[x], 10)
-            if ( discY == null ) discY = getRandom(filters[y], 10)
+            if ( discX == null ) discX = filters[x]
+            if ( discY == null ) discY = filters[y]
             delete filterObj[x]
             delete filterObj[y]
             var discreteObj = {}
