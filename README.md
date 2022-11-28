@@ -100,6 +100,8 @@ python script in the automated pipeline discussed below.
 
 # Download and analysis pipeline
 
+![data diagram](vdata.bmp)
+
 ## dl_ids.py
 
 The first part of the pipeline to analyze all spherical viral capsids on ViperDB was a script that collects all the PDB
