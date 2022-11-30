@@ -152,6 +152,8 @@ listed on SCOP. I also wrote a script to output a text file containing the frequ
 Additionally, in order to make the most relevant data quickly available, I parsed the GP and AA data resulting from
 franken_pas.m and find_aas.py respectively to find the closes GP and most common AA within 5 Angstroms of the stored
 PAs.
+I also used count_aas.py to create a json file (aas.json) with the counts of each AA in the full capsid for each virus -
+later incorporated into the db.json database for the website.
 Finally, I made a couple other endpoints in Firebase: one containing all the fields (families, genuses, etc) which at least one virus in
 the dataset had - this serves as the list of filters which are shown on the website - and another with the list of discrete
 (tnumber, GP, etc.) and
