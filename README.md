@@ -71,7 +71,7 @@ specific families (Parvovididae), protein fold groups, non-t1 viruses from the p
 each family, and more which ended up being superseded by the complete dataset once I was able to get the pipeline
 working on one of Dr.Wilson's lab computers so I could automate the execution on all capsids in ViperDB.
 
-# Finding Structurally Relevent Amino Acids
+# Finding Structurally Relevant Amino Acids
 
 ## find_aas.py
 
@@ -132,13 +132,13 @@ line in the input file (which should be the PDBIDs).
 ## xlfiles to JSON pipeline
 
 I decided to use Firebase , a Google Cloud service, for my database and website hosting because I have some experience
-with it and allows you an easy interface to design a web application for many users for free. So once I had excel files containing all the results fron franken_pas.m and find_aas.py, I worked on converting them into a
+with it and allows you an easy interface to design a web application for many users for free. So once I had excel files containing all the results from franken_pas.m and find_aas.py, I worked on converting them into a
 JSON file so that I could upload them to Firebase. First, I decided to convert them to CSV files because then I could
 read them more easily in python. Because I did not feel that this process would be particularly important to streamline,
 I worked across a few jupyter notebooks to convert the data, adding and correcting bits along the way - the important
 additions are detailed below.
 
-## SCOP, RSCB, and data parsing
+## SCOP, RCSB, and data parsing
 
 The main pieces of information that I decided to collect for each capsid consisted of properties such as weight, number of
 atoms, etc. from RCSB and fold data from SCOP. For the RCSB information, I used functions from req_util.py in a jupyter
