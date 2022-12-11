@@ -742,11 +742,24 @@ $(document).ready(function() {
         graphContainer.appendChild(graphWidget)
         var metrics = getRandom(discreteMetrics, 2)
         var discreteObj = {}
-        discreteObj[metrics[0]] = getRandom(filters[metrics[0]], 10)
-        discreteObj[metrics[1]] = getRandom(filters[metrics[1]], 10)
+        discreteObj[metrics[0]] = getRandom(filters[metrics[0]], Math.min(filters[metrics[0]].length, 10))
+        discreteObj[metrics[1]] = getRandom(filters[metrics[1]], Math.min(filters[metrics[0]].length, 10))
         var cont = getRandom(continuousMetrics, 1)
         makeHeatmap(id, discreteObj, cont, {})
     } 
+    window.onclick = function(event) {
+        var btns = document.getElementsByClassName('dropbtn')
+        if (event.target.classList.contains('dropbtn')) return
+        for (var i =0; i < btns.length; i++) {
+                btns[i].innerHTML = '&#9660'
+        }
+        var els = document.getElementsByClassName('dropdown-content')
+        for (var i =0; i < els.length; i++) {
+            if (els[i].classList.contains('show')){
+                els[i].classList.toggle("show")
+            }
+        }
+    }
     function createFilters(widget){
         for (k in filters) {
             var id = "idnumber" + Math.random().toString(16).slice(2)
