@@ -60,7 +60,17 @@
   background-color: #ccc;
 }
 
+#load {
+    height: 10vh;
+    overflow: hidden;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .buttons-container{
+    visibility: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,8 +85,8 @@
 }
 
 .filter-container{
-    margin: 0 15vw;
     align-items: center;
+    overflow: auto;
     justify-content: space-between;
 }
 
@@ -206,3 +216,7 @@ text {
     margin: 40px;
     padding: 250px;
 }
+.cont-drop-container{
+    margin-left: 20vw;
+}
+

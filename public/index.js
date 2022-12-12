@@ -8,7 +8,7 @@ $(document).ready(function() {
     const heatmapBtn = document.getElementById('heatmap-btn')
     const searchOutput = document.getElementById('search-output')
     const graphContainer = document.getElementById('graph-container')
-    var continuousMetrics; var discreteMetrics; var globalData; var filters;
+    var continuousMetrics; var heatmapContinuourMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
         width = vw(95) - 250  - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
@@ -16,19 +16,42 @@ $(document).ready(function() {
     var dataRef = firebase.database().ref('/data/')
     var propRef = firebase.database().ref('/properties/')
     var filterRef = firebase.database().ref('/filters/')
-
+    const loadComplete = [0,0,0]
+    document.addEventListener('DOMContentLoaded', resetLoad)
+    function resetLoad(){
+        loadComplete = [0,0,0]
+    }
     dataRef.get().then(res => {
         globalData = res.val()
+    }).then(() => {
+
+        loadComplete[0] = 1
+        checkLoad()
     })
     propRef.get().then(res => {
         continuousMetrics = res.val()['continuous']
-        continuousMetrics.push('count')
+        countContinuousMetrics = res.val()['continuous']
+        countContinuousMetrics.push('count')
         discreteMetrics = res.val()['discrete']
+    }).then(() => {
+        loadComplete[1] = 1
+        checkLoad()
     })
     filterRef.get().then(res => {
         filters = res.val()
+
+    }).then(() => {
+        loadComplete[2] = 1
+        checkLoad()
     })
 
+    function checkLoad() {
+        if (sum(loadComplete) == 3) {
+                document.getElementById('buttons-container').style.visibility = 'visible' 
+                document.getElementById('load').remove()
+        }
+
+    }
     document.getElementById('input-file')
       .addEventListener('change', getFile)
 
@@ -161,8 +184,10 @@ $(document).ready(function() {
     }
     function filterDiscrete(discrete, classes, continuous, filterObj) {
         var res = []
-        var d = Object.values(globalData).filter(e => {return ((discrete in e) && (continuous in e) &&
-        (!(isNaN(e[continuous]))))})
+        var contIsCount = continuous == 'count'
+        var d = Object.values(globalData).filter(e => {return ((discrete in e) && (continuous in e || contIsCount) &&
+        (!(isNaN(e[continuous])) || contIsCount))})
+
         var filtered = d.filter(e => {
             var passFilter = true
             Object.keys(filterObj).forEach(function(key, index) {
@@ -173,7 +198,8 @@ $(document).ready(function() {
         })
         for (let i=0;i<classes.length;i++) {
             var classFilter = filtered.filter(e => {return (e[discrete] == classes[i])})
-            var classAvg = average(classFilter.map(e => {return e[continuous]}))
+            var classTotal = classFilter.map(e => {return contIsCount ? 1 : e[continuous]})
+            var classAvg = contIsCount ?  sum(classTotal) : average(classTotal)
             if (isNaN(classAvg)) classAvg = 0
             res.push([classes[i], Math.round(classAvg)])
         }
@@ -258,7 +284,7 @@ $(document).ready(function() {
             .attr("y", 0 - (margin.top / 2))
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
-            .text(`${xMetric} vs ${yMetric} (n = ${d.length})`);
+            .text(`${yMetric} vs ${xMetric} (n = ${d.length})`);
         var xDropdown = document.createElement('select')
         var yDropdown = document.createElement('select')
         for (let i=0;i<continuousMetrics.length;i++){
@@ -305,7 +331,7 @@ $(document).ready(function() {
                 }   else e.target.classList.replace('fa-plus', 'fa-minus')
                 yStatWidget.classList.toggle("show")
             }
-        exportBtn.onclick = () => {save('data.txt', d.map(e => e + '\n'))}
+        exportBtn.onclick = () => {save(`${yMetric}_vs_${xMetric}.txt`, d.map(e => e + '\n'))}
         xDropdown.id = id + 'xMetric'
         yDropdown.id = id + 'yMetric'
         xStatBtn.classList.add('fa')
@@ -402,6 +428,7 @@ $(document).ready(function() {
           .range([ height, 0]);
         svg.append("g")
           .call(d3.axisLeft(y));
+        var contString = continuous == 'count' ? 'count' : `average ${continuous}`
         svg.selectAll("mybar")
           .data(d)
           .enter()
@@ -416,7 +443,7 @@ $(document).ready(function() {
             .attr("y", 0 - (margin.top / 2))
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
-            .text(`average ${continuous} by ${discrete}`);
+            .text(`${contString} by ${discrete}`);
         var xAxisContainer = document.createElement('div')
         var yAxisContainer = document.createElement('div')
         var filterWidget = document.getElementById(id + 'filters')
@@ -433,8 +460,8 @@ $(document).ready(function() {
             }
             xDropdown.appendChild(dropOption)
         }
-        for (let i=0;i<continuousMetrics.length;i++){
-            var m = continuousMetrics[i]
+        for (let i=0;i<countContinuousMetrics.length;i++){
+            var m = countContinuousMetrics[i]
             var dropOption = document.createElement('option')
             dropOption.value = m
             dropOption.innerHTML = m
@@ -443,7 +470,8 @@ $(document).ready(function() {
             }
             yDropdown.appendChild(dropOption)
         }
-        exportBtn.onclick = () => {save('data.txt', d.map(e => e + '\n'))}
+        var expContString = contString.replace(' ', '')
+        exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => e + '\n'))}
         yDropdown.id = id + 'yMetric'
         xDropdown.id = id + 'xMetric'
         xAxisContainer.classList.add('bar-x-container')
@@ -473,7 +501,7 @@ $(document).ready(function() {
             var x = xDropdown.value
             var filterObj = loadFilters(id)
             var classes = filterObj[x]
-            if ( classes == null ) classes = getRandom(filters[x], 5)
+            if ( classes == null ) classes = filters[x]
             delete filterObj[x]
             graphEl.innerHTML = ''
             makeBar(id, x, classes, y, filterObj)
@@ -494,7 +522,7 @@ $(document).ready(function() {
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
         var barDiscrete = getRandom(discreteMetrics, 1)
-        makeBar(id, barDiscrete, getRandom(filters[barDiscrete], 5), getRandom(continuousMetrics, 1), {})
+        makeBar(id, barDiscrete, filters[barDiscrete], getRandom(countContinuousMetrics, 1), {})
     }
     function makePie(id, discrete, filterObj){
         var data = filterCount(discrete, filterObj)
@@ -535,7 +563,7 @@ $(document).ready(function() {
           .style("stroke-width", "2px")
           .style("opacity", 0.7)
         var exportBtn = document.getElementById(id + 'exportBtn')
-        exportBtn.onclick = () => {save('data.txt', Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
+        exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
         var xAxisContainer = document.createElement('div')
         var xDropdown = document.createElement('select')
         for (let i=0;i<discreteMetrics.length;i++){
@@ -620,13 +648,14 @@ $(document).ready(function() {
           .padding(0.01);
         svg.append("g")
           .call(d3.axisLeft(y));
+        var contString = continuous == 'count' ? 'count' : `average ${continuous}`
         svg.append("text")
             .attr("x", (width / 2))
             .attr("y", 0 - (margin.top / 2))
             .attr("id", `${id}continuous`)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
-            .text(`average ${continuous} by ${cats[0]} vs ${cats[1]}`);
+            .text(`${contString} by ${cats[1]} vs ${cats[0]}`);
 
         var myColor = d3.scaleLinear()
           .range(["white", "#69b3a2"])
@@ -647,7 +676,8 @@ $(document).ready(function() {
         contDropdown.id = id + 'cont'
         var graphEl = document.getElementById(`${id}graph`)
         var exportBtn = document.getElementById(id + 'exportBtn')
-        exportBtn.onclick = () => {save('data.txt', data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
+        var expContString = contString.replace(' ', '_')
+        exportBtn.onclick = () => {save(`${expContString}_by_${cats[1]}_vs_${cats[0]}.txt`, data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
         var xAxisContainer = document.createElement('div')
         var yAxisContainer = document.createElement('div')
         var xDropdown = document.createElement('select')
@@ -680,8 +710,8 @@ $(document).ready(function() {
         yAxisContainer.appendChild(yDropdown)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
-        for (let i=0;i<continuousMetrics.length;i++) {
-            var m = continuousMetrics[i]
+        for (let i=0;i<countContinuousMetrics.length;i++) {
+            var m = countContinuousMetrics[i]
             var dropOption = document.createElement('option')
             dropOption.value = m
             dropOption.innerHTML = m
@@ -689,8 +719,16 @@ $(document).ready(function() {
                 dropOption.selected = 'selected'
             }
             contDropdown.appendChild(dropOption)
-        graphEl.appendChild(contDropdown)
         }
+        var contDropContainer = document.createElement('div')
+        var contDropLabel = document.createElement('span')
+        contDropLabel.innerHTML = 'Shading indicates: '
+        contDropContainer.appendChild(contDropLabel)
+        contDropContainer.appendChild(contDropdown)
+        contDropContainer.classList.add('cont-drop-container')
+        contDropContainer.appendChild(contDropdown)
+
+        graphEl.prepend(contDropContainer)
     }
     function newHeatmap(){
         var id = "id" + Math.random().toString(16).slice(2)
@@ -742,14 +780,16 @@ $(document).ready(function() {
         graphContainer.appendChild(graphWidget)
         var metrics = getRandom(discreteMetrics, 2)
         var discreteObj = {}
-        discreteObj[metrics[0]] = getRandom(filters[metrics[0]], Math.min(filters[metrics[0]].length, 10))
-        discreteObj[metrics[1]] = getRandom(filters[metrics[1]], Math.min(filters[metrics[0]].length, 10))
-        var cont = getRandom(continuousMetrics, 1)
+        discreteObj[metrics[0]] = filters[metrics[0]]
+        discreteObj[metrics[1]] = filters[metrics[1]]
+        var cont = getRandom(countContinuousMetrics, 1)
         makeHeatmap(id, discreteObj, cont, {})
     } 
+    var dropdown_classes = ['dropdown-content', 'filter-item', 'filter-label', 'dropbtn']
     window.onclick = function(event) {
         var btns = document.getElementsByClassName('dropbtn')
-        if (event.target.classList.contains('dropbtn')) return
+        
+        for (i=0; i<dropdown_classes.length;i++){if (event.target.classList.contains(dropdown_classes[i])) return}
         for (var i =0; i < btns.length; i++) {
                 btns[i].innerHTML = '&#9660'
         }
@@ -782,6 +822,7 @@ $(document).ready(function() {
                 filterInput.classList.add('filter-item')
                 filterInput.type= 'checkbox'
                 var filterLabel = document.createElement('label')
+                filterLabel.classList.add('filter-label')
                 filterLabel.for = f
                 filterLabel.innerHTML = f + '<br>'
                 dropContent.appendChild(filterInput)
