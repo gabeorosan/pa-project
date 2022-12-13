@@ -205,21 +205,75 @@ $(document).ready(function() {
         }
         return res
     }
-    function filterContinuous(metrics,filterObj) {
+    hslToRgb = function(_h, s, l) {
+        var h = Math.min(_h, 359)/60;
+
+        var c = (1-Math.abs((2*l)-1))*s;
+        var x = c*(1-Math.abs((h % 2)-1));
+        var m = l - (0.5*c);
+
+        var r = m, g = m, b = m;
+
+        if (h < 1) {
+            r += c, g = +x, b += 0;
+        } else if (h < 2) {
+            r += x, g += c, b += 0;
+        } else if (h < 3) {
+            r += 0, g += c, b += x;
+        } else if (h < 4) {
+            r += 0, g += x, b += c;
+        } else if (h < 5) {
+            r += x, g += 0, b += c;
+        } else if (h < 6) {
+            r += c, g += 0, b += x;
+        } else {
+            r = 0, g = 0, b = 0;
+        }
+
+        return 'rgb(' + Math.floor(r*255) + ', ' + Math.floor(g*255) + ', ' + Math.floor(b*255) + ')';
+    }
+
+    createSpectrum = function(length) {
+        var colors = [];
+        // 270 because we don't want the spectrum to circle back
+        var step = 270/length;
+        for (var i = 1; i <= length; i++) {
+            var color = hslToRgb((i)*step, 0.5, 0.5);
+            colors.push(color);
+        }
+
+        return colors;
+    }
+    var randomProperty = function (obj) {
+        var keys = Object.keys(obj);
+        return keys[ keys.length * Math.random() << 0]
+    }
+    function filterContinuous(metrics, filterObj) {
         var x = metrics[0]
         var y = metrics[1]
         var d = Object.values(globalData).filter(e => (x in e) &&
         (y in e) && !(isNaN(e[x])) && !(isNaN(e[y])))
-        var filtered = []
         var filtered = d.filter(e => {
             var passFilter = true
             Object.keys(filterObj).forEach(function(key, index) {
+            if (key == 'primary') return true
             if (!(key in e)) passFilter = false
             else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
         })
             return passFilter
         })
-        return filtered.map(e =>[e[x], e[y]])
+
+        var primary = filterObj.primary
+        if (!(primary in (filterObj))) filterObj[primary] = filters[primary]
+        var colors = createSpectrum(filterObj[primary].length)
+        var clist = filterObj[primary].map(e => {
+            return [e, colors[filterObj[primary].indexOf(e)]]
+        })
+        var cdict = {}
+        for (var i=0;i<clist.length;i++){
+            cdict[clist[i][0]] = clist[i][1]
+        }
+        return [filtered.map(e =>[e[x], e[y], e[primary]]), cdict]
     }
     function save(filename, data) {
         const blob = new Blob(data, {type: 'text/csv'});
@@ -240,7 +294,8 @@ $(document).ready(function() {
         return res
     }
     function makeScatter(id, metrics, filterList){
-        var d = filterContinuous(metrics, filterList)
+        var d_grouped;
+        var [d, colorDict] = filterContinuous(metrics, filterList)
         var xMetric = metrics[0]
         var yMetric = metrics[1]
         var xList = d.map(x => x[0])
@@ -277,8 +332,8 @@ $(document).ready(function() {
             .append("circle")
               .attr("cx", function (d) { return x(d[0]) } )
               .attr("cy", function (d) { return y(d[1]) } )
-              .attr("r", 1.5)
-              .style("fill", "#69b3a2")
+              .attr("r", 2)
+              .style("fill", function (d) { return (colorDict[d[2]]) } )
         svg.append("text")
             .attr("x", (width / 2))
             .attr("y", 0 - (margin.top / 2))
@@ -287,6 +342,7 @@ $(document).ready(function() {
             .text(`${yMetric} vs ${xMetric} (n = ${d.length})`);
         var xDropdown = document.createElement('select')
         var yDropdown = document.createElement('select')
+        var primaryDropdown = document.createElement('select')
         for (let i=0;i<continuousMetrics.length;i++){
             var m = continuousMetrics[i]
             var dropOption = document.createElement('option')
@@ -306,6 +362,28 @@ $(document).ready(function() {
                 dropOption.selected = 'selected'
             }
             yDropdown.appendChild(dropOption)
+        }
+        for (let i=0;i<Object.keys(filters).length;i++){
+            var m = Object.keys(filters)[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (filterList.primary == m){
+                dropOption.selected = 'selected'
+            }
+            primaryDropdown.appendChild(dropOption)
+        }
+        var legend = document.createElement('div')
+        legend.classList.add('scatter-legend')
+        var legendTitle = document.createElement('div')
+        legendTitle.classList.add('legend-title')
+        legendTitle.innerHTML = 'Color indicates: '
+        for (let i=0;i<Object.keys(colorDict).length;i++){
+            var m = Object.keys(colorDict)[i]
+            var label = document.createElement('span')
+            label.classList.add('legend-label')
+            label.innerHTML = `<span style="margin-left: 5px;">${m}: </span><span style="color:${colorDict[m]};font-size:50px">&#9632;</span>`
+            legend.appendChild(label)
         }
         var xAxisContainer = document.createElement('div')
         var yAxisContainer = document.createElement('div')
@@ -334,6 +412,7 @@ $(document).ready(function() {
         exportBtn.onclick = () => {save(`${yMetric}_vs_${xMetric}.txt`, d.map(e => e + '\n'))}
         xDropdown.id = id + 'xMetric'
         yDropdown.id = id + 'yMetric'
+        primaryDropdown.id = id + 'primary'
         xStatBtn.classList.add('fa')
         xStatBtn.classList.add('fa-plus')
         xStatBtn.classList.add('stat-button')
@@ -358,6 +437,9 @@ $(document).ready(function() {
         yAxisContainer.appendChild(yStatWidget)
         xAxisContainer.appendChild(xDropdown)
         yAxisContainer.appendChild(yDropdown)
+        legendTitle.appendChild(primaryDropdown)
+        legend.prepend(legendTitle)
+        graphEl.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
     }
@@ -377,9 +459,12 @@ $(document).ready(function() {
         updateBtn.addEventListener('click', () => {
             var xDropdown = document.getElementById(id + 'xMetric')
             var yDropdown = document.getElementById(id + 'yMetric')
+            var primaryDropdown = document.getElementById(id + 'primary')
             var x = xDropdown.value
             var y = yDropdown.value
+            var primary = primaryDropdown.value
             var filterList = loadFilters(id)
+            filterList['primary'] = primary
             graphEl.innerHTML = ''
             makeScatter(id, [x,y], filterList)
             })
@@ -398,7 +483,7 @@ $(document).ready(function() {
         graphWidget.appendChild(filterWidget)
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
-        makeScatter(id, getRandom(continuousMetrics, 2), {})
+        makeScatter(id, getRandom(continuousMetrics, 2), {'primary': randomProperty(filters)})
     } 
     function makeBar(id, discrete, classes, continuous, filterObj){
         var d = filterDiscrete(discrete, classes, continuous, filterObj)

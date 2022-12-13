@@ -202,7 +202,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: 50%;
+    top: 80%;
     left: -250px;
 }
 
@@ -218,4 +218,20 @@ text {
 .cont-drop-container{
     margin-left: 20vw;
 }
-
+.scatter-legend {
+    position: absolute;
+    top: 5%;
+    left: -250px;
+    height: 300px;
+    overflow: auto;
+}
+.legend-label {
+    height: 30px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    border: 2px solid black;
+}
+.legend-title {
+    margin-bottom: 5px;
+}
