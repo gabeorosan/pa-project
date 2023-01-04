@@ -1,0 +1,32 @@
+4001666 HK97-like
+4002638 HK97-like
+3001214 DJR, Vertical
+2000578 SJR, Vertical
+2000734 Reo CP-like
+3001154 Reo CP-like
+2001183 Reo CP-like
+3001935 Reo CP-like
+4003386 Reo CP-like
+2000482 Reo CP-like
+2000784 Reo CP-like
+3001282 Reo CP-like
+4003686 Reo CP-like
+3000411 Inoviridae-like
+4001805 Inoviridae-like
+4003852 Inoviridae-like
+3001666 Inoviridae-like
+2000983 Nidoviridae-like
+3001606 Nidoviridae-like
+2001131 Leviviridae-like
+3001853 Leviviridae-like
+4001571 Leviviridae-like
+3000581 Retrotranscribing-like
+3001819 Retrotranscribing-like
+4001050 Retrotranscribing-like
+2000393 Retrotranscribing-like
+3000745 Retrotranscribing-like
+4001095 Retrotranscribing-like
+2000480 Retrotranscribing-like
+2000637 Other/Unclassified Flavirirus
+4000676 Other/Unclassified Flavirirus
+3001003 Other/Unclassified Flavirirus
