@@ -8,6 +8,8 @@ $(document).ready(function() {
     const heatmapBtn = document.getElementById('heatmap-btn')
     const searchOutput = document.getElementById('search-output')
     const graphContainer = document.getElementById('graph-container')
+    const idFilter = document.getElementById('idfilter')
+    const fileInput = document.getElementById('input-file')
     var continuousMetrics; var heatmapContinuourMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
         width = vw(95) - 250  - margin.left - margin.right,
@@ -21,43 +23,56 @@ $(document).ready(function() {
     function resetLoad(){
         loadComplete = [0,0,0]
     }
-    dataRef.get().then(res => {
-        globalData = res.val()
-    }).then(() => {
+    function loadData() {
+        dataRef.get().then(res => {
+            globalData = res.val()
+        }).then(() => {
 
-        loadComplete[0] = 1
-        checkLoad()
-    })
-    propRef.get().then(res => {
-        continuousMetrics = res.val()['continuous']
-        countContinuousMetrics = res.val()['continuous']
-        countContinuousMetrics.push('count')
-        discreteMetrics = res.val()['discrete']
-    }).then(() => {
-        loadComplete[1] = 1
-        checkLoad()
-    })
-    filterRef.get().then(res => {
-        filters = res.val()
+            loadComplete[0] = 1
+            checkLoad()
+        })
+        propRef.get().then(res => {
+            continuousMetrics = res.val()['continuous']
+            countContinuousMetrics = res.val()['continuous']
+            countContinuousMetrics.push('count')
+            discreteMetrics = res.val()['discrete']
+        }).then(() => {
+            loadComplete[1] = 1
+            checkLoad()
+        })
+        filterRef.get().then(res => {
+            filters = res.val()
 
-    }).then(() => {
-        loadComplete[2] = 1
-        checkLoad()
-    })
+        }).then(() => {
+            loadComplete[2] = 1
+            checkLoad()
+        })
+    }
 
+    loadData()
     function checkLoad() {
         if (sum(loadComplete) == 3) {
                 document.getElementById('buttons-container').style.visibility = 'visible' 
-                document.getElementById('load').remove()
+                document.getElementById('load').style.display = 'none'
         }
 
     }
-    document.getElementById('input-file')
-      .addEventListener('change', getFile)
+    idFilter.addEventListener('change', filterIds)
+      fileInput.addEventListener('change', getFile)
+
+      function readFileContent(file) {
+            const reader = new FileReader()
+          return new Promise((resolve, reject) => {
+            reader.onload = event => resolve(event.target.result)
+            reader.onerror = error => reject(error)
+            reader.readAsText(file)
+          })
+        }
 
     function getFile(event) {
         const input = event.target
       if ('files' in input && input.files.length > 0) {
+          console.log(input.files[0])
           readFileContent(input.files[0]).then(content => {
             var ids = content.split('\n').map(s => s.toLowerCase())
             const asArray = Object.entries(globalData);
@@ -66,21 +81,40 @@ $(document).ready(function() {
           })
       }
     }
-
-    function placeFileContent(target, file) {
-        readFileContent(file).then(content => {
-        target.value = content
-      }).catch(error => console.log(error))
+    function loadFile(filePath) {
+      var result = null;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", filePath, false);
+      xmlhttp.send();
+      if (xmlhttp.status==200) {
+        result = xmlhttp.responseText;
+      }
+      return result;
     }
 
-    function readFileContent(file) {
-        const reader = new FileReader()
-      return new Promise((resolve, reject) => {
-        reader.onload = event => resolve(event.target.result)
-        reader.onerror = error => reject(error)
-        reader.readAsText(file)
-      })
+    function filterIds() {
+
+        if (idFilter.value == 'unique') {
+            fileInput.style.display = 'none'
+            content = loadFile('unids.txt')
+            var ids = content.split('\n').map(s => s.toLowerCase())
+            const asArray = Object.entries(globalData)
+            const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
+            globalData = Object.fromEntries(filtered)
+
+        }
+        else if (idFilter.value == 'all') {
+            fileInput.style.display = 'none'
+            loadData()
+        }
+        else{
+
+            document.getElementById('load').style.display = 'block'
+            fileInput.style.display = 'block'
+
+        }
     }
+
 
     searchCapsidButton.addEventListener("click", searchCapsid)
     openBtn.addEventListener("click", toggleNav)

@@ -57,3 +57,7 @@ Output from find_aas.py is referred to as "aa data" and from franken_pas.m as "f
 data used can be found in the data/ directory
 and xlfiles (containing franken and find_aas output) can be found here: https://drive.google.com/drive/folders/1Rj01xlWx-2bQfp8KkGH-8K5Hcodx6hJN?usp=sharing
 
+## pipeline
+
+This folder contains the files used to download virus capsids from ViperDB and run franken_pas.m and find_aas.py on
+them, compiling the results in xlfiles/
