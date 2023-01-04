@@ -1,6 +1,6 @@
 # Web application
 
-url: https://pa-project-66d90.web.app/
+url: https://pa-project-66d90.web.app/  
 data processing scripts: https://github.com/gabeorosan/vquery/tree/master/scripts
 
 This is a reposity for the website I created to visualize data from spherical viruses as a part of my SIP research under

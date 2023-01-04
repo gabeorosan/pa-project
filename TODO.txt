@@ -1,3 +1,6 @@
+make sure group_pas is being run
+
+make legend for pie
 different color for multiple selections in filter
 add resolution?
 sort tnumbers
