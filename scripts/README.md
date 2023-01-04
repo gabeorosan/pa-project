@@ -35,6 +35,9 @@ To allow for customizable analysis of Amino Acid data with specific point arrays
 
 uniq.ipynb was made to compile a list of capsids with unique combinations of fields T-number, genome, family, and genus. This is to try to reduce the effect of the bias introduced by the scope of virus research. Scientists tend to study viruses that impact humans, and viruses that are easy to study (easy to keep alive and grow in lab conditions, among other things). Among viruses with overlapping fields, the ones with the lowest resolution were chosen. The output is written to uniq_lres.xlsx
 
+## analyze_uniq.ipynb
+
+
 ## xlfiles_json.ipynb
 
 This notebook does all the data processing necessary to get from the find_aas and franken output to the db.json databse
