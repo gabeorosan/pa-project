@@ -202,7 +202,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: 80%;
+    top: 90%;
     left: -250px;
 }
 
@@ -218,7 +218,10 @@ text {
 .cont-drop-container{
     margin-left: 20vw;
 }
-.scatter-legend {
+.color-legend {
+    border: #3C7D91 5px double;
+    padding: 10px 10px 10px 10px;
+    overflow-y: scroll;
     position: absolute;
     top: 5%;
     left: -250px;
@@ -234,4 +237,12 @@ text {
 }
 .legend-title {
     margin-bottom: 5px;
+}
+#unique-cont {
+    display: none;
+}
+.update-label {
+    position: absolute;
+    top: 120px;
+    left: 1%;
 }

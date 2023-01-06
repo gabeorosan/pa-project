@@ -10,6 +10,7 @@ $(document).ready(function() {
     const graphContainer = document.getElementById('graph-container')
     const idFilter = document.getElementById('idfilter')
     const fileInput = document.getElementById('input-file')
+    const uniqueCont = document.getElementById('unique-cont')
     var continuousMetrics; var heatmapContinuourMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
         width = vw(95) - 250  - margin.left - margin.right,
@@ -95,7 +96,7 @@ $(document).ready(function() {
     function filterIds() {
 
         if (idFilter.value == 'unique') {
-            fileInput.style.display = 'none'
+            uniqueCont.style.display = 'none'
             content = loadFile('unids.txt')
             var ids = content.split('\n').map(s => s.toLowerCase())
             const asArray = Object.entries(globalData)
@@ -104,13 +105,13 @@ $(document).ready(function() {
 
         }
         else if (idFilter.value == 'all') {
-            fileInput.style.display = 'none'
+            uniqueCont.style.display = 'none'
             loadData()
         }
         else{
 
-            document.getElementById('load').style.display = 'block'
-            fileInput.style.display = 'block'
+            loadData()
+            uniqueCont.style.display = 'block'
 
         }
     }
@@ -171,12 +172,23 @@ $(document).ready(function() {
         })
             return passFilter
         })
+
         var classes = filters[discrete]
         for (let i=0;i<classes.length;i++) {
             var classMatch = filtered.filter(e => {return (e[discrete] == classes[i])})
             res[classes[i]] = classMatch.length
         }
-        return res
+
+        var rkeys = Object.keys(res)
+        var colors = createSpectrum(rkeys.length)
+        var clist = rkeys.map(e => {
+            return [e, colors[rkeys.indexOf(e)]]
+        })
+        var cdict = {}
+        for (var i=0;i<clist.length;i++){
+            cdict[clist[i][0]] = clist[i][1]
+        }
+        return [res, cdict]
     }
     function filterDiscreteObj(discreteObj, continuous, filterObj) {
         var discreteFields = Object.keys(discreteObj)
@@ -408,7 +420,7 @@ $(document).ready(function() {
             primaryDropdown.appendChild(dropOption)
         }
         var legend = document.createElement('div')
-        legend.classList.add('scatter-legend')
+        legend.classList.add('color-legend')
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
         legendTitle.innerHTML = 'Color indicates: '
@@ -487,6 +499,9 @@ $(document).ready(function() {
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
+        var updateLabel = document.createElement('label')
+        updateLabel.innerHTML = 'make sure to click the update button after making changes.'
+        updateLabel.classList.add('update-label')
         var updateBtn = document.createElement('button')
         updateBtn.classList.add('fa')
         updateBtn.classList.add('fa-refresh')
@@ -512,6 +527,7 @@ $(document).ready(function() {
         filterWidget.classList.add('filter-container')
         filterWidget.appendChild(delBtn)
         filterWidget.appendChild(exportBtn)
+        filterWidget.appendChild(updateLabel)
         filterWidget.appendChild(updateBtn)
         createFilters(filterWidget)
         graphWidget.appendChild(filterWidget)
@@ -644,7 +660,7 @@ $(document).ready(function() {
         makeBar(id, barDiscrete, filters[barDiscrete], getRandom(countContinuousMetrics, 1), {})
     }
     function makePie(id, discrete, filterObj){
-        var data = filterCount(discrete, filterObj)
+        var [data, colorDict] = filterCount(discrete, filterObj)
         var w = 450
             h = 450
             m = 40
@@ -657,8 +673,6 @@ $(document).ready(function() {
             .attr("height", h)
           .append("g")
             .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
-
-        var fakedata = {a: 9, b: 20, c:30, d:8, e:12}
 
         var color = d3.scaleOrdinal()
           .domain(data)
@@ -677,7 +691,7 @@ $(document).ready(function() {
             .innerRadius(0)
             .outerRadius(radius)
           )
-          .attr('fill', function(d){ return(color(d.data.key)) })
+          .attr('fill', function(d){ return(colorDict[d.data.key]) })
           .attr("stroke", "black")
           .style("stroke-width", "2px")
           .style("opacity", 0.7)
@@ -695,9 +709,23 @@ $(document).ready(function() {
             }
             xDropdown.appendChild(dropOption)
         }
+        var legend = document.createElement('div')
+        legend.classList.add('color-legend')
+        var legendTitle = document.createElement('div')
+        legendTitle.classList.add('legend-title')
+        legendTitle.innerHTML = 'Legend'
+        legend.appendChild(legendTitle)
+        for (let i=0;i<Object.keys(colorDict).length;i++){
+            var m = Object.keys(colorDict)[i]
+            var label = document.createElement('span')
+            label.classList.add('legend-label')
+            label.innerHTML = `<span style="margin-left: 5px;">${m}: </span><span style="color:${colorDict[m]};font-size:50px">&#9632;</span>`
+            legend.appendChild(label)
+        }
         xDropdown.id = id + 'xMetric'
         xAxisContainer.classList.add('pie-x-container')
         xAxisContainer.appendChild(xDropdown)
+        xAxisContainer.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
     }
     function newPie(){

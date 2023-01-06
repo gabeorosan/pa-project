@@ -1,10 +1,3 @@
-make sure group_pas is being run
+top 10 graphs
 
-make legend for pie
-different color for multiple selections in filter
-add resolution?
-sort tnumbers
-radius paper (radii?)
-scatter discrete on x-axis(radius paper)
-redo dictlist function
-aa freq is from struct, get aas from RCSB
+get aas from RCSB?
