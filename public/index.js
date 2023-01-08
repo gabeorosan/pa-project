@@ -19,6 +19,7 @@ $(document).ready(function() {
     var dataRef = firebase.database().ref('/data/')
     var propRef = firebase.database().ref('/properties/')
     var filterRef = firebase.database().ref('/filters/')
+    var liveGraphs = {'scatter': [], 'bar': [], 'pie': [], 'heatmap': []}
     const loadComplete = [0,0,0]
     document.addEventListener('DOMContentLoaded', resetLoad)
     function resetLoad(){
@@ -53,8 +54,9 @@ $(document).ready(function() {
     loadData()
     function checkLoad() {
         if (sum(loadComplete) == 3) {
-                document.getElementById('buttons-container').style.visibility = 'visible' 
+                document.getElementById('init-container').style.visibility = 'visible' 
                 document.getElementById('load').style.display = 'none'
+                updateAll()
         }
 
     }
@@ -102,6 +104,7 @@ $(document).ready(function() {
             const asArray = Object.entries(globalData)
             const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
             globalData = Object.fromEntries(filtered)
+            updateAll()
 
         }
         else if (idFilter.value == 'all') {
@@ -116,6 +119,15 @@ $(document).ready(function() {
         }
     }
 
+    function updateAll() {
+        funcDict = {'scatter': updateScatter, 'pie': updatePie, 'bar': updateBar, 'heatmap': updateHeatmap}
+        for (k in liveGraphs){
+            var func = funcDict[k]
+            for (let i=0; i<liveGraphs[k].length; i++){
+               func(liveGraphs[k][i])
+            }
+        }
+    }
 
     searchCapsidButton.addEventListener("click", searchCapsid)
     openBtn.addEventListener("click", toggleNav)
@@ -168,7 +180,7 @@ $(document).ready(function() {
             var passFilter = true
             Object.keys(filterObj).forEach(function(key, index) {
             if (!(key in e)) passFilter = false
-            else if (!(filters[key].includes(String(e[key])))) passFilter = false
+            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
         })
             return passFilter
         })
@@ -176,7 +188,7 @@ $(document).ready(function() {
         var classes = filters[discrete]
         for (let i=0;i<classes.length;i++) {
             var classMatch = filtered.filter(e => {return (e[discrete] == classes[i])})
-            res[classes[i]] = classMatch.length
+            if (classMatch.length) res[classes[i]] = classMatch.length
         }
 
         var rkeys = Object.keys(res)
@@ -319,6 +331,7 @@ $(document).ready(function() {
         for (var i=0;i<clist.length;i++){
             cdict[clist[i][0]] = clist[i][1]
         }
+        cdict['Missing'] = '#000'
         return [filtered.map(e =>[e[x], e[y], e[primary]]), cdict]
     }
     function save(filename, data) {
@@ -397,8 +410,14 @@ $(document).ready(function() {
             if (xMetric == m){
                 dropOption.selected = 'selected'
             }
+            dropOption.addEventListener('change', () => {
+                updateScatter(id)
+                })
             xDropdown.appendChild(dropOption)
         }
+        xDropdown.addEventListener('change', () => {
+            updateScatter(id)
+            })
         for (let i=0;i<continuousMetrics.length;i++){
             var m = continuousMetrics[i]
             var dropOption = document.createElement('option')
@@ -409,6 +428,9 @@ $(document).ready(function() {
             }
             yDropdown.appendChild(dropOption)
         }
+        yDropdown.addEventListener('change', () => {
+            updateScatter(id)
+            })
         for (let i=0;i<Object.keys(filters).length;i++){
             var m = Object.keys(filters)[i]
             var dropOption = document.createElement('option')
@@ -419,8 +441,11 @@ $(document).ready(function() {
             }
             primaryDropdown.appendChild(dropOption)
         }
+        primaryDropdown.addEventListener('change', () => {
+            updateScatter(id)
+            })
         var legend = document.createElement('div')
-        legend.classList.add('color-legend')
+        legend.classList.add('scatter-legend')
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
         legendTitle.innerHTML = 'Color indicates: '
@@ -489,8 +514,23 @@ $(document).ready(function() {
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
     }
+    function updateScatter(id) {
+        var xDropdown = document.getElementById(id + 'xMetric')
+        var yDropdown = document.getElementById(id + 'yMetric')
+        var primaryDropdown = document.getElementById(id + 'primary')
+        var x = xDropdown.value
+        var y = yDropdown.value
+        var primary = primaryDropdown.value
+        var filterList = loadFilters(id)
+        filterList['primary'] = primary
+        var graphEl = document.getElementById(id + 'graph')
+        graphEl.innerHTML = ''
+        makeScatter(id, [x,y], filterList)
+    }
+
     function newScatter(){
         var id = "id" + Math.random().toString(16).slice(2)
+        liveGraphs['scatter'].push(id)
         var graphWidget = document.createElement('div')
         var graphEl = document.createElement('div')
         graphWidget.classList.add('graph-widget')
@@ -499,37 +539,22 @@ $(document).ready(function() {
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
-        var updateLabel = document.createElement('label')
-        updateLabel.innerHTML = 'make sure to click the update button after making changes.'
-        updateLabel.classList.add('update-label')
-        var updateBtn = document.createElement('button')
-        updateBtn.classList.add('fa')
-        updateBtn.classList.add('fa-refresh')
-        updateBtn.addEventListener('click', () => {
-            var xDropdown = document.getElementById(id + 'xMetric')
-            var yDropdown = document.getElementById(id + 'yMetric')
-            var primaryDropdown = document.getElementById(id + 'primary')
-            var x = xDropdown.value
-            var y = yDropdown.value
-            var primary = primaryDropdown.value
-            var filterList = loadFilters(id)
-            filterList['primary'] = primary
-            graphEl.innerHTML = ''
-            makeScatter(id, [x,y], filterList)
-            })
+        var infoBtn = document.createElement('button')
+        infoBtn.id = id + 'infoBtn'
+        infoBtn.classList.add('fa')
+        infoBtn.classList.add('fa-info-circle')
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa')
         exportBtn.classList.add('fa-download')
         delBtn.classList.add('fa-trash-o')
         delBtn.classList.add('fa')
-        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        delBtn.addEventListener('click', () => {graphWidget.remove();liveGraphs['scatter'] = liveGraphs['scatter'].filter(item => item !== id)})
         filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(infoBtn)
         filterWidget.appendChild(delBtn)
         filterWidget.appendChild(exportBtn)
-        filterWidget.appendChild(updateLabel)
-        filterWidget.appendChild(updateBtn)
-        createFilters(filterWidget)
+        createFilters(filterWidget, updateScatter, id)
         graphWidget.appendChild(filterWidget)
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
@@ -605,6 +630,12 @@ $(document).ready(function() {
             }
             yDropdown.appendChild(dropOption)
         }
+        xDropdown.addEventListener('change', () => {
+            updateBar(id)
+            })
+        yDropdown.addEventListener('change', () => {
+            updateBar(id)
+            })
         var expContString = contString.replace(' ', '')
         exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => e + '\n'))}
         yDropdown.id = id + 'yMetric'
@@ -616,8 +647,22 @@ $(document).ready(function() {
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
     }
+    function updateBar(id) {
+        var yDropdown = document.getElementById(id + 'yMetric')
+        var xDropdown = document.getElementById(id + 'xMetric')
+        var y = yDropdown.value
+        var x = xDropdown.value
+        var filterObj = loadFilters(id)
+        var classes = filterObj[x]
+        if ( classes == null ) classes = filters[x]
+        delete filterObj[x]
+        var graphEl = document.getElementById(id + 'graph')
+        graphEl.innerHTML = ''
+        makeBar(id, x, classes, y, filterObj)
+    }
     function newBar(){
         var id = "id" + Math.random().toString(16).slice(2)
+        liveGraphs['bar'].push(id)
         var graphWidget = document.createElement('div')
         var graphEl = document.createElement('div')
         graphWidget.classList.add('graph-widget')
@@ -626,33 +671,22 @@ $(document).ready(function() {
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
-        var updateBtn = document.createElement('button')
-        updateBtn.classList.add('fa')
-        updateBtn.classList.add('fa-refresh')
-        updateBtn.addEventListener('click', () => {
-            var yDropdown = document.getElementById(id + 'yMetric')
-            var xDropdown = document.getElementById(id + 'xMetric')
-            var y = yDropdown.value
-            var x = xDropdown.value
-            var filterObj = loadFilters(id)
-            var classes = filterObj[x]
-            if ( classes == null ) classes = filters[x]
-            delete filterObj[x]
-            graphEl.innerHTML = ''
-            makeBar(id, x, classes, y, filterObj)
-            })
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa')
         exportBtn.classList.add('fa-download')
         delBtn.classList.add('fa-trash-o')
         delBtn.classList.add('fa')
-        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        delBtn.addEventListener('click', () => {graphWidget.remove();liveGraphs['bar'] = liveGraphs['bar'].filter(item => item !== id)})
+        var infoBtn = document.createElement('button')
+        infoBtn.id = id + 'infoBtn'
+        infoBtn.classList.add('fa')
+        infoBtn.classList.add('fa-info-circle')
         filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(infoBtn)
         filterWidget.appendChild(delBtn)
         filterWidget.appendChild(exportBtn)
-        filterWidget.appendChild(updateBtn)
-        createFilters(filterWidget)
+        createFilters(filterWidget, updateBar, id)
         graphWidget.appendChild(filterWidget)
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
@@ -709,8 +743,11 @@ $(document).ready(function() {
             }
             xDropdown.appendChild(dropOption)
         }
+        xDropdown.addEventListener('change', () => {
+            updatePie(id)
+            })
         var legend = document.createElement('div')
-        legend.classList.add('color-legend')
+        legend.classList.add('pie-legend')
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
         legendTitle.innerHTML = 'Legend'
@@ -722,14 +759,24 @@ $(document).ready(function() {
             label.innerHTML = `<span style="margin-left: 5px;">${m}: </span><span style="color:${colorDict[m]};font-size:50px">&#9632;</span>`
             legend.appendChild(label)
         }
+        
         xDropdown.id = id + 'xMetric'
         xAxisContainer.classList.add('pie-x-container')
         xAxisContainer.appendChild(xDropdown)
         xAxisContainer.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
     }
+    function updatePie(id) {
+        var xDropdown = document.getElementById(id + 'xMetric')
+        var x = xDropdown.value
+        var filterObj = loadFilters(id)
+        var graphEl = document.getElementById(id + 'graph')
+        graphEl.innerHTML = ''
+        makePie(id, x, filterObj)
+    }
     function newPie(){
         var id = "id" + Math.random().toString(16).slice(2)
+        liveGraphs['pie'].push(id)
         var graphWidget = document.createElement('div')
         var graphEl = document.createElement('div')
         graphWidget.classList.add('graph-widget')
@@ -738,28 +785,22 @@ $(document).ready(function() {
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
-        var updateBtn = document.createElement('button')
-        updateBtn.classList.add('fa')
-        updateBtn.classList.add('fa-refresh')
-        updateBtn.addEventListener('click', () => {
-            var xDropdown = document.getElementById(id + 'xMetric')
-            var x = xDropdown.value
-            var filterObj = loadFilters(id)
-            graphEl.innerHTML = ''
-            makePie(id, x, filterObj)
-            })
+        var infoBtn = document.createElement('button')
+        infoBtn.id = id + 'infoBtn'
+        infoBtn.classList.add('fa')
+        infoBtn.classList.add('fa-info-circle')
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa')
         exportBtn.classList.add('fa-download')
         delBtn.classList.add('fa-trash-o')
         delBtn.classList.add('fa')
-        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        delBtn.addEventListener('click', () => {graphWidget.remove();liveGraphs['pie'] = liveGraphs['pie'].filter(item => item !== id)})
         filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(infoBtn)
         filterWidget.appendChild(delBtn)
         filterWidget.appendChild(exportBtn)
-        filterWidget.appendChild(updateBtn)
-        createFilters(filterWidget)
+        createFilters(filterWidget, updatePie, id)
         graphWidget.appendChild(filterWidget)
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
@@ -849,6 +890,12 @@ $(document).ready(function() {
             }
             xDropdown.appendChild(dropOption)
         }
+        yDropdown.addEventListener('change', () => {
+            updateHeatmap(id)
+            })
+        xDropdown.addEventListener('change', () => {
+            updateHeatmap(id)
+            })
         xDropdown.id = id + 'xMetric'
         yDropdown.id = id + 'yMetric'
         xAxisContainer.classList.add('x-axis-container')
@@ -867,6 +914,9 @@ $(document).ready(function() {
             }
             contDropdown.appendChild(dropOption)
         }
+        contDropdown.addEventListener('change', () => {
+            updateHeatmap(id)
+            })
         var contDropContainer = document.createElement('div')
         var contDropLabel = document.createElement('span')
         contDropLabel.innerHTML = 'Shading indicates: '
@@ -877,8 +927,30 @@ $(document).ready(function() {
 
         graphEl.prepend(contDropContainer)
     }
+    function updateHeatmap(id) {
+        var xDropdown = document.getElementById(id + 'xMetric')
+        var yDropdown = document.getElementById(id + 'yMetric')
+        var x = xDropdown.value
+        var y = yDropdown.value
+        var filterObj = loadFilters(id)
+        var discX = filterObj[x]
+        var discY = filterObj[y]
+        if ( discX == null ) discX = filters[x]
+        if ( discY == null ) discY = filters[y]
+        delete filterObj[x]
+        delete filterObj[y]
+        var discreteObj = {}
+        discreteObj[x] = discX
+        discreteObj[y] = discY
+        var contDropdown = document.getElementById(id + 'cont')
+        var cont = contDropdown.value
+        var graphEl = document.getElementById(`${id}graph`)
+        graphEl.innerHTML = ''
+        makeHeatmap(id, discreteObj, cont, filterObj)
+    }
     function newHeatmap(){
         var id = "id" + Math.random().toString(16).slice(2)
+        liveGraphs['heatmap'].push(id)
         var graphWidget = document.createElement('div')
         var graphEl = document.createElement('div')
         graphWidget.classList.add('graph-widget')
@@ -887,41 +959,22 @@ $(document).ready(function() {
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
-        var updateBtn = document.createElement('button')
-        updateBtn.classList.add('fa')
-        updateBtn.classList.add('fa-refresh')
-        updateBtn.addEventListener('click', () => {
-            var xDropdown = document.getElementById(id + 'xMetric')
-            var yDropdown = document.getElementById(id + 'yMetric')
-            var x = xDropdown.value
-            var y = yDropdown.value
-            var filterObj = loadFilters(id)
-            var discX = filterObj[x]
-            var discY = filterObj[y]
-            if ( discX == null ) discX = filters[x]
-            if ( discY == null ) discY = filters[y]
-            delete filterObj[x]
-            delete filterObj[y]
-            var discreteObj = {}
-            discreteObj[x] = discX
-            discreteObj[y] = discY
-            var contDropdown = document.getElementById(id + 'cont')
-            var cont = contDropdown.value
-            graphEl.innerHTML = ''
-            makeHeatmap(id, discreteObj, cont, filterObj)
-            })
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa')
         exportBtn.classList.add('fa-download')
         delBtn.classList.add('fa-trash-o')
         delBtn.classList.add('fa')
-        delBtn.addEventListener('click', () => {graphWidget.remove();})
+        delBtn.addEventListener('click', () => {graphWidget.remove();liveGraphs['heatmap'] = liveGraphs['heatmap'].filter(item => item !== id)})
+        var infoBtn = document.createElement('button')
+        infoBtn.id = id + 'infoBtn'
+        infoBtn.classList.add('fa')
+        infoBtn.classList.add('fa-info-circle')
         filterWidget.classList.add('filter-container')
+        filterWidget.appendChild(infoBtn)
         filterWidget.appendChild(delBtn)
         filterWidget.appendChild(exportBtn)
-        filterWidget.appendChild(updateBtn)
-        createFilters(filterWidget)
+        createFilters(filterWidget, updateHeatmap, id)
         graphWidget.appendChild(filterWidget)
         graphWidget.appendChild(graphEl)
         graphContainer.appendChild(graphWidget)
@@ -947,7 +1000,7 @@ $(document).ready(function() {
             }
         }
     }
-    function createFilters(widget){
+    function createFilters(widget, updateFunction, pid){
         for (k in filters) {
             var id = "idnumber" + Math.random().toString(16).slice(2)
             var filterTitle = document.createElement('span')
@@ -968,6 +1021,7 @@ $(document).ready(function() {
                 filterInput.name = f
                 filterInput.classList.add('filter-item')
                 filterInput.type= 'checkbox'
+                filterInput.addEventListener('change', () => {updateFunction(pid)})
                 var filterLabel = document.createElement('label')
                 filterLabel.classList.add('filter-label')
                 filterLabel.for = f
