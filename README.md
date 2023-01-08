@@ -87,7 +87,7 @@ distances to find one where the distance was less than 5 and the residue was not
 that residue if it existed or N/A otherwise. Finally, I wrote the results to an xlsx file, with a row for each PA point
 and 5 columns for each PA chain.
 
-Most viral capsids have multiple PAs of interest, so I also wrote a shell script callen run_pas.sh to run find_aas.py with a capsid for
+Most viral capsids have multiple PAs of interest, so I also wrote a shell script called run_pas.sh to run find_aas.py with a capsid for
 every point array file in a designated folder, and adapted the find_aas.py script so that if the excel file being
 written to (named after the capsid) already exists, then the results would be written to a new sheet so that the result
 of the script being run on a folder is an excel file with sheets named after each PA and storing their respective
