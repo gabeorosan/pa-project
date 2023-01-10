@@ -68,3 +68,38 @@ and xlfiles (containing franken and find_aas output) can be found here: https://
 
 This folder contains the files used to download virus capsids from ViperDB and run franken_pas.m and find_aas.py on
 them, compiling the results in xlfiles/
+
+# Instructions for running find_aas_exec
+
+# find_aas_exec
+
+find_aas_exec is a compiled executable version of find_aas.py. 
+
+This script takes in virus capsid and point array PDB files and output creates/overwrites an excel file called
+\<virusname\>.xlsx
+with the closest Amino Acid in the capsid to each point in the PA for each chain, along with the distance and Atom at that point, and
+the nearest other AA if there is one within 5 Angstroms written to a sheet with the PA file name.
+
+You can use the single executable file find_aas like so:
+
+Allow it to run as an executable:
+
+```bash
+chmod +x find_aas_exec
+```
+
+then you can call it on a single pa like so:
+
+```bash
+./find_aas_exec 2g33.pdb pa_346.pdb
+```
+
+or you can have it loop through a directory of pa files by using the run_pas_exec file
+
+```bash
+chmod +x run_pas_exec
+```
+```bash
+./run_pas_exec 2g33.pdb pa_directory
+```
+

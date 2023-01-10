@@ -130,7 +130,6 @@ $(document).ready(function() {
     }
 
     searchCapsidButton.addEventListener("click", searchCapsid)
-    openBtn.addEventListener("click", toggleNav)
     scatterBtn.addEventListener("click", newScatter)
     barBtn.addEventListener("click", newBar)
     pieBtn.addEventListener("click", newPie)
@@ -572,7 +571,6 @@ $(document).ready(function() {
           .append("g")
             .attr("transform",
                   "translate(" + margin.left + "," + margin.top + ")");
-
         var x = d3.scaleBand()
           .range([ 0, width ])
           .domain(d.map(function(d) { return d[0]; }))

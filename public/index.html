@@ -33,21 +33,24 @@
         <div id='search-output'></div>
     </div>
     <div id="main">
-        <button class="openbtn" id='openbtn'>&#9776;</button>
-        <label>ids included: </label>
-        <select name="idfilter" id="idfilter" >
-          <option value="all">all</option>
-          <option value="unique">unique</option>
-          <option value="custom">custom</option>
-        </select>
-        <div id='unique-cont'>
-            <label>Filter data by custom ids</label>
-            <input type="file" id="input-file">
+        <div class='top-bar'> 
+            <a href='info.html'> Info </a>
+            <a href='search.html'> Search </a>
         </div>
-        <div id="load">
+       <div id="load">
             <iframe id='load-gif' src="https://giphy.com/embed/52qtwCtj9OLTi" frameBorder="0"></iframe>
         </div>
         <div class='init-container' id='init-container'>
+            <label>ids included: </label>
+            <select name="idfilter" id="idfilter" >
+              <option value="all">all</option>
+              <option value="unique">unique</option>
+              <option value="custom">custom</option>
+            </select>
+            <div id='unique-cont'>
+                <label>Filter data by custom ids</label>
+                <input type="file" id="input-file">
+            </div>
             <div class='chart-text'> 
                 <span class='graph-directions'> Click on a chart to add a new graph</span>
             </div>
@@ -73,6 +76,10 @@
         
     </div>    
     
+    <footer class='footer'>
+        <a href='http://github.com/gabeorosan/vquery' ><i class="fa fa-github" style="font-size:36px"></i></a>
+        <a href='http://viperdb.org'><img class="viper-icon" style="font-size:36px" src='VDB.png'></img></a>
+    </footer>
     <script src='index.js'></script>
     <!-- <script src='three.js'></script> -->
   </body>

@@ -2,6 +2,47 @@
     margin: 0;
     padding: 0;
 }
+body {
+    height: 100vh;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  background-color: #000;
+  color: white;
+  text-align: center;
+}
+.top-bar {
+    position: fixed;
+    top: 0;
+    background-color: gray;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.top-bar a{
+    padding: 5px;
+}
+.infopage-btn{
+    height: 50px;
+}
+.viper-icon{
+    height: 50px;
+}
+a{
+  border:none;
+  outline:none;
+  text-decoration:none;
+  color:inherit;
+  -webkit-tap-highlight-color: white;
+}
 .sidebar {
   height: 100%; 
   width: 0; 
@@ -25,7 +66,7 @@
 }
 
 .sidebar .closebtn {
-    color: #fff;
+  color: #fff;
   position: absolute;
   top: 0;
   right: 25px;
@@ -48,7 +89,7 @@
 }
 
 #main {
-  padding: 20px;
+    margin-top: 10vh;
 }
 
 @media screen and (max-height: 450px) {
