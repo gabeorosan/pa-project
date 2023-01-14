@@ -83,13 +83,16 @@ a{
   border: none;
   border-radius: 10px;
 }
+#info-img {
+    max-width: 50px;
+    max-height: 50px;
+}
 
 .openbtn:hover {
   background-color: #444;
 }
 
 #main {
-    margin-top: 10vh;
 }
 
 @media screen and (max-height: 450px) {

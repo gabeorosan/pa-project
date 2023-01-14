@@ -15,6 +15,7 @@
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer data-main="index.js" src="require.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,6 +26,7 @@
 
     </div>
     <div id="mySidebar" class="sidebar">
+    
         <p style='text-align: center;padding:5px;'>Search for Capsid Data</p>
         <div id='search-container'>
             <input id='search-input' placeholder='pdb id'type='text' >
@@ -33,10 +35,12 @@
         <div id='search-output'></div>
     </div>
     <div id="main">
-        <div class='top-bar'> 
-            <a href='info.html'> Info </a>
-            <a href='search.html'> Search </a>
-        </div>
+        <button class="openbtn" id='openbtn'>&#9776;</button>
+        <button class="infopage-btn" id='infopage-btn'>
+            <a href='https://github.com/gabeorosan/vquery/tree/master/public/README.md'> 
+                <img id='info-img' src='infopage.png'/>
+            </a>
+        </button>
        <div id="load">
             <iframe id='load-gif' src="https://giphy.com/embed/52qtwCtj9OLTi" frameBorder="0"></iframe>
         </div>
@@ -76,11 +80,15 @@
         
     </div>    
     
+    <!-- 
+        <div class='top-bar'> 
+            <a href='info.html'> Info </a>
+            <a href='search.html'> Search </a>
+        </div>
     <footer class='footer'>
         <a href='http://github.com/gabeorosan/vquery' ><i class="fa fa-github" style="font-size:36px"></i></a>
         <a href='http://viperdb.org'><img class="viper-icon" style="font-size:36px" src='VDB.png'></img></a>
     </footer>
-    <script src='index.js'></script>
-    <!-- <script src='three.js'></script> -->
+    <script src='three.js'></script> -->
   </body>
 </html>
