@@ -69,12 +69,11 @@ gauge_point: The [gauge point](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7232
 amino acid data distance calculations were done with
 [find_aas.py](https://github.com/gabeorosan/vquery/blob/master/scripts/find_aas.py)
 
-closest_aa: The AA with lowest distance from any point in any of the top 5 PAs (point arrays)
-other_aa: Another AA which was within 5 Angstroms of closest_aa (NA if none)
-closest_gp_aa: The AA with lowest distance from the gauge point in the closest PA
-other_gp_aa: Another AA which was within 5 Angstroms of closest_gp_aa (NA if none)
-common_gauge_aa: The most common AA from those with distance less than 5 (even if not closest - including other_aa) from
-any point from the top PA
+closest_aa: The AA with lowest distance from any point in any of the top 5 PAs (point arrays)  
+other_aa: Another AA which was within 5 Angstroms of closest_aa (NA if none)  
+closest_gp_aa: The AA with lowest distance from the gauge point in the closest PA  
+other_gp_aa: Another AA which was within 5 Angstroms of closest_gp_aa (NA if none)  
+common_gauge_aa: The most common AA from those with distance less than 5 (even if not closest - including other_aa) from any point from the top PA  
 
 most_common_aa: The most frequent AA in the full capsid (generated using
 [makeicos.pl](https://github.com/gabeorosan/vquery/blob/master/scripts/pipeline/makeicos.pl)
