@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
 }
+}
 body {
     height: 100vh;
 }
@@ -224,6 +225,12 @@ a{
 .graph-element * {
     overflow: visible;
 }
+.graph-box {
+    position: absolute;
+    resize: both;
+    overflow: auto;
+    border: 1px solid gray;
+}
 .graph-element {
     position: relative;
     margin-left: 250px;
@@ -246,7 +253,6 @@ a{
     display: flex;
     align-items: center;
     position: absolute;
-    bottom: -5vh;
     left: 30vw;
 }
 .y-axis-container {
@@ -273,6 +279,7 @@ text {
     padding: 10px 10px 10px 10px;
     border: #3C7D91 5px double;
 
+    resize: both;
     overflow-y: scroll;
     position: absolute;
     left: 20vw;
@@ -287,6 +294,7 @@ text {
     top: 5%;
     left: -250px;
     height: 300px;
+    resize: both;
     overflow: auto;
 }
 .legend-label {
@@ -299,7 +307,7 @@ text {
 .legend-title {
     margin-bottom: 5px;
 }
-#unique-cont {
+#custom-cont {
     display: none;
 }
 .update-label {

@@ -10,118 +10,91 @@ $(document).ready(function() {
     const graphContainer = document.getElementById('graph-container')
     const idFilter = document.getElementById('idfilter')
     const fileInput = document.getElementById('input-file')
-    const uniqueCont = document.getElementById('unique-cont')
+    const customCont = document.getElementById('custom-cont')
     var units = {'weight': 'Da', 'atoms': '#', 'deposited_polymer_monomer_count': '#',
     'polymer_molecular_weight_maximum': 'Da', 'polymer_molecular_weight_minimum': 'Da',
     'average_radius': 'Da', 'resolution': 'Å'}
-    var continuousMetrics; var heatmapContinuourMetrics; var discreteMetrics; var globalData; var filters;
+    var continuousMetrics; var countContinuousMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
         width = vw(95) - 250  - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
-
     var dataRef = firebase.database().ref('/data/')
     var propRef = firebase.database().ref('/properties/')
     var filterRef = firebase.database().ref('/filters/')
     var liveGraphs = {'scatter': [], 'bar': [], 'pie': [], 'heatmap': []}
-    const loadComplete = [0,0,0]
-    document.addEventListener('DOMContentLoaded', resetLoad)
-    function resetLoad(){
-        loadComplete = [0,0,0]
-    }
-    function loadData() {
-        dataRef.get().then(res => {
-            globalData = res.val()
-        }).then(() => {
-
-            loadComplete[0] = 1
-            checkLoad()
-        })
-        propRef.get().then(res => {
-            continuousMetrics = res.val()['continuous']
-            countContinuousMetrics = res.val()['continuous']
-            countContinuousMetrics.push('count')
-            discreteMetrics = res.val()['discrete']
-        }).then(() => {
-            loadComplete[1] = 1
-            checkLoad()
-        })
-        filterRef.get().then(res => {
-            filters = res.val()
-
-        }).then(() => {
-            loadComplete[2] = 1
-            checkLoad()
-        })
-    }
 
     loadData()
-    function checkLoad() {
-        if (sum(loadComplete) == 3) {
-                document.getElementById('init-container').style.visibility = 'visible' 
-                document.getElementById('load').style.display = 'none'
-                updateAll()
-        }
-
-    }
     idFilter.addEventListener('change', filterIds)
-      fileInput.addEventListener('change', getFile)
+    fileInput.addEventListener('change', getFile)
+    searchCapsidButton.addEventListener("click", searchCapsid)
+    openBtn.addEventListener("click", toggleNav)
+    scatterBtn.addEventListener("click", newScatter)
+    barBtn.addEventListener("click", newBar)
+    pieBtn.addEventListener("click", newPie)
+    heatmapBtn.addEventListener("click", newHeatmap)
 
-      function readFileContent(file) {
-            const reader = new FileReader()
-          return new Promise((resolve, reject) => {
+    const average = arr => sum(arr) / arr.length
+    const sum = arr => {var sum=0; var i=arr.length; while(i--) {sum += arr[i]}; return sum}
+    function loadData() {
+        Promise.all([dataRef.get(), propRef.get(), filterRef.get()]).then((values) => {
+            globalData = values[0].val()
+            var props = values[1].val()
+            continuousMetrics = props['continuous']
+            countContinuousMetrics = ['count', ...continuousMetrics]
+            discreteMetrics = props['discrete']
+            filters = values[2].val()
+            document.getElementById('init-container').style.visibility = 'visible' 
+            document.getElementById('load').style.display = 'none'
+            updateAll()
+        })
+    }
+    function readFileContent(file) {
+        const reader = new FileReader()
+        return new Promise((resolve, reject) => {
             reader.onload = event => resolve(event.target.result)
             reader.onerror = error => reject(error)
             reader.readAsText(file)
-          })
-        }
-
+        })
+    }
     function getFile(event) {
         const input = event.target
-      if ('files' in input && input.files.length > 0) {
-          console.log(input.files[0])
-          readFileContent(input.files[0]).then(content => {
-            var ids = content.split('\n').map(s => s.toLowerCase())
-            const asArray = Object.entries(globalData);
-            const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
-            globalData = Object.fromEntries(filtered);
-          })
-      }
+        if ('files' in input && input.files.length > 0) {
+            readFileContent(input.files[0]).then(content => {
+                var ids = content.split('\n').map(s => s.toLowerCase())
+                const asArray = Object.entries(globalData);
+                const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
+                globalData = Object.fromEntries(filtered);
+            })
+        }
     }
     function loadFile(filePath) {
-      var result = null;
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", filePath, false);
-      xmlhttp.send();
-      if (xmlhttp.status==200) {
-        result = xmlhttp.responseText;
-      }
-      return result;
+        var result = null;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", filePath, false);
+        xmlhttp.send();
+        if (xmlhttp.status==200) {
+            result = xmlhttp.responseText;
+        }
+        return result;
     }
-
     function filterIds() {
-
-        if (idFilter.value == 'unique') {
-            uniqueCont.style.display = 'none'
-            content = loadFile('unids.txt')
-            var ids = content.split('\n').map(s => s.toLowerCase())
-            const asArray = Object.entries(globalData)
-            const filtered = asArray.filter(([key, value]) => ids.includes(key.toLowerCase()))
-            globalData = Object.fromEntries(filtered)
-            updateAll()
-
-        }
-        else if (idFilter.value == 'all') {
-            uniqueCont.style.display = 'none'
-            loadData()
-        }
-        else{
-
-            loadData()
-            uniqueCont.style.display = 'block'
-
+        switch(idFilter.value) {
+            case 'unique':
+                customCont.style.display = 'none'
+                var ids = loadFile('unids.txt').split('\n').map(s => s.toLowerCase())
+                const filtered = Object.entries(globalData).filter(([key, value]) => ids.includes(key.toLowerCase()))
+                globalData = Object.fromEntries(filtered)
+                updateAll()
+                break;
+            case 'all':
+                customCont.style.display = 'none'
+                loadData()
+                break;
+            case 'custom':
+                loadData()
+                customCont.style.display = 'block'
         }
     }
-
     function updateAll() {
         funcDict = {'scatter': updateScatter, 'pie': updatePie, 'bar': updateBar, 'heatmap': updateHeatmap}
         for (k in liveGraphs){
@@ -131,13 +104,6 @@ $(document).ready(function() {
             }
         }
     }
-
-    searchCapsidButton.addEventListener("click", searchCapsid)
-    openBtn.addEventListener("click", toggleNav)
-    scatterBtn.addEventListener("click", newScatter)
-    barBtn.addEventListener("click", newBar)
-    pieBtn.addEventListener("click", newPie)
-    heatmapBtn.addEventListener("click", newHeatmap)
     function vw(percent) {
       var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       return (percent * w) / 100;
@@ -146,8 +112,6 @@ $(document).ready(function() {
       document.getElementById("mySidebar").classList.toggle('show-sidebar')
       document.getElementById("main").classList.toggle('sidebar-margin')
     }
-    const average = arr => sum(arr) / arr.length
-    const sum = arr => {var sum=0; var i=arr.length; while(i--) {sum += arr[i]}; return sum}
     function capsidWidget(name, data){
        var widget = document.createElement('div')
        var widgetTitle = document.createElement('h3')
@@ -267,7 +231,7 @@ $(document).ready(function() {
         }
         return [res, filtered.length]
     }
-    hslToRgb = function(_h, s, l) {
+    function hslToRgb(_h, s, l) {
         var h = Math.min(_h, 359)/60;
 
         var c = (1-Math.abs((2*l)-1))*s;
@@ -295,7 +259,7 @@ $(document).ready(function() {
         return 'rgb(' + Math.floor(r*255) + ', ' + Math.floor(g*255) + ', ' + Math.floor(b*255) + ')';
     }
 
-    createSpectrum = function(length) {
+    function createSpectrum(length) {
         var colors = [];
         // 270 because we don't want the spectrum to circle back
         var step = 270/length;
@@ -306,7 +270,7 @@ $(document).ready(function() {
 
         return colors;
     }
-    var randomProperty = function (obj) {
+    function randomProperty(obj) {
         var keys = Object.keys(obj);
         return keys[ keys.length * Math.random() << 0]
     }
@@ -402,15 +366,15 @@ $(document).ready(function() {
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px");
+        .style("padding", "5px")
+        .style("position", 'absolute')
     var mouseover = function (d) {
         tooltip.style("opacity", 1);
         d3.select(this).style("stroke", "green").style("opacity", 1);
       };
       var mousemove = function (d) {
         tooltip
-          .html(`(${d[1]}, ${d[0]}): ${d[3]}`)
-          .style("position", 'absolute')
+          .html(`(${d[0]}, ${d[1]}): ${d[3]}`)
           .style("left", d3.mouse(this)[0] + 70 + "px")
           .style("top", d3.mouse(this)[1] + "px");
       };
@@ -639,7 +603,8 @@ $(document).ready(function() {
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px");
+        .style("padding", "5px")
+        .style("position", 'absolute')
     var mouseover = function (d) {
         tooltip.style("opacity", 1);
         d3.select(this).style("stroke", "green").style("opacity", 1);
@@ -647,7 +612,6 @@ $(document).ready(function() {
       var mousemove = function (d) {
         tooltip
           .html(`${d[0]}: ${d[1]}`)
-          .style("position", 'absolute')
           .style("left", d3.mouse(this)[0] + 70 + "px")
           .style("top", d3.mouse(this)[1] + "px");
       };
@@ -795,7 +759,8 @@ $(document).ready(function() {
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px");
+        .style("padding", "5px")
+        .style("position", 'absolute')
 
     var mouseover = function (d) {
         tooltip.style("opacity", 1);
@@ -804,7 +769,6 @@ $(document).ready(function() {
       var mousemove = function (d) {
         tooltip
           .html(`${d.data.key}: ` + d.value)
-          .style("position", 'absolute')
           .style("left", d3.mouse(this)[0] + 70 + "px")
           .style("top", d3.mouse(this)[1] + 150 + "px");
       };
@@ -964,7 +928,8 @@ $(document).ready(function() {
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px");
+        .style("padding", "5px")
+        .style("position", 'absolute')
     var mouseover = function (d) {
         tooltip.style("opacity", 1);
         d3.select(this).style("stroke", "green").style("opacity", 1);
@@ -972,7 +937,6 @@ $(document).ready(function() {
       var mousemove = function (d) {
         tooltip
           .html(`(${d[0]}, ${d[1]}) : ${d[2]}`)
-          .style("position", 'absolute')
           .style("left", d3.mouse(this)[0] + 70 + "px")
           .style("top", d3.mouse(this)[1] + "px");
       };
