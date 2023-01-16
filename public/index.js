@@ -140,6 +140,73 @@ $(document).ready(function() {
         var virus = globalData[searchInput.value]
         capsidWidget(searchInput.value, virus)
     }
+    function hslToRgb(_h, s, l) {
+        var h = Math.min(_h, 359)/60;
+
+        var c = (1-Math.abs((2*l)-1))*s;
+        var x = c*(1-Math.abs((h % 2)-1));
+        var m = l - (0.5*c);
+
+        var r = m, g = m, b = m;
+
+        if (h < 1) {
+            r += c, g = +x, b += 0;
+        } else if (h < 2) {
+            r += x, g += c, b += 0;
+        } else if (h < 3) {
+            r += 0, g += c, b += x;
+        } else if (h < 4) {
+            r += 0, g += x, b += c;
+        } else if (h < 5) {
+            r += x, g += 0, b += c;
+        } else if (h < 6) {
+            r += c, g += 0, b += x;
+        } else {
+            r = 0, g = 0, b = 0;
+        }
+
+        return 'rgb(' + Math.floor(r*255) + ', ' + Math.floor(g*255) + ', ' + Math.floor(b*255) + ')';
+    }
+    function createSpectrum(length) {
+        var colors = [];
+        // 270 because we don't want the spectrum to circle back
+        var step = 270/length;
+        for (var i = 1; i <= length; i++) {
+            var color = hslToRgb((i)*step, 0.5, 0.5);
+            colors.push(color);
+        }
+
+        return colors;
+    }
+    function randomProperty(obj) {
+        var keys = Object.keys(obj);
+        return keys[ keys.length * Math.random() << 0]
+    }
+    function save(filename, data) {
+        const blob = new Blob(data, {type: 'text/csv'});
+        if(window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveBlob(blob, filename);
+        }
+        else{
+            const elem = window.document.createElement('a');
+            elem.href = window.URL.createObjectURL(blob);
+            elem.download = filename;        
+            document.body.appendChild(elem);
+            elem.click();        
+            document.body.removeChild(elem);
+        }
+    }
+    function roundLast(x) {
+        var res = '1'.padEnd(String(Math.round(x)).length + 1, "0")
+        return res
+    }
+    function unitText(continuous) {
+        if (continuous in units) {
+            return ` (${units[continuous]})`
+        } 
+        return ''
+    }
+    //filter function for pie chart
     function filterCount(discrete, filterObj) {
         var res = {}
         var d = Object.values(globalData).filter(e => {return ((discrete in e))})
@@ -231,49 +298,6 @@ $(document).ready(function() {
         }
         return [res, filtered.length]
     }
-    function hslToRgb(_h, s, l) {
-        var h = Math.min(_h, 359)/60;
-
-        var c = (1-Math.abs((2*l)-1))*s;
-        var x = c*(1-Math.abs((h % 2)-1));
-        var m = l - (0.5*c);
-
-        var r = m, g = m, b = m;
-
-        if (h < 1) {
-            r += c, g = +x, b += 0;
-        } else if (h < 2) {
-            r += x, g += c, b += 0;
-        } else if (h < 3) {
-            r += 0, g += c, b += x;
-        } else if (h < 4) {
-            r += 0, g += x, b += c;
-        } else if (h < 5) {
-            r += x, g += 0, b += c;
-        } else if (h < 6) {
-            r += c, g += 0, b += x;
-        } else {
-            r = 0, g = 0, b = 0;
-        }
-
-        return 'rgb(' + Math.floor(r*255) + ', ' + Math.floor(g*255) + ', ' + Math.floor(b*255) + ')';
-    }
-
-    function createSpectrum(length) {
-        var colors = [];
-        // 270 because we don't want the spectrum to circle back
-        var step = 270/length;
-        for (var i = 1; i <= length; i++) {
-            var color = hslToRgb((i)*step, 0.5, 0.5);
-            colors.push(color);
-        }
-
-        return colors;
-    }
-    function randomProperty(obj) {
-        var keys = Object.keys(obj);
-        return keys[ keys.length * Math.random() << 0]
-    }
     function filterContinuous(metrics, filterObj) {
         var x = metrics[0]
         var y = metrics[1]
@@ -303,60 +327,82 @@ $(document).ready(function() {
         cdict['Missing'] = '#000'
         return [filtered.map(e =>[e[x], e[y], e[primary], e.id]), cdict]
     }
-    function save(filename, data) {
-        const blob = new Blob(data, {type: 'text/csv'});
-        if(window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveBlob(blob, filename);
-        }
-        else{
-            const elem = window.document.createElement('a');
-            elem.href = window.URL.createObjectURL(blob);
-            elem.download = filename;        
-            document.body.appendChild(elem);
-            elem.click();        
-            document.body.removeChild(elem);
-        }
-    }
-    function roundLast(x) {
-        var res = '1'.padEnd(String(Math.round(x)).length + 1, "0")
-        return res
-    }
-    function unitText(continuous) {
-        if (continuous in units) {
-            return ` (${units[continuous]})`
-        } 
-        return ''
-    }
-    function makeScatter(id, metrics, filterList){
-        var d_grouped;
+    function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+          if (e.srcElement.id.includes('box')) {
+              var id = e.srcElement.id.replace('box', '')
+              document.onmouseup = () => {updateScatter(id);document.onmouseup = null;}
+          } else if (e.srcElement.id.includes('container')) { 
+              return 
+            } else if (e.srcElement.tagName == 'SELECT') { 
+                return
+        } else {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+      }
+  }
+
+  function elementDrag(e) {
+
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+
+
+    function redrawSvg(id, metrics, filterList) {
         var [d, colorDict] = filterContinuous(metrics, filterList)
-        var xMetric = metrics[0]
-        var yMetric = metrics[1]
         var xList = d.map(x => x[0])
         var yList = d.map(y => y[1])
+        var xMetric = metrics[0]
+        var yMetric = metrics[1]
+        var graphBox = document.getElementById(`${id}box`)
+        var boxWidth = graphBox.offsetWidth
+        var boxHeight = graphBox.offsetHeight
+        graphBox.innerHTML = ''
+        var svg = d3.select(`#${id}box`)
+                    .append("svg")
+                    .attr("width", boxWidth - margin.left)
+                    .attr("height", boxHeight - margin.top - margin.bottom)
+                    .attr("transform",
+                          "translate(" + margin.left + "," + margin.top + ")");
         var xMax = Math.max.apply(null, xList)
         var yMax = Math.max.apply(null, yList)
-        var xAve = Math.round(average(xList) * 100) / 100
-        var yAve = Math.round(average(yList) * 100) / 100
-        var xStdev = Math.round(stDev(xList) * 100) / 100
-        var yStdev = Math.round(stDev(yList) * 100) / 100
-        var graphEl = document.getElementById(`${id}graph`)
-        var svg = d3.select(`#${id}graph`)
-                    .append("svg")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                        .attr("transform",
-                              "translate(" + margin.left + "," + margin.top + ")");
         var x = d3.scaleLinear()
                 .domain([0, xMax])
-                .range([ 0, width ]);
+                .range([ 0, boxWidth - margin.left - margin.right ]);
         svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
+            .attr("transform", "translate(0," + (boxHeight-margin.top -margin.bottom) + ")")
             .call(d3.axisBottom(x));
         var y = d3.scaleLinear()
                 .domain([0,yMax])
-                .range([ height, 0]);
+                .range([ boxHeight - margin.bottom - margin.top, 0]);
+        svg.append("g")
+            .call(d3.axisLeft(y));
           var tooltip = d3
         .select(`#${id}graph`)
         .append("div")
@@ -383,8 +429,6 @@ $(document).ready(function() {
         d3.select(this).style("stroke", "none").style("opacity", 0.8);
       };
 
-        svg.append("g")
-            .call(d3.axisLeft(y));
         svg.append('g')
             .selectAll("dot")
             .data(d)
@@ -398,7 +442,125 @@ $(document).ready(function() {
               .on('mouseleave', mouseleave)
               .on('mousemove', mousemove)
         svg.append("text")
-            .attr("x", (width / 2))
+            .attr("x", ((boxWidth - margin.left - margin.right )/ 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text(` ${yMetric}${unitText(yMetric)} vs ${xMetric}${unitText(xMetric)} (n = ${d.length})`);
+
+        var primaryDropdown = document.createElement('select')
+        for (let i=0;i<Object.keys(filters).length;i++){
+            var m = Object.keys(filters)[i]
+            var dropOption = document.createElement('option')
+            dropOption.value = m
+            dropOption.innerHTML = m
+            if (filterList.primary == m){
+                dropOption.selected = 'selected'
+            }
+            primaryDropdown.appendChild(dropOption)
+        }
+        primaryDropdown.addEventListener('change', () => {
+            updateScatter(id)
+            })
+        primaryDropdown.id = id + 'primary'
+        primaryDropdown.value = filterList.primary
+        var legend = document.getElementById(`${id}legend-container`)
+        legend.innerHTML = ''
+        var legendTitle = document.createElement('div')
+        legendTitle.classList.add('legend-title')
+        legendTitle.innerHTML = 'Color indicates: '
+        for (let i=0;i<Object.keys(colorDict).length;i++){
+            var m = Object.keys(colorDict)[i]
+            var label = document.createElement('span')
+            label.classList.add('legend-label')
+            label.innerHTML = `<span style="margin-left: 5px;">${m}: </span><span style="color:${colorDict[m]};font-size:50px">&#9632;</span>`
+            legend.appendChild(label)
+        }
+        legendTitle.appendChild(primaryDropdown)
+        legend.prepend(legendTitle)
+    }
+    function makeScatter(id, metrics, filterList){
+        var d_grouped;
+        var [d, colorDict] = filterContinuous(metrics, filterList)
+        var xMetric = metrics[0]
+        var yMetric = metrics[1]
+        var xList = d.map(x => x[0])
+        var yList = d.map(y => y[1])
+        var xMax = Math.max.apply(null, xList)
+        var yMax = Math.max.apply(null, yList)
+        var xAve = Math.round(average(xList) * 100) / 100
+        var yAve = Math.round(average(yList) * 100) / 100
+        var xStdev = Math.round(stDev(xList) * 100) / 100
+        var yStdev = Math.round(stDev(yList) * 100) / 100
+        var graphEl = document.getElementById(`${id}graph`)
+        var graphBox = document.createElement('div')
+        graphBox.style.width = '500px'
+        graphBox.style.minHeight = '300px'
+        graphBox.classList.add('graph-box')
+        graphBox.id = id + 'box'
+        graphEl.appendChild(graphBox)
+        var boxWidth = graphBox.offsetWidth
+        var boxHeight = graphBox.offsetHeight
+        graphBox.style.width = boxWidth
+        var svg = d3.select(`#${id}box`)
+                    .append("svg")
+                    .attr("width", boxWidth - margin.left)
+                    .attr("height", boxHeight - margin.top - margin.bottom)
+                    .attr("transform",
+                          "translate(" + margin.left + "," + margin.top + ")");
+        var xMax = Math.max.apply(null, xList)
+        var yMax = Math.max.apply(null, yList)
+        var x = d3.scaleLinear()
+                .domain([0, xMax])
+                .range([ 0, boxWidth - margin.left - margin.right ]);
+        svg.append("g")
+            .attr("transform", "translate(0," + (boxHeight-margin.top -margin.bottom) + ")")
+            .call(d3.axisBottom(x));
+        var y = d3.scaleLinear()
+                .domain([0,yMax])
+                .range([ boxHeight - margin.bottom - margin.top, 0]);
+        svg.append("g")
+            .call(d3.axisLeft(y));
+          var tooltip = d3
+        .select(`#${id}graph`)
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", 'absolute')
+    var mouseover = function (d) {
+        tooltip.style("opacity", 1);
+        d3.select(this).style("stroke", "green").style("opacity", 1);
+      };
+      var mousemove = function (d) {
+        tooltip
+          .html(`(${d[0]}, ${d[1]}): ${d[3]}`)
+          .style("left", d3.mouse(this)[0] + 70 + "px")
+          .style("top", d3.mouse(this)[1] + "px");
+      };
+      var mouseleave = function (d) {
+        tooltip.style("opacity", 0);
+        d3.select(this).style("stroke", "none").style("opacity", 0.8);
+      };
+
+        svg.append('g')
+            .selectAll("dot")
+            .data(d)
+            .enter()
+            .append("circle")
+              .attr("cx", function (d) { return x(d[0]) } )
+              .attr("cy", function (d) { return y(d[1]) } )
+              .attr("r", 2)
+              .style("fill", function (d) { return (colorDict[d[2]]) } )
+              .on('mouseover', mouseover)
+              .on('mouseleave', mouseleave)
+              .on('mousemove', mousemove)
+        svg.append("text")
+            .attr("x", ((boxWidth - margin.left - margin.right )/ 2))
             .attr("y", 0 - (margin.top / 2))
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
@@ -422,6 +584,7 @@ $(document).ready(function() {
         xDropdown.addEventListener('change', () => {
             updateScatter(id)
             })
+        xDropdown.value = xMetric
         for (let i=0;i<continuousMetrics.length;i++){
             var m = continuousMetrics[i]
             var dropOption = document.createElement('option')
@@ -435,6 +598,7 @@ $(document).ready(function() {
         yDropdown.addEventListener('change', () => {
             updateScatter(id)
             })
+        yDropdown.value = yMetric
         for (let i=0;i<Object.keys(filters).length;i++){
             var m = Object.keys(filters)[i]
             var dropOption = document.createElement('option')
@@ -448,7 +612,9 @@ $(document).ready(function() {
         primaryDropdown.addEventListener('change', () => {
             updateScatter(id)
             })
+        primaryDropdown.value = filterList.primary
         var legend = document.createElement('div')
+        legend.id = id + 'legend-container'
         legend.classList.add('scatter-legend')
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
@@ -517,6 +683,10 @@ $(document).ready(function() {
         graphEl.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
+        dragElement(graphBox)
+        dragElement(xAxisContainer)
+        dragElement(yAxisContainer)
+        dragElement(legend)
     }
     function updateScatter(id) {
         var xDropdown = document.getElementById(id + 'xMetric')
@@ -528,8 +698,7 @@ $(document).ready(function() {
         var filterList = loadFilters(id)
         filterList['primary'] = primary
         var graphEl = document.getElementById(id + 'graph')
-        graphEl.innerHTML = ''
-        makeScatter(id, [x,y], filterList)
+        redrawSvg(id, [x,y], filterList)
     }
 
     function newScatter(){

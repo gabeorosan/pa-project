@@ -233,7 +233,7 @@ a{
 }
 .graph-element {
     position: relative;
-    margin-left: 250px;
+    margin-left: 300px;
 }
 .pie-x-container {
     display: flex;
@@ -250,17 +250,22 @@ a{
     left: 30vw;
 }
 .x-axis-container {
+    padding: 5px;
+    background: gray;
     display: flex;
     align-items: center;
     position: absolute;
-    left: 30vw;
+    left: 20vw;
+    top: 300px;
 }
 .y-axis-container {
+    padding: 5px;
+    background: gray;
     display: flex;
     align-items: center;
     position: absolute;
-    top: 90%;
-    left: -250px;
+    top: 20px;
+    left: -300px;
 }
 
 .stat-button{
@@ -288,12 +293,15 @@ text {
     overflow: auto;
 }
 .scatter-legend {
+    background: lightgray;
+    border: 2px solid black;
     padding: 10px 10px 10px 10px;
     overflow-y: scroll;
     position: absolute;
-    top: 5%;
-    left: -250px;
-    height: 300px;
+    top: 50px;
+    left: -300px;
+    width: 255px;
+    height: 200px;
     resize: both;
     overflow: auto;
 }
