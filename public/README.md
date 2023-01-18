@@ -29,7 +29,7 @@ file with the data used to generate the graph (varies by the graph, but for exam
 
 What follows is a detailed description of all of the data fields. They are grouped into three categories:
 [ViperDB](https://viperdb.org/) data,
-[RSCB](https://www.rcsb.org/) data, [SCOP](https://scop.mrc-lmb.cam.ac.uk/) fold data, and generated data
+[RCSB](https://www.rcsb.org/) data, [SCOP](https://scop.mrc-lmb.cam.ac.uk/) fold data, and generated data
 
 ## [ViperDB](https://viperdb.org/)
 
@@ -42,7 +42,7 @@ family: Family of the virus
 genus: Genus of the virus
 genome: Genome of the virus (for uniformity, viruses were grouped into either ssRNA, ssDNA, dsRNA, dsDNA, or NA meaning other)
 
-## [RSCB](https://www.rcsb.org/)/ 
+## [RCSB](https://www.rcsb.org/)/ 
 
 atoms: Atom Count (non-hydrogen atoms)
 weight (Da): Total Structure Weight - molecular weight in all non-hydrogen atoms. Hydrogen atoms are included for the

@@ -1,6 +1,5 @@
-fix bar y axis label
+fix graph scrolling on scatter
 add graph info
 add citations
-top 10 graphs
 
 get aas from RCSB?

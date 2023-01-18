@@ -161,7 +161,7 @@ the dataset had - this serves as the list of filters which are shown on the webs
 continuous metrics (average radius, weight) properties to be used for the options for the axes for different kinds of
 graphs. 
 
-# vquery
+# Website 
 
 Once I had the complete database, I worked on making the main features of the website: a search feature that allows you
 to query the information stored for any specific PDBID, Scatter Plots, Bar Graphs, Pie Charts, and Heatmaps. Because
