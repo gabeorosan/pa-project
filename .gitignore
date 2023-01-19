@@ -2,6 +2,7 @@
 # Logs
 logs
 *.log
+scripts/pdbs
 scripts/.ipynb_checkpoints
 npm-debug.log*
 yarn-debug.log*
