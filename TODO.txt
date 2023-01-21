@@ -1,3 +1,6 @@
+fix tooltip zindex
+fix atoms in heatmap
+fix text cutting of in bar graph
 fix graph scrolling on scatter
 add graph info
 add citations

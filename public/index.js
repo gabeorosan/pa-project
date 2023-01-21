@@ -198,9 +198,12 @@ $(document).ready(function() {
     function unitText(continuous) {
             return ` (${units[continuous]})`
     }
-    function filterCount(discrete, filterObj) {
-        var res = {}
-        var d = Object.values(globalData).filter(e => {return ((discrete in e))})
+    function filterMetrics(metrics, filterObj) {
+        var d = Object.values(globalData).filter(e => {
+            var passFilter = true 
+            metrics.forEach(m => {if (!(m in e)) passFilter = false})
+            return passFilter 
+            })
         var filtered = d.filter(e => {
             var passFilter = true
             Object.keys(filterObj).forEach(function(key, index) {
@@ -209,55 +212,36 @@ $(document).ready(function() {
         })
             return passFilter
         })
-
+        return filtered
+    }
+    function pieData(discrete, filterObj) {
+        var res = {}
+        var filtered = filterMetrics([discrete], filterObj)
         var classes = filters[discrete]
         for (let i=0;i<classes.length;i++) {
             var classMatch = filtered.filter(e => {return (e[discrete] == classes[i])})
             if (classMatch.length) res[classes[i]] = classMatch.length
         }
+        var cdict = getColors(Object.keys(res))
 
-        var rkeys = Object.keys(res)
-        var colors = createSpectrum(rkeys.length)
-        var clist = rkeys.map(e => {
-            return [e, colors[rkeys.indexOf(e)]]
-        })
-        var cdict = {}
-        for (var i=0;i<clist.length;i++){
-            cdict[clist[i][0]] = clist[i][1]
-        }
         return [res, cdict]
     }
-    function filterDiscreteObj(discreteObj, continuous, filterObj) {
+    function heatmapData(discreteObj, continuous, filterObj) {
         var discreteFields = Object.keys(discreteObj)
         var discX = discreteFields[0]
         var discY = discreteFields[1] || discreteFields[0]
         var discreteVals = Object.values(discreteObj)
         var res = []
         var contIsCount = continuous == 'count'
-        var d = Object.values(globalData).filter(e => {return ((continuous in e || contIsCount) &&
-        (contIsCount || !(isNaN(e[continuous]))))})
-        var filtered = d.filter(e => {
-            var passFilter = true
-            Object.keys(filterObj).forEach(function(key, index) {
-            if (!(key in e)) passFilter = false
-            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
-        })
-            return passFilter
-        })
-        var discreteFiltered = filtered.filter(e => {
-            var passFilter = true
-            Object.keys(discreteObj).forEach(function(key, index) {
-            if (!(key in e)) passFilter = false
-            else if (!(discreteObj[key].includes(String(e[key])))) passFilter = false
-        })
-            return passFilter
-        })
+        var metrics = discreteFields
+        if (!(contIsCount)) metrics.push(continuous)
+        var filtered = filterMetrics(metrics, filterObj)
         if (discreteVals.length == 1) discreteVals.push(discreteVals[0])
         for (let i=0;i<discreteVals[0].length;i++) {
             var x = discreteVals[0][i]
             for (let j=0;j<discreteVals[1].length;j++) {
                 var y = discreteVals[1][j]
-                var classFilter = discreteFiltered.filter(e => {return ((e[discX] == x) && (e[discY] == y))})
+                var classFilter = filtered.filter(e => {return ((e[discX] == x) && (e[discY] == y))})
                 var classTotal = classFilter.map(e => {return contIsCount ? 1 : e[continuous]})
                 var classAvg = contIsCount ?  sum(classTotal) : average(classTotal)
                 if (isNaN(classAvg)) classAvg = 0
@@ -266,20 +250,13 @@ $(document).ready(function() {
         }
         return res
     }
-    function filterDiscrete(discrete, classes, continuous, filterObj) {
+    function barData(discrete, classes, continuous, filterObj) {
         var res = []
         var contIsCount = continuous == 'count'
-        var d = Object.values(globalData).filter(e => {return ((discrete in e) && (continuous in e || contIsCount) &&
-        (!(isNaN(e[continuous])) || contIsCount))})
+        var metrics = [discrete]
+        if (!(contIsCount)) metrics.push(continuous)
+        var filtered = filterMetrics(metrics, filterObj)
 
-        var filtered = d.filter(e => {
-            var passFilter = true
-            Object.keys(filterObj).forEach(function(key, index) {
-            if (!(key in e)) passFilter = false
-            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
-        })
-            return passFilter
-        })
         for (let i=0;i<classes.length;i++) {
             var classFilter = filtered.filter(e => {return (e[discrete] == classes[i])})
             var classTotal = classFilter.map(e => {return contIsCount ? 1 : e[continuous]})
@@ -289,34 +266,35 @@ $(document).ready(function() {
         }
         return [res, filtered.length]
     }
-    function filterContinuous(metrics, filterObj) {
+    function scatterData(metrics, filterObj) {
         var x = metrics[0]
         var y = metrics[1]
         var globId = Object.entries(globalData).map(e => {e[1]['id'] = e[0];return e[1]})
-        var d = globId.filter(e => (x in e) &&
-        (y in e) && !(isNaN(e[x])) && !(isNaN(e[y])))
-        var filtered = d.filter(e => {
-            var passFilter = true
-            Object.keys(filterObj).forEach(function(key, index) {
-            if (key == 'primary') return true
-            if (!(key in e)) passFilter = false
-            else if (!(filterObj[key].includes(String(e[key])))) passFilter = false
-        })
-            return passFilter
-        })
-
         var primary = filterObj.primary
+        var filterOut = {...filterObj}
+        delete filterOut.primary
+        var filtered = filterMetrics(metrics, filterOut)
+        var d = Object.values(globalData).filter(e => {
+            var passFilter = true 
+            metrics.forEach(m => {if (!(m in e)) passFilter = false})
+            return passFilter 
+            })
         if (!(primary in (filterObj))) filterObj[primary] = filters[primary]
-        var colors = createSpectrum(filterObj[primary].length)
-        var clist = filterObj[primary].map(e => {
-            return [e, colors[filterObj[primary].indexOf(e)]]
+        cdict = getColors(filterObj[primary])
+        cdict['Missing'] = '#000'
+        return [filtered.map(e =>[e[x], e[y], e[primary], e.id]), cdict]
+    }
+    function getColors(keys){
+
+        var colors = createSpectrum(keys.length)
+        var clist = keys.map(e => {
+            return [e, colors[keys.indexOf(e)]]
         })
         var cdict = {}
         for (var i=0;i<clist.length;i++){
             cdict[clist[i][0]] = clist[i][1]
         }
-        cdict['Missing'] = '#000'
-        return [filtered.map(e =>[e[x], e[y], e[primary], e.id]), cdict]
+        return cdict
     }
     function updateGraph(id) {
         var idType = {}
@@ -373,7 +351,7 @@ $(document).ready(function() {
         if (cats.length == 1) cats.push(cats[0])
         var myGroups = Object.values(discreteObj)[0]
         var myVars = Object.values(discreteObj)[1] || Object.values(discreteObj)[0]
-        var data = filterDiscreteObj(discreteObj, continuous, filterObj)
+        var data = heatmapData(discreteObj, continuous, filterObj)
         var myVals = data.map(e => e[2])
         var valMax = Math.max.apply(null, myVals)
         if (!valMax) valMax = 1
@@ -446,7 +424,7 @@ $(document).ready(function() {
         return svg
     }
     function redrawBar(id, discrete, classes, continuous, filterObj){
-        var [d, numElements] = filterDiscrete(discrete, classes, continuous, filterObj)
+        var [d, numElements] = barData(discrete, classes, continuous, filterObj)
         var yList = d.map(e => {return e[1]})
         var yMax = Math.max.apply(null, d.map(e => {return e[1]}))
         var graphEl = document.getElementById(`${id}graph`)
@@ -504,7 +482,7 @@ $(document).ready(function() {
         exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => e + '\n'))}
     }
     function redrawPie(id, discrete, filterObj) {
-        var [data, colorDict] = filterCount(discrete, filterObj)
+        var [data, colorDict] = pieData(discrete, filterObj)
         var numElements = countVals(Object.entries(data))
         var m = 40
 
@@ -584,7 +562,7 @@ $(document).ready(function() {
         return [tooltip, mouseover, mouseleave]
     }
     function redrawScatter(id, metrics, filterList) {
-        var [d, colorDict] = filterContinuous(metrics, filterList)
+        var [d, colorDict] = scatterData(metrics, filterList)
         var xList = d.map(x => x[0])
         var yList = d.map(y => y[1])
         var xMetric = metrics[0]
