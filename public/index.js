@@ -328,6 +328,14 @@ $(document).ready(function() {
         cdict['Missing'] = '#000'
         return [filtered.map(e =>[e[x], e[y], e[primary], e.id]), cdict]
     }
+    function updateGraph(id) {
+        var idType = {}
+        Object.entries(liveGraphs).forEach(([k,v]) => {
+            v.forEach(g => idType[g] = k)
+            })
+        var updateFunc = funcDict[idType[id]]
+        updateFunc(id)
+    }
     function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
@@ -335,7 +343,7 @@ $(document).ready(function() {
   function dragMouseDown(e) {
           if (e.srcElement.id.includes('box')) {
               var id = e.srcElement.id.replace('box', '')
-              document.onmouseup = () => {updateScatter(id);document.onmouseup = null;}
+              document.onmouseup = () => {updateGraph(id);document.onmouseup = null;}
           } else if (e.srcElement.id.includes('container')) { 
               return 
             } else if (e.srcElement.tagName == 'SELECT') { 
@@ -373,7 +381,268 @@ $(document).ready(function() {
   }
 }
 
-    function redrawSvg(id, metrics, filterList) {
+    function redrawHeatmap(id, discreteObj, continuous, filterObj){
+        var cats = Object.keys(discreteObj)
+        if (cats.length == 1) cats.push(cats[0])
+        var myGroups = Object.values(discreteObj)[0]
+        var myVars = Object.values(discreteObj)[1] || Object.values(discreteObj)[0]
+        var data = filterDiscreteObj(discreteObj, continuous, filterObj)
+        var myVals = data.map(e => e[2])
+        var valMax = Math.max.apply(null, myVals)
+        if (!valMax) valMax = 1
+        var graphBox = document.getElementById(`${id}box`)
+        var graphEl = document.getElementById(`${id}graph`)
+        var [boxWidth, boxHeight] = [graphBox.offsetWidth, graphBox.offsetHeight]
+        graphBox.innerHTML = ''
+        mleft = 110
+        var svg = d3.select(`#${id}box`)
+        .append("svg")
+          .attr("width", boxWidth)
+          .attr("height", boxHeight)
+          .append('g')
+          .attr("transform",
+                "translate(" + mleft + "," + margin.top + ")");
+
+        var x = d3.scaleBand()
+          .range([ 0, boxWidth - mleft - margin.right])
+          .domain(myGroups)
+          .padding(0.01);
+        svg.append("g")
+          .attr("transform", "translate(0," + (boxHeight - margin.top - margin.bottom) + ")")
+          .call(d3.axisBottom(x))
+
+        var y = d3.scaleBand()
+          .range([ boxHeight - margin.top - margin.bottom, 0 ])
+          .domain(myVars)
+          .padding(0.01);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+        var contString = continuous == 'count' ? 'count' : `average ${continuous}`
+        svg.append("text")
+            .attr("x", ((boxWidth - mleft - margin.right) / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("id", `${id}continuous`)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text(`${contString} by ${cats[1]} vs ${cats[0]}`);
+
+        var myColor = d3.scaleLinear()
+          .range(["white", "#69b3a2"])
+          .domain([1, valMax])
+
+          var tooltip = d3
+        .select(`#${id}graph`)
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", 'absolute')
+    var mouseover = function (d) {
+        tooltip.style("opacity", 1);
+        d3.select(this).style("stroke", "green").style("opacity", 1);
+      };
+      var mousemove = function (d) {
+        tooltip
+          .html(`(${d[0]}, ${d[1]}) : ${d[2]}`)
+          .style("left", d3.mouse(this)[0]  + "px")
+          .style("top", d3.mouse(this)[1] + "px");
+      };
+      var mouseleave = function (d) {
+        tooltip.style("opacity", 0);
+        d3.select(this).style("stroke", "none").style("opacity", 0.8);
+      };
+          svg.selectAll()
+              .data(data, function(d) {return d[0]+':'+d[1];})
+              .enter()
+              .append("rect")
+              .attr("x", function(d) { return x(d[0]) })
+              .attr("y", function(d) { return y(d[1]) })
+              .attr("width", x.bandwidth() )
+              .attr("height", y.bandwidth() )
+              .style("fill", function(d) { return myColor(d[2])} )
+              .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave);
+
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        var expContString = contString.replace(' ', '_')
+        exportBtn.onclick = () => {save(`${expContString}_by_${cats[1]}_vs_${cats[0]}.txt`, data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
+    }
+    function redrawBar(id, discrete, classes, continuous, filterObj){
+        var [d, numElements] = filterDiscrete(discrete, classes, continuous, filterObj)
+        var yList = d.map(e => {return e[1]})
+        var yMax = Math.max.apply(null, d.map(e => {return e[1]}))
+        var graphEl = document.getElementById(`${id}graph`)
+        var graphBox = document.getElementById(`${id}box`)
+        var [boxWidth, boxHeight] = [graphBox.offsetWidth, graphBox.offsetHeight]
+        graphBox.innerHTML = ''
+        var svg = d3.select(`#${id}box`)
+          .append("svg")
+            .attr("width", boxWidth)
+            .attr("height", boxHeight)
+            .append('g')
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+        var x = d3.scaleBand()
+          .range([ 0, boxWidth - margin.left - margin.right])
+          .domain(d.map(function(d) { return d[0]; }))
+          .padding(0.2);
+        svg.append("g")
+          .attr("transform", "translate(0," + (boxHeight - margin.top - margin.bottom) + ")")
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+        var y = d3.scaleLinear()
+          .domain([0, yMax])
+          .range([ boxHeight - margin.top - margin.bottom, 0]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+        var contString = continuous == 'count' ? 'count' : `average ${continuous}`
+
+          var tooltip = d3
+        .select(`#${id}graph`)
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", 'absolute')
+    var mouseover = function (d) {
+        tooltip.style("opacity", 1);
+        d3.select(this).style("stroke", "green").style("opacity", 1);
+      };
+      var mousemove = function (d) {
+        tooltip
+          .html(`${d[0]}: ${d[1]}`)
+          .style("left", d3.mouse(this)[0] + 70 + "px")
+          .style("top", d3.mouse(this)[1] + "px");
+      };
+      var mouseleave = function (d) {
+        tooltip.style("opacity", 0);
+        d3.select(this).style("stroke", "none").style("opacity", 0.8);
+      };
+        svg.append('g')
+        .selectAll("mybar")
+          .data(d)
+          .enter()
+          .append("rect")
+            .attr("x", function(d) { return x(d[0]); })
+            .attr("y", function(d) { return y(String(d[1])); })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return boxHeight - margin.top - margin.bottom - y(d[1]); })
+            .attr("fill", "#69b3a2")
+            .on('mousemove', mousemove)
+            .on('mouseover', mouseover)
+            .on('mouseleave', mouseleave)
+        svg.append("text")
+            .attr("x", ((boxWidth - margin.left - margin.right) / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text(`${contString}${unitText(continuous)} by ${discrete} (n = ${numElements})`);
+        var filterWidget = document.getElementById(id + 'filters')
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        var expContString = contString.replace(' ', '')
+        exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => e + '\n'))}
+    }
+    function redrawPie(id, discrete, filterObj) {
+        var [data, colorDict] = filterCount(discrete, filterObj)
+        var numElements = countVals(Object.entries(data))
+        var m = 40
+
+        var graphEl = document.getElementById(id + 'graph')
+        var graphBox = document.getElementById(id + 'box')
+        var [boxWidth, boxHeight] = [graphBox.offsetWidth, graphBox.offsetHeight]
+        var radius = Math.min(boxWidth, boxHeight) / 2 - m
+        graphBox.innerHTML = ''
+        var svg = d3.select(`#${id}box`)
+          .append("svg")
+            .attr("width", boxWidth)
+            .attr("height", boxHeight )
+            .append('g')
+            .attr("transform", "translate(" + boxWidth / 2 + "," + (boxHeight / 2 + 30) + ")");
+
+        var color = d3.scaleOrdinal()
+          .domain(data)
+          .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"])
+
+        var pie = d3.pie()
+          .value(function(d) {return d.value; })
+        var data_ready = pie(d3.entries(data))
+
+          var tooltip = d3
+        .select(`#${id}graph`)
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", 'absolute')
+
+    var mouseover = function (d) {
+        tooltip.style("opacity", 1);
+        d3.select(this).style("stroke", "green").style("opacity", 1);
+      };
+      var mousemove = function (d) {
+        tooltip
+          .html(`${d.data.key}: ` + d.value)
+          .style("left", d3.mouse(this)[0] + 90 +  "px")
+          .style("top", d3.mouse(this)[1] + 150 + "px");
+      };
+      var mouseleave = function (d) {
+        tooltip.style("opacity", 0);
+        d3.select(this).style("stroke", "none").style("opacity", 0.8);
+      };
+        svg
+          .selectAll('whatever')
+          .data(data_ready)
+          .enter()
+          .append('path')
+          .attr('d', d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius)
+          )
+          .attr('fill', function(d){ return(colorDict[d.data.key]) })
+          .style("stroke-width", "2px")
+          .style("opacity", 0.7)
+          .on('mouseover', mouseover)
+          .on('mouseleave', mouseleave)
+          .on('mousemove', mousemove)
+        svg.append("text")
+            .attr("x", 0)
+            .attr("y", -boxHeight / 2 + margin.top)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text(`n = ${numElements}`);
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
+
+        var legend = document.getElementById(`${id}legend-container`)
+        legend.innerHTML = ''
+        var legendTitle = document.createElement('div')
+        legendTitle.classList.add('legend-title')
+        legendTitle.innerHTML = 'Legend'
+        for (let i=0;i<Object.keys(colorDict).length;i++){
+            var m = Object.keys(colorDict)[i]
+            var label = document.createElement('span')
+            label.classList.add('legend-label')
+            label.innerHTML = `<span style="margin-left: 5px;">${m}: </span><span style="color:${colorDict[m]};font-size:50px">&#9632;</span>`
+            legend.appendChild(label)
+        }
+        legend.prepend(legendTitle)
+    }
+    function redrawScatter(id, metrics, filterList) {
         var [d, colorDict] = filterContinuous(metrics, filterList)
         var xList = d.map(x => x[0])
         var yList = d.map(y => y[1])
@@ -385,8 +654,9 @@ $(document).ready(function() {
         graphBox.innerHTML = ''
         var svg = d3.select(`#${id}box`)
                     .append("svg")
-                    .attr("width", boxWidth - margin.left)
-                    .attr("height", boxHeight - margin.top - margin.bottom)
+                    .attr("width", boxWidth)
+                    .attr("height", boxHeight)
+                    .append('g')
                     .attr("transform",
                           "translate(" + margin.left + "," + margin.top + ")");
         var xMax = Math.max.apply(null, xList)
@@ -521,6 +791,16 @@ $(document).ready(function() {
             }
         return [tooltip, mouseleave, mouseover, mousemove]
     }
+    function makeBox(id){
+        var graphEl = document.getElementById(`${id}graph`)
+        var graphBox = document.createElement('div')
+        graphBox.style.width = width + 'px'
+        graphBox.style.height = height + 'px'
+        graphBox.classList.add('graph-box')
+        graphBox.id = id + 'box'
+        graphEl.appendChild(graphBox)
+        dragElement(graphBox)
+    }
     function makeScatter(id, metrics, filterList){
         var d_grouped;
         var [d, colorDict] = filterContinuous(metrics, filterList)
@@ -535,15 +815,8 @@ $(document).ready(function() {
         var xStdev = Math.round(stDev(xList) * 100) / 100
         var yStdev = Math.round(stDev(yList) * 100) / 100
         var graphEl = document.getElementById(`${id}graph`)
-        var graphBox = document.createElement('div')
-        graphBox.style.width = width + 'px'
-        graphBox.style.height = height + 'px'
-        graphBox.classList.add('graph-box')
-        graphBox.id = id + 'box'
-        graphEl.appendChild(graphBox)
-        var boxWidth = graphBox.offsetWidth
-        var boxHeight = graphBox.offsetHeight
-        graphBox.style.width = boxWidth
+        var graphBox = document.getElementById(`${id}box`)
+        var [boxWidth, boxHeight] = [graphBox.offsetWidth, graphBox.offsetHeight]
         var svg = d3.select(`#${id}box`)
                     .append("svg")
                     .attr("width", boxWidth - margin.left)
@@ -683,7 +956,6 @@ $(document).ready(function() {
         graphEl.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
-        dragElement(graphBox)
         dragElement(xAxisContainer)
         dragElement(yAxisContainer)
         dragElement(legend)
@@ -698,9 +970,10 @@ $(document).ready(function() {
         var filterList = loadFilters(id)
         filterList['primary'] = primary
         var graphEl = document.getElementById(id + 'graph')
-        redrawSvg(id, [x,y], filterList)
+        redrawScatter(id, [x,y], filterList)
     }
     function makeGraph(id, type) {
+        makeBox(id)
         switch(type) {
             case 'scatter':
                 makeScatter(id, getRandom(continuousMetrics, 2), {'primary': randomProperty(filters)})
@@ -765,7 +1038,8 @@ $(document).ready(function() {
         var yList = d.map(e => {return e[1]})
         var yMax = Math.max.apply(null, d.map(e => {return e[1]}))
         var graphEl = document.getElementById(`${id}graph`)
-        var svg = d3.select(`#${id}graph`)
+        var graphBox = document.getElementById(`${id}box`)
+        var svg = d3.select(`#${id}box`)
           .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom + 100)
@@ -837,43 +1111,24 @@ $(document).ready(function() {
         var filterWidget = document.getElementById(id + 'filters')
         var exportBtn = document.getElementById(id + 'exportBtn')
         var yDropdown = document.createElement('select')
-        var xDropdown = document.createElement('select')
-        for (let i=0;i<discreteMetrics.length;i++){
-            var m = discreteMetrics[i]
-            var dropOption = document.createElement('option')
-            dropOption.value = m
-            dropOption.innerHTML = m
-            if (discrete == m){
-                dropOption.selected = 'selected'
-            }
-            xDropdown.appendChild(dropOption)
-        }
-        for (let i=0;i<countContinuousMetrics.length;i++){
-            var m = countContinuousMetrics[i]
-            var dropOption = document.createElement('option')
-            dropOption.value = m
-            dropOption.innerHTML = m
-            if (continuous == m){
-                dropOption.selected = 'selected'
-            }
-            yDropdown.appendChild(dropOption)
-        }
-        xDropdown.addEventListener('change', () => {
-            updateBar(id)
-            })
-        yDropdown.addEventListener('change', () => {
-            updateBar(id)
-            })
+        var xDropdown = makeDropdown(discreteMetrics, discrete)
+        var yDropdown = makeDropdown(countContinuousMetrics, continuous)
+        xDropdown.addEventListener('change', () => updateBar(id))
+        yDropdown.addEventListener('change', () => updateBar(id))
         var expContString = contString.replace(' ', '')
         exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => e + '\n'))}
         yDropdown.id = id + 'yMetric'
         xDropdown.id = id + 'xMetric'
         xAxisContainer.classList.add('bar-x-container')
-        yAxisContainer.classList.add('y-axis-container')
+        yAxisContainer.classList.add('bar-y-container')
         xAxisContainer.appendChild(xDropdown)
         yAxisContainer.appendChild(yDropdown)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
+        dragElement(graphBox)
+        dragElement(xAxisContainer)
+        dragElement(yAxisContainer)
+        redrawBar(id, discrete, classes, continuous, filterObj)
     }
     function updateBar(id) {
         var yDropdown = document.getElementById(id + 'yMetric')
@@ -884,9 +1139,7 @@ $(document).ready(function() {
         var classes = filterObj[x]
         if ( classes == null ) classes = filters[x]
         delete filterObj[x]
-        var graphEl = document.getElementById(id + 'graph')
-        graphEl.innerHTML = ''
-        makeBar(id, x, classes, y, filterObj)
+        redrawBar(id, x, classes, y, filterObj)
     }
     function makePie(id, discrete, filterObj){
         var [data, colorDict] = filterCount(discrete, filterObj)
@@ -897,12 +1150,14 @@ $(document).ready(function() {
         var radius = Math.min(w, height) / 2 - m
 
         var graphEl = document.getElementById(id + 'graph')
-        var svg = d3.select(`#${id}graph`)
+        var graphBox = document.getElementById(id + 'box')
+        var [boxWidth, boxHeight] = [w,h]
+        var svg = d3.select(`#${id}box`)
           .append("svg")
-            .attr("width", w)
-            .attr("height", h)
+            .attr("width", boxWidth)
+            .attr("height", boxHeight - margin.top - margin.bottom)
           .append("g")
-            .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+            .attr("transform", "translate(" + boxWidth / 2 + "," + (boxHeight / 2 + 30) + ")");
 
         var color = d3.scaleOrdinal()
           .domain(data)
@@ -912,56 +1167,12 @@ $(document).ready(function() {
           .value(function(d) {return d.value; })
         var data_ready = pie(d3.entries(data))
 
-          var tooltip = d3
-        .select(`#${id}graph`)
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-        .style("position", 'absolute')
-
-    var mouseover = function (d) {
-        tooltip.style("opacity", 1);
-        d3.select(this).style("stroke", "green").style("opacity", 1);
-      };
-      var mousemove = function (d) {
-        tooltip
-          .html(`${d.data.key}: ` + d.value)
-          .style("left", d3.mouse(this)[0] + 70 + "px")
-          .style("top", d3.mouse(this)[1] + 150 + "px");
-      };
-      var mouseleave = function (d) {
-        tooltip.style("opacity", 0);
-        d3.select(this).style("stroke", "none").style("opacity", 0.8);
-      };
-        svg
-          .selectAll('whatever')
-          .data(data_ready)
-          .enter()
-          .append('path')
-          .attr('d', d3.arc()
-            .innerRadius(0)
-            .outerRadius(radius)
-          )
-          .attr('fill', function(d){ return(colorDict[d.data.key]) })
-          .style("stroke-width", "2px")
-          .style("opacity", 0.7)
-          .on('mouseover', mouseover)
-          .on('mouseleave', mouseleave)
-          .on('mousemove', mousemove)
-        svg.append("text")
-            .attr("x", (width / 4) - 100)
-            .attr("y", -180)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .text(`n = ${numElements}`);
         var exportBtn = document.getElementById(id + 'exportBtn')
         exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
         var xAxisContainer = document.createElement('div')
+        xAxisContainer.classList.add('pie-dropdown-container')
+        var xTitle = document.createElement('span')
+        xTitle.innerHTML = 'Graph: '
         var xDropdown = document.createElement('select')
         for (let i=0;i<discreteMetrics.length;i++){
             var m = discreteMetrics[i]
@@ -977,6 +1188,7 @@ $(document).ready(function() {
             updatePie(id)
             })
         var legend = document.createElement('div')
+        legend.id = id + 'legend-container'
         legend.classList.add('pie-legend')
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
@@ -992,17 +1204,19 @@ $(document).ready(function() {
         
         xDropdown.id = id + 'xMetric'
         xAxisContainer.classList.add('pie-x-container')
+        xAxisContainer.appendChild(xTitle)
         xAxisContainer.appendChild(xDropdown)
-        xAxisContainer.appendChild(legend)
         graphEl.appendChild(xAxisContainer)
+        graphEl.appendChild(legend)
+        dragElement(xAxisContainer)
+        dragElement(legend)
+        redrawPie(id, discrete, filterObj)
     }
     function updatePie(id) {
         var xDropdown = document.getElementById(id + 'xMetric')
         var x = xDropdown.value
         var filterObj = loadFilters(id)
-        var graphEl = document.getElementById(id + 'graph')
-        graphEl.innerHTML = ''
-        makePie(id, x, filterObj)
+        redrawPie(id, x, filterObj)
     }
     function makeHeatmap(id, discreteObj, continuous, filterObj){
         var cats = Object.keys(discreteObj)
@@ -1013,7 +1227,9 @@ $(document).ready(function() {
         var myVals = data.map(e => e[2])
         var valMax = Math.max.apply(null, myVals)
         if (!valMax) valMax = 1
-        var svg = d3.select(`#${id}graph`)
+        var graphBox = document.getElementById(`${id}box`)
+        graphBox.classList.add('heatmap-box')
+        var svg = d3.select(`#${id}box`)
         .append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
@@ -1087,9 +1303,7 @@ $(document).ready(function() {
             .on("mouseleave", mouseleave);
 
 
-
-
-        var contDropdown = document.createElement('select')
+        var contDropdown = makeDropdown(countContinuousMetrics, continuous)
         contDropdown.classList.add('cont-dropdown') 
         contDropdown.id = id + 'cont'
         var graphEl = document.getElementById(`${id}graph`)
@@ -1098,55 +1312,19 @@ $(document).ready(function() {
         exportBtn.onclick = () => {save(`${expContString}_by_${cats[1]}_vs_${cats[0]}.txt`, data.map((e => `${e[0]} ${e[1]} ${e[2]}\n`)))}
         var xAxisContainer = document.createElement('div')
         var yAxisContainer = document.createElement('div')
-        var xDropdown = document.createElement('select')
-        var yDropdown = document.createElement('select')
-        for (let i=0;i<discreteMetrics.length;i++){
-            var m = discreteMetrics[i]
-            var dropOption = document.createElement('option')
-            dropOption.value = m
-            dropOption.innerHTML = m
-            if (cats[1] == m){
-                dropOption.selected = 'selected'
-            }
-            yDropdown.appendChild(dropOption)
-        }
-        for (let i=0;i<discreteMetrics.length;i++){
-            var m = discreteMetrics[i]
-            var dropOption = document.createElement('option')
-            dropOption.value = m
-            dropOption.innerHTML = m
-            if (cats[0] == m){
-                dropOption.selected = 'selected'
-            }
-            xDropdown.appendChild(dropOption)
-        }
-        yDropdown.addEventListener('change', () => {
-            updateHeatmap(id)
-            })
-        xDropdown.addEventListener('change', () => {
-            updateHeatmap(id)
-            })
+        var xDropdown = makeDropdown(discreteMetrics, cats[0])
+        var yDropdown = makeDropdown(discreteMetrics, cats[1])
+        yDropdown.addEventListener('change', () => updateHeatmap(id))
+        xDropdown.addEventListener('change', () => updateHeatmap(id))
         xDropdown.id = id + 'xMetric'
         yDropdown.id = id + 'yMetric'
-        xAxisContainer.classList.add('x-axis-container')
-        yAxisContainer.classList.add('y-axis-container')
+        xAxisContainer.classList.add('heatmap-x-container')
+        yAxisContainer.classList.add('heatmap-y-container')
         xAxisContainer.appendChild(xDropdown)
         yAxisContainer.appendChild(yDropdown)
         graphEl.appendChild(xAxisContainer)
         graphEl.appendChild(yAxisContainer)
-        for (let i=0;i<countContinuousMetrics.length;i++) {
-            var m = countContinuousMetrics[i]
-            var dropOption = document.createElement('option')
-            dropOption.value = m
-            dropOption.innerHTML = m
-            if (continuous == m){
-                dropOption.selected = 'selected'
-            }
-            contDropdown.appendChild(dropOption)
-        }
-        contDropdown.addEventListener('change', () => {
-            updateHeatmap(id)
-            })
+        contDropdown.addEventListener('change', () => updateHeatmap(id))
         var contDropContainer = document.createElement('div')
         var contDropLabel = document.createElement('span')
         contDropLabel.innerHTML = 'Shading indicates: '
@@ -1154,8 +1332,12 @@ $(document).ready(function() {
         contDropContainer.appendChild(contDropdown)
         contDropContainer.classList.add('cont-drop-container')
         contDropContainer.appendChild(contDropdown)
-
         graphEl.prepend(contDropContainer)
+        dragElement(contDropContainer)
+        dragElement(xAxisContainer)
+        dragElement(yAxisContainer)
+        dragElement(graphBox)
+        redrawHeatmap(id, discreteObj, continuous, filterObj)
     }
     function updateHeatmap(id) {
         var xDropdown = document.getElementById(id + 'xMetric')
@@ -1174,9 +1356,7 @@ $(document).ready(function() {
         discreteObj[y] = discY
         var contDropdown = document.getElementById(id + 'cont')
         var cont = contDropdown.value
-        var graphEl = document.getElementById(`${id}graph`)
-        graphEl.innerHTML = ''
-        makeHeatmap(id, discreteObj, cont, filterObj)
+        redrawHeatmap(id, discreteObj, cont, filterObj)
     }
     var dropdown_classes = ['dropdown-content', 'filter-item', 'filter-label', 'dropbtn']
     window.onclick = function(event) {

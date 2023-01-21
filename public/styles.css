@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
 }
-}
 body {
     height: 100vh;
 }
@@ -43,6 +42,8 @@ a{
   text-decoration:none;
   color:inherit;
   -webkit-tap-highlight-color: white;
+}
+.tooltip {
 }
 .sidebar {
   height: 100%; 
@@ -225,6 +226,20 @@ a{
 .graph-element * {
     overflow: visible;
 }
+.pie-dropdown-container {
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    background: lightgray;
+}
+.cont-dropdown {
+    z-index: 2;
+}
+.heatmap-box{
+    position: absolute;
+    top: 30px;
+    left: -100px;
+}
 .graph-box {
     position: absolute;
     resize: both;
@@ -235,19 +250,48 @@ a{
     position: relative;
     margin-left: 300px;
 }
+.bar-y-container {
+    padding: 5px;
+    background: lightgray;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 150px;
+    left: -300px;
+}
+.heatmap-y-container {
+    padding: 5px;
+    background: lightgray;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 150px;
+    left: -300px;
+}
+.heatmap-x-container {
+    padding: 5px;
+    display: flex;
+    background: lightgray;
+    align-items: center;
+    position: absolute;
+    top: 380px;
+    left: 100px;
+}
+.bar-x-container {
+    padding: 5px;
+    display: flex;
+    background: lightgray;
+    align-items: center;
+    position: absolute;
+    top: 350px;
+    left: 200px;
+}
 .pie-x-container {
     display: flex;
     align-items: center;
     position: absolute;
     top: 0;
     left: 200px;
-}
-.bar-x-container {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    bottom: 5vh;
-    left: 30vw;
 }
 .x-axis-container {
     padding: 5px;
@@ -256,7 +300,7 @@ a{
     align-items: center;
     position: absolute;
     left: 20vw;
-    top: 300px;
+    top: 350px;
 }
 .y-axis-container {
     padding: 5px;
@@ -278,18 +322,23 @@ text {
     padding: 250px;
 }
 .cont-drop-container{
-    margin-left: 20vw;
+    padding: 5px;
+    display: flex;
+    background: lightgray;
+    align-items: center;
+    position: absolute;
 }
 .pie-legend {
+    background: lightgray;
+    border: 2px solid black;
     padding: 10px 10px 10px 10px;
-    border: #3C7D91 5px double;
-
-    resize: both;
     overflow-y: scroll;
     position: absolute;
-    left: 20vw;
-    top: 5%;
-    height: 300px;
+    top: 50px;
+    left: -300px;
+    width: 255px;
+    height: 200px;
+    resize: both;
     overflow: auto;
 }
 .scatter-legend {
