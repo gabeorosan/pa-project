@@ -24,9 +24,9 @@ click on the dropdowns on each axis to change them. All graphs can be dragged & 
 ## Filters
 
 After creating a graph, a filter bar along the top will be created. There is a filter dropdown checklist for each
-property of viral capsids in the database. By default, all values are included, but if you check a certain value then
+property of viral capsids in the database. By default, all values are included (even missing), but if you check a certain value then
 only viruses with that value will be graphed; checking multiple values will let viruses with any of the checked values
-be included.
+be included. This means clicking select all will exclude the capsids which have that field missing.
 
 Also on the filter bar you will find the delete button and a download button, which generates a newline-delimited text
 file with the data used to generate the graph (varies by the graph, but for example the scatter plot gives you
@@ -49,10 +49,10 @@ family: Family of the virus
 genus: Genus of the virus
 genome: Genome of the virus (for uniformity, viruses were grouped into either ssRNA, ssDNA, dsRNA, dsDNA, or NA meaning other)
 
-## [RCSB](https://www.rcsb.org/)/ 
+## [RCSB](https://www.rcsb.org/)
 
 atoms: Atom Count (non-hydrogen atoms)
-weight (Da): Total Structure Weight - molecular weight in all non-hydrogen atoms. Hydrogen atoms are included for the
+weight (kDa): Total Structure Weight - molecular weight in all non-hydrogen atoms. Hydrogen atoms are included for the
 charged state in ARG, HIS & LYS residues.
 deposited_polymer_monomer_count: Deposited Residue Count - Number of all polymer monomer residues
 polymer_molecular_weight_maximum: Maximum molecular weight of polymers
@@ -71,7 +71,7 @@ the gauge point and the top 5 point arrays for each capsid were found with
 [franken_pas.m](https://github.com/gabeorosan/vquery/blob/master/scripts/pipeline/franken_pas.m) (pipeline description
 in parent directory)
 
-gauge_point: The [gauge point](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7232142/) of the capsid
+gauge_point: The [gauge point](https://www.mdpi.com/1999-4915/12/4/467) of the capsid
 
 amino acid data distance calculations were done with
 [find_aas.py](https://github.com/gabeorosan/vquery/blob/master/scripts/find_aas.py)

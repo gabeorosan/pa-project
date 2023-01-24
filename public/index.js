@@ -11,7 +11,7 @@ $(document).ready(function() {
     const idFilter = document.getElementById('idfilter')
     const fileInput = document.getElementById('input-file')
     const customCont = document.getElementById('custom-cont')
-    var units = {'weight': 'Da', 'atoms': '#', 'deposited_polymer_monomer_count': '#',
+    var units = {'weight': 'kDa', 'atoms': '#', 'deposited_polymer_monomer_count': '#',
     'polymer_molecular_weight_maximum': 'Da', 'polymer_molecular_weight_minimum': 'Da',
     'average_radius': 'Å', 'resolution': 'Å'}
     var continuousMetrics; var countContinuousMetrics; var discreteMetrics; var globalData; var filters;
@@ -286,6 +286,7 @@ $(document).ready(function() {
     }
     function getColors(keys){
 
+        if (keys.includes('Select all')) keys = keys.filter(function(k) {return k !== 'Select all'})
         var colors = createSpectrum(keys.length)
         var clist = keys.map(e => {
             return [e, colors[keys.indexOf(e)]]
@@ -768,7 +769,6 @@ $(document).ready(function() {
         }
     }
     function toggleDisplay(el) {
-        console.log(el.style.display)
         if (el.style.display == 'block') {
             el.style.display='none'
         } else {
@@ -935,6 +935,13 @@ $(document).ready(function() {
             }
         }
     }
+    function selectAll(e) {
+        for (const child of e.target.parentElement.children) {
+            if (child.tagName != 'INPUT') continue
+            child.checked = e.target.checked
+        }
+
+    }
     function createFilters(widget, updateFunction, pid){
         for (k in filters) {
             var id = "idnumber" + Math.random().toString(16).slice(2)
@@ -946,23 +953,25 @@ $(document).ready(function() {
             dropContent.id = id
             dropContent.name = k
             dropContent.classList.add('dropdown-content')
+            var filterList = [...filters[k]]
+            filterList.unshift('Select all')
             
             //add each filter in filters[k] to dropContent
-            for (var i=0;i<filters[k].length;i++){
-                f = filters[k][i]
-                if (!f.length) continue
+            for (var i=0;i<filterList.length;i++){
+                f = filterList[i]
                 var filterInput = document.createElement('input')
                 filterInput.id = f
                 filterInput.name = f
                 filterInput.classList.add('filter-item')
                 filterInput.type= 'checkbox'
-                filterInput.addEventListener('change', () => {updateFunction(pid)})
+                if (f == 'Select all') {
+                    filterInput.addEventListener('change', (e) => {selectAll(e);updateFunction(pid)})
+                } else filterInput.addEventListener('change', () => {updateFunction(pid)})
                 var filterLabel = document.createElement('label')
                 filterLabel.classList.add('filter-label')
                 filterLabel.for = f
                 filterLabel.innerHTML = f + '<br>'
-                dropContent.appendChild(filterInput)
-                dropContent.appendChild(filterLabel)
+                dropContent.append(filterInput, filterLabel)
             }
 
             var dropBtn = document.createElement('button')
