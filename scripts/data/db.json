@@ -88296,11 +88296,11 @@
             "NA"
         ],
         "genome": [
-            "NA",
             "dsDNA",
-            "dsRNA",
             "ssDNA",
-            "ssRNA"
+            "dsRNA",
+            "ssRNA",
+            "NA"
         ],
         "family": [
             "Adenoviridae",

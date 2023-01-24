@@ -1,5 +1,5 @@
-fix tooltip zindex
-fix atoms in heatmap
+fix legend dragging
+fix tooltip location
 fix text cutting of in bar graph
 fix graph scrolling on scatter
 add graph info
