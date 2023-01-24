@@ -196,7 +196,7 @@ $(document).ready(function() {
         return res
     }
     function unitText(continuous) {
-            return ` (${units[continuous]})`
+            return (continuous in units) ? ` (${units[continuous]})` : continuous
     }
     function filterMetrics(metrics, filterObj) {
         var d = Object.values(globalData).filter(e => {
@@ -377,7 +377,7 @@ $(document).ready(function() {
           .padding(0.01);
         svg.append("g")
           .call(d3.axisLeft(y));
-        var contString = continuous == 'count' ? 'count' : `average ${continuous}`
+        var contString = continuous == 'count' ? 'count' : `average ${continuous+unitText(continuous)}`
         svg.append("text")
             .attr("x", ((boxWidth - mleft - margin.right) / 2))
             .attr("y", 0 - (margin.top / 2))
@@ -767,6 +767,19 @@ $(document).ready(function() {
                 makeHeatmap(id, discreteObj, cont, {})
         }
     }
+    function toggleDisplay(el) {
+        console.log(el.style.display)
+        if (el.style.display == 'block') {
+            el.style.display='none'
+        } else {
+            el.style.display='block'
+        }
+    }
+    function deleteGraph(type, id, graphWidget) {
+        graphWidget.remove()
+        liveGraphs[type] = liveGraphs[type].filter(item => item !== id)
+        Array.from(document.getElementsByClassName('info-container')).forEach((e) => e.style.display = 'none')
+    }
     function newGraph(type) {
         var id = "id" + Math.random().toString(16).slice(2)
         liveGraphs[type].push(id)
@@ -779,13 +792,14 @@ $(document).ready(function() {
         filterWidget.id = id + 'filters'
         var delBtn = document.createElement('button')
         var infoBtn = document.createElement('button')
-        infoBtn.id = id + 'infoBtn'
+        infoBtn.id = id + 'scatterInfoBtn'
         infoBtn.classList.add('fa', 'fa-info-circle')
+        infoBtn.addEventListener('click', () => toggleDisplay(document.getElementById(`${type}-info`)))
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa', 'fa-download')
-        delBtn.classList.add('fa', 'fa-trash-o')
-        delBtn.addEventListener('click', () => {graphWidget.remove();liveGraphs[type] = liveGraphs[type].filter(item => item !== id)})
+        delBtn.classList.add('fa', 'fa-trash')
+        delBtn.addEventListener('click', () => deleteGraph(type, id, graphWidget))
         filterWidget.classList.add('filter-container')
         filterWidget.append(infoBtn, delBtn, exportBtn)
         createFilters(filterWidget, funcDict[type], id)

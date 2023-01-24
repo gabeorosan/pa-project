@@ -373,3 +373,14 @@ text {
     top: 120px;
     left: 1%;
 }
+.info-container {
+    display: none;
+    position: absolute;
+    background: white;
+    padding: 5px;
+    max-height: 80px;
+    border: 2px solid black;
+    overflow-y: scroll;
+    top: 106px;
+}
+

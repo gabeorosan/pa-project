@@ -18,12 +18,41 @@
     <script defer data-main="index.js" src="require.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
 
 
+    </div>
+
+    <div class='info-container' id='scatter-info'>
+            Scatter plots are used to plot two continuous variables on the x and y axes. Click the <span class='fa
+            fa-plus'></span> icon to the
+            left of the axis dropdowns to view the mean and standard deviation for the corresponding values. Under the y-axis dropdown. there is a dropdown
+            labeled with "Color indicates: ", which is used to color the data points by the value they have at a 
+            discrete field (like genome). By default the capsids with the discrete field missing are colored black and
+            still plotted; to exclude them select all the checkboxes in that field's dropdown <a
+            href='https://github.com/gabeorosan/vquery/blob/master/public/README.md#filters' >filters</a>. Each point's
+            x, y, and id values can be viewed by mousing over it on the graph. 
+    </div>
+    <div class='info-container' id='bar-info'>
+            Bar graphs are used to plot either the count, or mean of a continuous variable, against a discrete variable.
+            Capsids without the selected continuous variable (if it's not count) and the selected discrete variable are
+            excluded from the graph. Mousing over the bars lets you view the x and y coordinate of the bar. 
+    </div>
+    <div class='info-container' id='pie-info'>
+            Pie graphs are used to plot the count of each value for a discrete variable. Mousing over the pie slices
+            lets you view the count of capsids with a specific value for the discrete variable. Capsids without the
+            discrete variable are excluded. Mousing over the bars lets you view the x and y coordinate of the bar. 
+    </div>
+    <div class='info-container' id='heatmap-info'>
+            Heatmaps are used to plot either the count, or mean of a continuous variable, for each pair of values for
+            two discrete variables. Mousing over the squares lets you view the count, or mean of the continuous
+            variable, of capsids with the matching discrete values. For example, (16, dsDNA): 3497 is a data point on
+            the graph of average weight by genome by tnumber; the average weight of capsids with tnumber 16 and dsDNA
+            genome is 3497 Da. Capsids that are missing any of the fields are excluded.
+            discrete variable are excluded. Mousing over the bars lets you view the x and y coordinate of the bar. 
     </div>
     <div id="mySidebar" class="sidebar">
     
@@ -35,7 +64,7 @@
         <div id='search-output'></div>
     </div>
     <div id="main">
-        <button class="openbtn" id='openbtn'>&#9776;</button>
+        <button class="openbtn fa fa-search" id='openbtn'></button>
         <button class="infopage-btn" id='infopage-btn' draggable:'true'>
             <a href='https://github.com/gabeorosan/vquery/tree/master/public/README.md'> 
                 <img id='info-img' src='infopage.png'/>

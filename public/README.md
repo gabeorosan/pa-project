@@ -9,10 +9,17 @@ genus which can be found [here](https://github.com/gabeorosan/vquery/blob/master
 the 'custom' option lets you upload your own newline-delimited text file with PDB IDS to include (all others will be
 filtered out).
 
+## Search
+
+Clicking on the magnifying glass in the top left lets yoou search for the data of a specific virus capsid by its PDB id.
+Simply type in the id (make sure it is in the ids that make up the dataset - see above) and you will get each of the
+fields and values, separated by a colon, from the capsid object.
+
 ## Graphs
 
 Clicking on a chart will create a new graph. After creating a graph, click the info icon on the far left to get detailed
-information about each specific graph.
+information about each specific graph. Graphs are initialized with random selections for x and y axes, and no filters;
+click on the dropdowns on each axis to change them. All graphs can be dragged & resized, and the axis dropdowns can be dragged.
 
 ## Filters
 
