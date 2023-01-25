@@ -222,7 +222,7 @@ a{
     padding: 5px;
 }
 .graph-widget {
-    margin-bottom: 100px;
+    position: absolute;
 }
 .graph-element * {
     overflow: visible;

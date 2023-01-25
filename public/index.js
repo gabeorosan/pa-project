@@ -11,6 +11,7 @@ $(document).ready(function() {
     const idFilter = document.getElementById('idfilter')
     const fileInput = document.getElementById('input-file')
     const customCont = document.getElementById('custom-cont')
+    const graphTypes = ['scatter', 'bar', 'pie', 'heatmap']
     var units = {'weight': 'kDa', 'atoms': '#', 'deposited_polymer_monomer_count': '#',
     'polymer_molecular_weight_maximum': 'Da', 'polymer_molecular_weight_minimum': 'Da',
     'average_radius': 'Å', 'resolution': 'Å'}
@@ -24,7 +25,7 @@ $(document).ready(function() {
     var liveGraphs = {'scatter': [], 'bar': [], 'pie': [], 'heatmap': []}
     var funcDict = {'scatter': updateScatter, 'pie': updatePie, 'bar': updateBar, 'heatmap': updateHeatmap}
 
-    loadData()
+    loadData(true)
     idFilter.addEventListener('change', filterIds)
     fileInput.addEventListener('change', getFile)
     searchCapsidButton.addEventListener("click", searchCapsid)
@@ -36,7 +37,7 @@ $(document).ready(function() {
 
     const average = arr => sum(arr) / arr.length
     const sum = arr => {var sum=0; var i=arr.length; while(i--) {sum += arr[i]}; return sum}
-    function loadData() {
+    function loadData(first) {
         Promise.all([dataRef.get(), propRef.get(), filterRef.get()]).then((values) => {
             globalData = values[0].val()
             var props = values[1].val()
@@ -47,6 +48,7 @@ $(document).ready(function() {
             document.getElementById('init-container').style.visibility = 'visible' 
             document.getElementById('load').style.display = 'none'
             updateAll()
+            if (first) newGraph(getRandom(graphTypes, 1)[0])
         })
     }
     function readFileContent(file) {
@@ -783,7 +785,8 @@ $(document).ready(function() {
     }
     function newGraph(type) {
         var id = "id" + Math.random().toString(16).slice(2)
-        liveGraphs[type].push(id)
+        liveGraphs = {}
+        liveGraphs[type] = [id]
         var graphWidget = document.createElement('div')
         var graphEl = document.createElement('div')
         graphWidget.classList.add('graph-widget')
@@ -791,7 +794,6 @@ $(document).ready(function() {
         graphEl.classList.add('graph-element')
         var filterWidget = document.createElement('div')
         filterWidget.id = id + 'filters'
-        var delBtn = document.createElement('button')
         var infoBtn = document.createElement('button')
         infoBtn.id = id + 'scatterInfoBtn'
         infoBtn.classList.add('fa', 'fa-info-circle')
@@ -799,12 +801,11 @@ $(document).ready(function() {
         var exportBtn = document.createElement('button')
         exportBtn.id = id + 'exportBtn'
         exportBtn.classList.add('fa', 'fa-download')
-        delBtn.classList.add('fa', 'fa-trash')
-        delBtn.addEventListener('click', () => deleteGraph(type, id, graphWidget))
         filterWidget.classList.add('filter-container')
-        filterWidget.append(infoBtn, delBtn, exportBtn)
+        filterWidget.append(infoBtn, exportBtn)
         createFilters(filterWidget, funcDict[type], id)
         graphWidget.append(filterWidget, graphEl)
+        graphContainer.innerHTML = ''
         graphContainer.appendChild(graphWidget)
         makeGraph(id, type)
     }
