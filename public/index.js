@@ -533,7 +533,6 @@ $(document).ready(function() {
             .text(`n = ${numElements}`);
         var exportBtn = document.getElementById(id + 'exportBtn')
         exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, Object.entries(data).map(([k,v]) => `${k} ${v}\n`))}
-
         var legend = redrawLegend(id, colorDict)
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
@@ -641,6 +640,8 @@ $(document).ready(function() {
         legendTitle.innerHTML = 'Color indicates: '
         legend.prepend(legendTitle)
         legendTitle.appendChild(primaryDropdown)
+        var exportBtn = document.getElementById(id + 'exportBtn')
+        exportBtn.onclick = () => {save(`${yMetric}_vs_${xMetric}_${filterList.primary}.txt`, d.map((e =>`${e[0]},${e[1]},${e[2]},${e[3]}\n`)))}
     }
     function makeDropdown(options, value) {
         var dropdown = document.createElement('select')
