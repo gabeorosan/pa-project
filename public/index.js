@@ -17,7 +17,7 @@ $(document).ready(function() {
     'average_radius': 'Å', 'resolution': 'Å'}
     var continuousMetrics; var countContinuousMetrics; var discreteMetrics; var globalData; var filters;
     var margin = {top: 30, right: 30, bottom: 30, left: 60},
-        width = vw(95) - 250  - margin.left - margin.right,
+        width = Math.max(vw(95) - 250  - margin.left - margin.right, 400),
         height = 400 - margin.top - margin.bottom;
     var dataRef = firebase.database().ref('/data/')
     var propRef = firebase.database().ref('/properties/')

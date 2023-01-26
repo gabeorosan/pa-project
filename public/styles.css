@@ -139,6 +139,7 @@ a{
 }
 
 .filter-container{
+    max-width: 100vw;
     align-items: center;
     justify-content: space-between;
 }

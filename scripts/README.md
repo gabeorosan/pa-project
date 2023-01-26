@@ -40,7 +40,7 @@ uniq.ipynb was made to compile a list of capsids with unique combinations of fie
 this contains functions that are used to make pie charts
 
 ## analyze_uniq.ipynb
-
+Make some pie charts comparing AA data from the unique ids to the whole data set.
 
 ## xlfiles_json.ipynb
 

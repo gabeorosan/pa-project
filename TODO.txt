@@ -1,3 +1,7 @@
+multiple graphs
+
+add script/only CA stuff to SIP
+
 fix legend dragging
 fix tooltip location
 fix text cutting of in bar graph
