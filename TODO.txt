@@ -4,9 +4,6 @@ add script/only CA stuff to SIP
 
 fix legend dragging
 fix tooltip location
-fix text cutting of in bar graph
-fix graph scrolling on scatter
-add graph info
-add citations
+add citations/footer
 
 get aas from RCSB?

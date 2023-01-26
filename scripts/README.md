@@ -1,7 +1,5 @@
 # Data analysis scripts
 
-I have developed these tools to examine icosahedral virus structures 
-
 ## find_aas.py
 
 The purpose of this script is to take in two input files: one with the x,y,z coordinates of the full capsid of a virus, and the
@@ -31,16 +29,19 @@ python script in the automated pipeline discussed below.
 
 To allow for customizable analysis of Amino Acid data with specific point arrays, fields, and PDB IDs, custom_pa.ipynb was created. It is set up by default to work with the ids produced from uniq.ipynb (detailed above) stored in unids.txt. It allows you to select whether you want to only consider the closest point in the top row of the closest PA (as in the main dataset), or for example the closest point in the top row of the top 5 closest PAs - getting the closest AA for each. Additionally, you can choose a field - say, tnumber - and have it create a separate excel file for each possible value of that field (i.e. tnumber=1, 3, pt3, etc.). Other data like the total counts of each AA in the full capsid are visualized with pie charts.
 
+## analyze_aas.ipynb
+
+count the number of lines in each PDB file to create id_atoms.txt with atom data for each capsid, and check if the PDB
+only has C alpha residues - if it does, include it in only_ca.txt
+
 ## uniq.ipynb
 
-uniq.ipynb was made to compile a list of capsids with unique combinations of fields T-number, genome, family, and genus. This is to try to reduce the effect of the bias introduced by the scope of virus research. Scientists tend to study viruses that impact humans, and viruses that are easy to study (easy to keep alive and grow in lab conditions, among other things). Among viruses with overlapping fields, the ones with the lowest resolution were chosen. The output is written to uniq_lres.xlsx
-
-## plot_util.py
-
-this contains functions that are used to make pie charts
-
-## analyze_uniq.ipynb
-Make some pie charts comparing AA data from the unique ids to the whole data set.
+uniq.ipynb was made to compile a list of capsids with unique combinations of fields T-number, genome, family, and genus.
+This is to try to reduce the effect of the bias introduced by the scope of virus research. Scientists tend to study
+viruses that impact humans, and viruses that are easy to study (easy to keep alive and grow in lab conditions, among
+other things). Among viruses with overlapping fields, the ones with the lowest resolution were chosen. By default, all
+viruses with only C alpha residues are removed. The output is
+written to unids_ca.txt and uniq_lres_ca_removed.xlsx
 
 ## xlfiles_json.ipynb
 
@@ -68,6 +69,14 @@ and xlfiles (containing franken and find_aas output) can be found here: https://
 
 This folder contains the files used to download virus capsids from ViperDB and run franken_pas.m and find_aas.py on
 them, compiling the results in xlfiles/
+
+## plot_util.py
+
+this contains functions that are used to make pie charts
+
+## analyze_uniq.ipynb
+
+Make some pie charts comparing AA data from the unique ids to the whole data set.
 
 # Instructions for running find_aas_exec
 

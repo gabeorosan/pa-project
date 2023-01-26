@@ -15,8 +15,8 @@ of interest.
 Viral capsids are primarily either helical or spherical, the latter of which being the main focus
 of our research. The name spherical is a bit of a misnomer; spherical viruses are classified as such if they exhibit
 icosahedral symmetry (meaning they are symmetric along 2, 3, and 5-fold axes). Previous research has shown the ability
-of point arrays (formed by rotation and extending the icosahedral shell in pre-determined ways) to identify geometric
-contraints that must be obeyed by the capsid (Wilson 2020). One of the main findings has been that the protrusions of
+of point arrays (formed by rotation and extending the icosahedral shell in predetermined ways) to identify geometric
+constraints that must be obeyed by the capsid (Wilson 2020). One of the main findings has been that the protrusions of
 viruses are placed on gauge points along the icosahedral great circles of the capsid, and this has lead to the
 uncovering of a relationship between gauge points and the genome of viruses (Wilson and Roof 2021). 
 
@@ -52,10 +52,10 @@ visualization is done with D3.js (Data-Driven Documents)
 
 Along the way, I wrote a couple helper modules (plot_util.py and req_util.py) and many scripts to compile data for
 specific families (Parvovididae), protein fold groups, non-t1 viruses from the phrenology paper, data for each capsid in
-each family, and more which ended up being superceded by the complete dataset once I was able to get the pipeline
+each family, and more which ended up being superseded by the complete dataset once I was able to get the pipeline
 working on one of Dr.Wilson's lab computers so I could automate the execution on all capsids in ViperDB.
 
-# Finding Structurally Relevent Amino Acids
+# Finding Structurally Relevant Amino Acids
 
 ## find_aas.py
 
@@ -65,12 +65,12 @@ each PA point for each protein chain in the capsid. In order to accomplish this,
 dictionary mapping each chain to the coordinates of each constituent atom. I also parsed the coordinates of the PA file
 into a list of [x,y,z] point coordinates. Next, I looped through each chain and used the function scipy.spatial.distance.cdist (scipy is a python
 library for scientific computing) to compute the distances from each member point for the chain to each point in the
-point array. I stored the minumum distance, along with the corresponding residue and atom, and looped through the sorted
+point array. I stored the minimum distance, along with the corresponding residue and atom, and looped through the sorted
 distances to find one where the distance was less than 5 and the residue was not the same as the closest one, storing
 that residue if it existed or N/A otherwise. Finally, I wrote the results to an xlsx file, with a row for each PA point
 and 5 columns for each PA chain.
 
-Most viral capsids have multiple PAs of interest, so I also wrote a shell script callen run_pas.sh to run find_aas.py with a capsid for
+Most viral capsids have multiple PAs of interest, so I also wrote a shell script called run_pas.sh to run find_aas.py with a capsid for
 every point array file in a designated folder, and adapted the find_aas.py script so that if the excel file being
 written to (named after the capsid) already exists, then the results would be written to a new sheet so that the result
 of the script being run on a folder is an excel file with sheets named after each PA and storing their respective
@@ -83,6 +83,8 @@ because the executable is slightly slower than the python script given the bundl
 python script in the automated pipeline discussed below.
 
 # Download and analysis pipeline
+
+![data diagram](vdata.bmp)
 
 ## dl_ids.py
 
@@ -107,20 +109,20 @@ execute a matlab
 script which loaded the necessary virus info into Matlab, output from running pdb_info.pl on the capsid coordinate file.
 Next, I ran franken_pas.m by using the Matlab CLI, and finished by calling group_pas.sh, which executes find_aas.py on
 each point array recorded for the capsid and moves the resulting xlsx files into xlfiles/. This process is repeated for each
-line in the input file (which should the PDBIDs).
+line in the input file (which should be the PDBIDs).
 
-#Organizing results and accessory data
+# Organizing results and accessory data
 
 ## xlfiles to JSON pipeline
 
 I decided to use Firebase , a Google Cloud service, for my database and website hosting because I have some experience
-with it and allows you an easy interface to design a web application for many users for free. So once I had excel files containing all the results fron franken_pas.m and find_aas.py, I worked on converting them into a
-JSON file so that I could upload them to Firebase. First, I decided to convert them to CSV files beacuse then I could
+with it and allows you an easy interface to design a web application for many users for free. So once I had excel files containing all the results from franken_pas.m and find_aas.py, I worked on converting them into a
+JSON file so that I could upload them to Firebase. First, I decided to convert them to CSV files because then I could
 read them more easily in python. Because I did not feel that this process would be particularly important to streamline,
 I worked across a few jupyter notebooks to convert the data, adding and correcting bits along the way - the important
 additions are detailed below.
 
-## SCOP, RSCB, and data parsing
+## SCOP, RCSB, and data parsing
 
 The main pieces of information that I decided to collect for each capsid consisted of properties such as weight, number of
 atoms, etc. from RCSB and fold data from SCOP. For the RCSB information, I used functions from req_util.py in a jupyter
@@ -132,17 +134,19 @@ Dr.Wilson and I compiled a list of the translation from the fold names used in S
 Krupovica and Koonin, 2017 and I used this to write the desired fold name to the database data for each capsid if it was
 listed on SCOP. I also wrote a script to output a text file containing the frequency of each AA in each protein capsid. 
 Additionally, in order to make the most relevant data quickly available, I parsed the GP and AA data resulting from
-franken_pas.m and find_aas.py respectively to find the closes GP and most common AA within 5 Angstroms of the stored
+franken_pas.m and find_aas.py respectively to find the closest GP and most common AA within 5 Angstroms of the stored
 PAs.
+I also used count_aas.py to create a json file (aas.json) with the counts of each AA in the full capsid for each virus -
+later incorporated into the db.json database for the website.
 Finally, I made a couple other endpoints in Firebase: one containing all the fields (families, genuses, etc) which at least one virus in
 the dataset had - this serves as the list of filters which are shown on the website - and another with the list of discrete
 (tnumber, GP, etc.) and
 continuous metrics (average radius, weight) properties to be used for the options for the axes for different kinds of
 graphs. 
 
-# vquery
+# Website 
 
-Once I had the complete database, I worked on making the main features of the website: a search features that allows you
+Once I had the complete database, I worked on making the main features of the website: a search feature that allows you
 to query the information stored for any specific PDBID, Scatter Plots, Bar Graphs, Pie Charts, and Heatmaps. Because
 of the way I stored all data as singular fields for each virus, and there are only ~1200 spherical capsids on ViperDB, I
 decided to load all viruses and all associated data into the web app as soon as it opens so that any filters applied
@@ -168,7 +172,7 @@ the x and y-axis metrics and the number of data points, and with dropdowns initi
 axis. When a user clicks on the scatter plot
 button initially, I decided to choose randomly from the list of continuous variables, loaded from the properties endpoint in
 Firebase. The graph element is inserted into the page, along with all the filters, and the user has the option to
-refresh the graph by clicking the refresh buttton after changing any of the filters & axes. Additionally, I added a download button which allows the
+refresh the graph by clicking the refresh button after changing any of the filters & axes. Additionally, I added a download button which allows the
 user to download a txt file containing the x and y coordinates of each point.
 
 ## Bar Graph
@@ -176,8 +180,8 @@ user to download a txt file containing the x and y coordinates of each point.
 The main difference between the bar graph and scatter plot is that the x-axis is a list of classes from a category, and
 the y-axis is the average of a continuous variable over those classes. The x-axis dropdown thus contains all discrete
 variables in the database, and whichever one is selected then looks to the filter dropdown checkboxes to determine which
-classes in that category to include. One possible addition could be give the option to plot the counts, or functions
-other than the average over a given continuous metric.
+classes in that category to include. One possible addition could be giving the option to plot the counts, or allowing functions
+other than the average of count of a given continuous metric.
 
 ## Pie Chart
 
@@ -190,5 +194,6 @@ label and value for each slice.
 To create the heatmap, a list of classes has to be supplied for both the x and y axes; this is done the
 same way as the bar chart where it is random at first and then the item selected in the axis dropdown turns the filters
 for that category into the classes used in the heatmap. Then, the average of the selected continuous variable is
-    calculated and used to determine the degree of shading for the each box corresponding to the intersection of a class
-    for each axis.
+calculated and used to determine the degree of shading for the each box corresponding to the intersection of a class
+for each axis.
+
