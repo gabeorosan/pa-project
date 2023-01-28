@@ -1,6 +1,5 @@
-# Web application
+# [Web application](https://pa-project-66d90.web.app)
 
-url: https://pa-project-66d90.web.app\
 [usage](https://github.com/gabeorosan/pa-project/blob/master/public/README.md)\
 [excel data](https://drive.google.com/drive/folders/1Rj01xlWx-2bQfp8KkGH-8K5Hcodx6hJN?usp=sharing)\
 [data processing scripts](https://github.com/gabeorosan/pa-project/tree/master/scripts)\
