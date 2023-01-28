@@ -5,7 +5,7 @@
 The 'ids included' option above the graph buttons allows you do limit the dataset to certain
 [PDB_IDs](https://www.rcsb.org/docs/general-help/identifiers-in-pdb). By default, all ids are included - the full
 dataset. 'unique' refers to a specific list of 195 capsids with unique combinations of fields T-number, genome, family, and
-genus which can be found [here](https://github.com/gabeorosan/vquery/blob/master/scripts/data/unids.txt). Additionally
+genus which can be found [here](https://github.com/gabeorosan/pa-project/blob/master/scripts/data/unids.txt). Additionally
 the 'custom' option lets you upload your own newline-delimited text file with PDB IDS to include (all others will be
 filtered out).
 
@@ -65,16 +65,16 @@ Caetano-Anollés, 2017](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5344890/). 
 corresponding to the folds in Nasir, finding all the SCOP IDS which map to each string, then 
 getting PDB IDS of viruses containing those SCOP IDS.
 
-## [Generated data](https://github.com/gabeorosan/vquery/blob/master/SIP.md)
+## [Generated data](https://github.com/gabeorosan/pa-project/blob/master/SIP.md)
 
 the gauge point and the top 5 point arrays for each capsid were found with
-[franken_pas.m](https://github.com/gabeorosan/vquery/blob/master/scripts/pipeline/franken_pas.m) (pipeline description
+[franken_pas.m](https://github.com/gabeorosan/pa-project/blob/master/scripts/pipeline/franken_pas.m) (pipeline description
 in parent directory)
 
 gauge_point: The [gauge point](https://www.mdpi.com/1999-4915/12/4/467) of the capsid
 
 amino acid data distance calculations were done with
-[find_aas.py](https://github.com/gabeorosan/vquery/blob/master/scripts/find_aas.py)
+[find_aas.py](https://github.com/gabeorosan/pa-project/blob/master/scripts/find_aas.py)
 
 closest_aa: The AA with lowest distance from any point in any of the top 5 PAs (point arrays)  
 other_aa: Another AA which was within 5 Angstroms of closest_aa (NA if none)  
@@ -83,6 +83,6 @@ other_gp_aa: Another AA which was within 5 Angstroms of closest_gp_aa (NA if non
 common_gauge_aa: The most common AA from those with distance less than 5 (even if not closest - including other_aa) from any point from the top PA  
 
 most_common_aa: The most frequent AA in the full capsid (generated using
-[makeicos.pl](https://github.com/gabeorosan/vquery/blob/master/scripts/pipeline/makeicos.pl)
+[makeicos.pl](https://github.com/gabeorosan/pa-project/blob/master/scripts/pipeline/makeicos.pl)
 
 

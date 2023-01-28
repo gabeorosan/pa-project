@@ -31,7 +31,7 @@ coordinates, essentially going straight from a PDB id list to all the collected 
 ## find_aas.py
 
 Takes in a full capsid file and PA file and computes a list of the closest AA residue to each point in the PA. More
-details [here](https://github.com/gabeorosan/vquery/blob/master/scripts/README.md#find_aaspy)
+details [here](https://github.com/gabeorosan/pa-project/blob/master/scripts/README.md#find_aaspy)
 
 ## franken_pas.m
 
