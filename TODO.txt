@@ -1,9 +1,4 @@
-multiple graphs
-
-add script/only CA stuff to SIP
-
 fix legend dragging
 fix tooltip location
-add citations/footer
 
 get aas from RCSB?
