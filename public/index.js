@@ -198,7 +198,7 @@ $(document).ready(function() {
         return res
     }
     function unitText(continuous) {
-            return (continuous in units) ? ` (${units[continuous]})` : continuous
+            return (continuous in units) ? ` (${units[continuous]})` : ''
     }
     function filterMetrics(metrics, filterObj) {
         var d = Object.values(globalData).filter(e => {
@@ -445,14 +445,13 @@ $(document).ready(function() {
           .call(d3.axisBottom(x))
           .selectAll("text")
             .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end");
+            .style("text-anchor", "end")
         var y = d3.scaleLinear()
           .domain([0, yMax])
           .range([ boxHeight - margin.top - margin.bottom, 0]);
         svg.append("g")
           .call(d3.axisLeft(y));
         var contString = continuous == 'count' ? 'count' : `average ${continuous}`
-
           var [tooltip, mouseover, mouseleave] = makeTooltip(id)
       var mousemove = function (d) {
         tooltip

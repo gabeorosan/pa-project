@@ -5,13 +5,13 @@
 body {
     height: 100vh;
 }
-.footer {
+.navbar{
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   position: fixed;
   left: 0;
-  bottom: 0;
+  top: 0;
   height: 50px;
   width: 100%;
   background-color: #000;
@@ -96,6 +96,7 @@ a{
 }
 
 #main {
+    margin-top: 50px;
 }
 
 @media screen and (max-height: 450px) {
