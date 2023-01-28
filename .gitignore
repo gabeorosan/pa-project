@@ -2,6 +2,7 @@
 # Logs
 logs
 *.log
+database.rules.json
 scripts/pdbs
 scripts/.ipynb_checkpoints
 npm-debug.log*
