@@ -1,7 +1,7 @@
 {
     "data": {
         "3zfe": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.13,
@@ -280,7 +280,7 @@
             "atoms": 122700
         },
         "1c8n": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 90.16,
@@ -360,7 +360,7 @@
             "atoms": 1855680
         },
         "1c8g": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 61.7,
@@ -401,7 +401,7 @@
             "atoms": 204000
         },
         "6x2k": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3672.29,
@@ -442,7 +442,7 @@
             "atoms": 390900
         },
         "3ntt": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 47.72,
@@ -558,7 +558,7 @@
             "resolution": 22.0
         },
         "6esb": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 282.42,
@@ -599,7 +599,7 @@
             "atoms": 206700
         },
         "1wce": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "13",
             "genome": "dsRNA",
             "weight": 613.86,
@@ -640,7 +640,7 @@
             "atoms": 3487800
         },
         "1m4x": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT169",
             "genome": "dsDNA",
             "weight": 137.2,
@@ -681,7 +681,7 @@
             "atoms": 282060
         },
         "1fmd": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 80.84,
@@ -1042,7 +1042,7 @@
             "atoms": 1402920
         },
         "7pe2": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 3702.36,
@@ -1063,7 +1063,7 @@
             "atoms": 214020
         },
         "6smg": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.17,
@@ -1224,7 +1224,7 @@
             "atoms": 1675140
         },
         "3ide": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "dsRNA",
             "weight": 243.14,
@@ -1305,7 +1305,7 @@
             "atoms": 209220
         },
         "6sk5": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 86.2,
@@ -1346,7 +1346,7 @@
             "atoms": 294540
         },
         "1ng0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 82.67,
@@ -1467,7 +1467,7 @@
             "atoms": 190140
         },
         "4q4v": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 98.15,
@@ -1586,7 +1586,7 @@
             "resolution": 26.0
         },
         "6cvb": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.74,
@@ -1627,7 +1627,7 @@
             "atoms": 271980
         },
         "6uh7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.9,
@@ -1990,7 +1990,7 @@
             "atoms": 327660
         },
         "1pvc": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 98.41,
@@ -2031,7 +2031,7 @@
             "atoms": 288540
         },
         "6ncl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "169",
             "genome": "dsDNA",
             "weight": 4793.08,
@@ -2072,7 +2072,7 @@
             "atoms": 274980
         },
         "4iov": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 81.84,
@@ -2113,7 +2113,7 @@
             "atoms": 378360
         },
         "2df7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "dsRNA",
             "weight": 987.25,
@@ -2269,7 +2269,7 @@
             "atoms": 304980
         },
         "5xs5": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.38,
@@ -2330,7 +2330,7 @@
             "atoms": 276120
         },
         "1mqt": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 119.61,
@@ -2629,7 +2629,7 @@
             "atoms": 443940
         },
         "1m11": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 113.41,
@@ -2769,7 +2769,7 @@
             "atoms": 519240
         },
         "1cwp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 64.05,
@@ -2790,7 +2790,7 @@
             "atoms": 227040
         },
         "6e9d": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 4921.28,
@@ -2811,7 +2811,7 @@
             "atoms": 245880
         },
         "5zud": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 73.3,
@@ -3132,7 +3132,7 @@
             "atoms": 401460
         },
         "1za7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 52.8,
@@ -3153,7 +3153,7 @@
             "atoms": 216900
         },
         "1pgl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 70.89,
@@ -3313,7 +3313,7 @@
             "resolution": 4.4
         },
         "3epd": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 77.46,
@@ -3904,7 +3904,7 @@
             "resolution": 20.0
         },
         "1dzl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "dsDNA",
             "weight": 56.44,
@@ -3925,7 +3925,7 @@
             "atoms": 214680
         },
         "7c9z": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 107.61,
@@ -4044,7 +4044,7 @@
             "resolution": 16.0
         },
         "6bx1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 68.14,
@@ -4106,7 +4106,7 @@
             "atoms": 2581740
         },
         "7c9s": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 96.07,
@@ -4127,7 +4127,7 @@
             "atoms": 386700
         },
         "7jot": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.44,
@@ -4738,7 +4738,7 @@
             "atoms": 184320
         },
         "6b1t": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT25",
             "genome": "dsDNA",
             "weight": 1568.68,
@@ -4799,7 +4799,7 @@
             "atoms": 376440
         },
         "5aoo": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 90.23,
@@ -4859,7 +4859,7 @@
             "resolution": 22.0
         },
         "1fpn": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.6,
@@ -4900,7 +4900,7 @@
             "atoms": 1752660
         },
         "1tme": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 92.86,
@@ -4980,7 +4980,7 @@
             "atoms": 222300
         },
         "3iys": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 224.7,
@@ -5100,7 +5100,7 @@
             "atoms": 242760
         },
         "6nxe": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3656.35,
@@ -5161,7 +5161,7 @@
             "atoms": 260820
         },
         "6bwx": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3694.08,
@@ -5182,7 +5182,7 @@
             "atoms": 261180
         },
         "6bx0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 4922.72,
@@ -5323,7 +5323,7 @@
             "atoms": 1586160
         },
         "5cfc": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 85.3,
@@ -5404,7 +5404,7 @@
             "atoms": 139680
         },
         "5cfd": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 85.3,
@@ -5446,7 +5446,7 @@
             "atoms": 2943660
         },
         "1w8x": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT25",
             "genome": "dsDNA",
             "weight": 557.11,
@@ -5508,7 +5508,7 @@
             "atoms": 3246240
         },
         "1cov": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.6,
@@ -5708,7 +5708,7 @@
             "atoms": 206700
         },
         "2qqp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "4",
             "genome": "ssRNA",
             "weight": 273.84,
@@ -5769,7 +5769,7 @@
             "atoms": 382380
         },
         "1eah": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 97.49,
@@ -6070,7 +6070,7 @@
             "atoms": 2542200
         },
         "4v86": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3501.64,
@@ -6091,7 +6091,7 @@
             "atoms": 247260
         },
         "4iv1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 80.75,
@@ -6147,7 +6147,7 @@
             "atoms": 174240
         },
         "1d4m": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 97.35,
@@ -6168,7 +6168,7 @@
             "atoms": 392280
         },
         "6b9q": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3929.4,
@@ -6570,7 +6570,7 @@
             "atoms": 85620
         },
         "7na6": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3514.41,
@@ -6611,7 +6611,7 @@
             "atoms": 158580
         },
         "6dzu": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 1314.82,
@@ -6792,7 +6792,7 @@
             "atoms": 247860
         },
         "6nz0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 113.94,
@@ -7014,7 +7014,7 @@
             "atoms": 1934640
         },
         "6acu": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.85,
@@ -7134,7 +7134,7 @@
             "atoms": 454800
         },
         "1f15": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 72.53,
@@ -7175,7 +7175,7 @@
             "atoms": 210240
         },
         "3jb8": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 58.96,
@@ -7296,7 +7296,7 @@
             "atoms": 217380
         },
         "3r0r": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 26.52,
@@ -7437,7 +7437,7 @@
             "atoms": 624780
         },
         "6iij": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.78,
@@ -7578,7 +7578,7 @@
             "atoms": 383820
         },
         "1f8v": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 135.88,
@@ -7854,7 +7854,7 @@
             "atoms": 85620
         },
         "1ohf": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "4",
             "genome": "ssRNA",
             "weight": 279.67,
@@ -7955,7 +7955,7 @@
             "atoms": 418560
         },
         "4gh4": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 75.51,
@@ -8076,7 +8076,7 @@
             "atoms": 214620
         },
         "7l0y": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3489.95,
@@ -8156,7 +8156,7 @@
             "atoms": 6360540
         },
         "4mgu": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 81.49,
@@ -8217,7 +8217,7 @@
             "atoms": 195660
         },
         "7l6i": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3513.33,
@@ -8298,7 +8298,7 @@
             "atoms": 261120
         },
         "6i2k": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.1,
@@ -8661,7 +8661,7 @@
             "atoms": 376080
         },
         "2zzq": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 59.18,
@@ -8701,7 +8701,7 @@
             "resolution": 9.0
         },
         "6lhl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.32,
@@ -8862,7 +8862,7 @@
             "atoms": 277500
         },
         "3vbf": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 93.23,
@@ -8983,7 +8983,7 @@
             "atoms": 178080
         },
         "6crp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.94,
@@ -9004,7 +9004,7 @@
             "atoms": 346320
         },
         "6nn3": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 68.95,
@@ -9165,7 +9165,7 @@
             "atoms": 280380
         },
         "4gb3": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.29,
@@ -9206,7 +9206,7 @@
             "atoms": 132720
         },
         "1r1a": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 92.83,
@@ -9347,7 +9347,7 @@
             "atoms": 300960
         },
         "4n43": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.38,
@@ -9408,7 +9408,7 @@
             "atoms": 856140
         },
         "1nov": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 134.25,
@@ -9642,7 +9642,7 @@
             "resolution": 8.8
         },
         "5cvz": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 15.11,
@@ -9683,7 +9683,7 @@
             "atoms": 173340
         },
         "2bbv": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 134.95,
@@ -9744,7 +9744,7 @@
             "atoms": 323820
         },
         "6z3p": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 145.25,
@@ -9845,7 +9845,7 @@
             "atoms": 391140
         },
         "1z14": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "NA",
             "weight": 3693.94,
@@ -9926,7 +9926,7 @@
             "atoms": 376080
         },
         "5o5b": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 100.17,
@@ -9967,7 +9967,7 @@
             "atoms": 489600
         },
         "7l0x": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3501.84,
@@ -9988,7 +9988,7 @@
             "atoms": 246480
         },
         "7l6a": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3532.85,
@@ -10009,7 +10009,7 @@
             "atoms": 247920
         },
         "1auy": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 60.51,
@@ -10030,7 +10030,7 @@
             "atoms": 242700
         },
         "5ne4": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 80.46,
@@ -10110,7 +10110,7 @@
             "resolution": 11.1
         },
         "3j91": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 137.67,
@@ -10131,7 +10131,7 @@
             "atoms": 323700
         },
         "7l6f": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3503.73,
@@ -10332,7 +10332,7 @@
             "atoms": 1084260
         },
         "6la5": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 107.69,
@@ -10373,7 +10373,7 @@
             "atoms": 295500
         },
         "5osn": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 92.7,
@@ -10474,7 +10474,7 @@
             "atoms": 259680
         },
         "1z7z": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 118.58,
@@ -10515,7 +10515,7 @@
             "atoms": 1398180
         },
         "1a6c": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 3364.39,
@@ -10536,7 +10536,7 @@
             "atoms": 240960
         },
         "1smv": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 85.9,
@@ -11011,7 +11011,7 @@
             "atoms": 379980
         },
         "5fmo": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 65.03,
@@ -11132,7 +11132,7 @@
             "atoms": 2131680
         },
         "1x36": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 25.26,
@@ -11253,7 +11253,7 @@
             "atoms": 1182660
         },
         "5tsl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 133.09,
@@ -11274,7 +11274,7 @@
             "atoms": 106260
         },
         "7u94": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 67.97,
@@ -11706,7 +11706,7 @@
             "atoms": 796680
         },
         "6t48": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 93.54,
@@ -12067,7 +12067,7 @@
             "atoms": 216780
         },
         "1ddl": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 62.7,
@@ -12108,7 +12108,7 @@
             "atoms": 305220
         },
         "7anm": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "4",
             "genome": "ssRNA",
             "weight": 279.64,
@@ -12347,7 +12347,7 @@
             "atoms": 441360
         },
         "3n7x": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 37.61,
@@ -12408,7 +12408,7 @@
             "atoms": 378000
         },
         "5a8f": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 74.38,
@@ -12508,7 +12508,7 @@
             "atoms": 428460
         },
         "1c8d": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 64.82,
@@ -12624,7 +12624,7 @@
             "atoms": 539460
         },
         "6v1t": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 80.66,
@@ -12665,7 +12665,7 @@
             "atoms": 279540
         },
         "2ztn": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 51.61,
@@ -12865,7 +12865,7 @@
             "atoms": 283860
         },
         "5jb1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 335.87,
@@ -12966,7 +12966,7 @@
             "atoms": 431220
         },
         "6sk7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 96.5,
@@ -12987,7 +12987,7 @@
             "atoms": 361500
         },
         "2gsy": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "dsRNA",
             "weight": 978.69,
@@ -13008,7 +13008,7 @@
             "atoms": 192540
         },
         "1laj": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 73.45,
@@ -13069,7 +13069,7 @@
             "atoms": 376140
         },
         "2izw": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 76.57,
@@ -13190,7 +13190,7 @@
             "atoms": 93000
         },
         "6diz": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 115.1,
@@ -13451,7 +13451,7 @@
             "atoms": 70500
         },
         "6t40": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 93.33,
@@ -13591,7 +13591,7 @@
             "resolution": 6.9
         },
         "6x2i": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3675.15,
@@ -13706,7 +13706,7 @@
             "atoms": 330840
         },
         "1dnv": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.53,
@@ -13747,7 +13747,7 @@
             "atoms": 248160
         },
         "3s6p": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "4",
             "genome": "ssRNA",
             "weight": 283.17,
@@ -13808,7 +13808,7 @@
             "atoms": 390420
         },
         "6o9r": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "dsDNA",
             "weight": 3505.7,
@@ -13889,7 +13889,7 @@
             "atoms": 338280
         },
         "1yc6": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 494.04,
@@ -14005,7 +14005,7 @@
             "atoms": 216660
         },
         "5c8c": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.25,
@@ -14085,7 +14085,7 @@
             "atoms": 5249700
         },
         "4n53": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.6,
@@ -14164,7 +14164,7 @@
             "resolution": 25.0
         },
         "4oq9": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 367.95,
@@ -14225,7 +14225,7 @@
             "atoms": 1347780
         },
         "7c9y": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 76.18,
@@ -14345,7 +14345,7 @@
             "atoms": 424560
         },
         "1qqp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 82.27,
@@ -14426,7 +14426,7 @@
             "atoms": 288600
         },
         "4v99": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 10135.47,
@@ -14467,7 +14467,7 @@
             "atoms": 436200
         },
         "6u95": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 81.53,
@@ -14807,7 +14807,7 @@
             "atoms": 324240
         },
         "4ctf": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 5102.61,
@@ -14848,7 +14848,7 @@
             "atoms": 342360
         },
         "5aca": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 90.26,
@@ -14869,7 +14869,7 @@
             "atoms": 314640
         },
         "6aks": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.93,
@@ -14890,7 +14890,7 @@
             "atoms": 383580
         },
         "4rso": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 60.93,
@@ -14971,7 +14971,7 @@
             "atoms": 120000
         },
         "3iyc": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 81.99,
@@ -15011,7 +15011,7 @@
             "atoms": 1345200
         },
         "1b35": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.41,
@@ -15032,7 +15032,7 @@
             "atoms": 402840
         },
         "5keq": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 323.65,
@@ -15252,7 +15252,7 @@
             "atoms": 321840
         },
         "1ny7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 66.67,
@@ -15273,7 +15273,7 @@
             "atoms": 260580
         },
         "6zlz": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 279.91,
@@ -15314,7 +15314,7 @@
             "atoms": 1854000
         },
         "1gff": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 70.27,
@@ -15335,7 +15335,7 @@
             "atoms": 286740
         },
         "3iyj": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 333.71,
@@ -15396,7 +15396,7 @@
             "atoms": 190080
         },
         "5j37": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 197.19,
@@ -15457,7 +15457,7 @@
             "atoms": 962520
         },
         "6gg0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 266.17,
@@ -15698,7 +15698,7 @@
             "atoms": 1921440
         },
         "5ac9": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 79.98,
@@ -15759,7 +15759,7 @@
             "atoms": 447060
         },
         "4zpy": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.47,
@@ -15959,7 +15959,7 @@
             "atoms": 292080
         },
         "1lp3": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.77,
@@ -15980,7 +15980,7 @@
             "atoms": 249120
         },
         "7c9x": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.68,
@@ -16021,7 +16021,7 @@
             "atoms": 265200
         },
         "1stm": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "NA",
             "weight": 84.92,
@@ -16143,7 +16143,7 @@
             "atoms": 392040
         },
         "3jci": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 22,
@@ -16184,7 +16184,7 @@
             "atoms": 373380
         },
         "1rhi": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.35,
@@ -16245,7 +16245,7 @@
             "atoms": 1349460
         },
         "5jzg": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.02,
@@ -16300,7 +16300,7 @@
             "resolution": 7.0
         },
         "6u3q": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 4909.38,
@@ -16401,7 +16401,7 @@
             "atoms": 214200
         },
         "1tmf": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.32,
@@ -16442,7 +16442,7 @@
             "atoms": 513780
         },
         "6oas": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 61.56,
@@ -16503,7 +16503,7 @@
             "atoms": 206760
         },
         "5kep": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 323.65,
@@ -16524,7 +16524,7 @@
             "atoms": 1336020
         },
         "1oop": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.26,
@@ -16684,7 +16684,7 @@
             "atoms": 248520
         },
         "2fz1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 60.62,
@@ -16765,7 +16765,7 @@
             "atoms": 269220
         },
         "5abj": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.31,
@@ -16826,7 +16826,7 @@
             "atoms": 484440
         },
         "6l62": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 74.85,
@@ -17106,7 +17106,7 @@
             "atoms": 173880
         },
         "4rqp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 471.75,
@@ -17167,7 +17167,7 @@
             "atoms": 314820
         },
         "2mev": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 91.94,
@@ -17327,7 +17327,7 @@
             "atoms": 304980
         },
         "4wm7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.41,
@@ -17348,7 +17348,7 @@
             "atoms": 375420
         },
         "5zju": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 1447.56,
@@ -17389,7 +17389,7 @@
             "atoms": 1908240
         },
         "3jb4": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 92.77,
@@ -17429,7 +17429,7 @@
             "resolution": 24.0
         },
         "1sva": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 238.91,
@@ -17550,7 +17550,7 @@
             "atoms": 1935000
         },
         "7c80": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 90.13,
@@ -17671,7 +17671,7 @@
             "atoms": 388920
         },
         "7lnk": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 3452.89,
@@ -17732,7 +17732,7 @@
             "atoms": 480240
         },
         "1s58": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 64.79,
@@ -17773,7 +17773,7 @@
             "atoms": 457740
         },
         "3hag": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 54.45,
@@ -17814,7 +17814,7 @@
             "atoms": 429840
         },
         "4sbv": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 84.91,
@@ -17875,7 +17875,7 @@
             "atoms": 371760
         },
         "3jd7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 120.4,
@@ -17916,7 +17916,7 @@
             "atoms": 419580
         },
         "2buk": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 21.86,
@@ -17937,7 +17937,7 @@
             "atoms": 85620
         },
         "5us7": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3627.9,
@@ -18078,7 +18078,7 @@
             "atoms": 557640
         },
         "1f2n": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 78.15,
@@ -18254,7 +18254,7 @@
             "atoms": 1935000
         },
         "4wm8": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.2,
@@ -18335,7 +18335,7 @@
             "atoms": 1103040
         },
         "6ola": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 1455.71,
@@ -18375,7 +18375,7 @@
             "resolution": 4.6
         },
         "3ng9": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 817.01,
@@ -18396,7 +18396,7 @@
             "atoms": 247200
         },
         "2bpa": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 73.09,
@@ -18437,7 +18437,7 @@
             "atoms": 287520
         },
         "7ryj": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "7d",
             "genome": "dsDNA",
             "weight": 345.74,
@@ -18498,7 +18498,7 @@
             "atoms": 969900
         },
         "4g0r": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 85.03,
@@ -18641,7 +18641,7 @@
             "atoms": 1379700
         },
         "1h8t": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.55,
@@ -18702,7 +18702,7 @@
             "atoms": 471240
         },
         "1hxs": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 97.71,
@@ -18803,7 +18803,7 @@
             "atoms": 2131680
         },
         "2c8i": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 128,
@@ -18863,7 +18863,7 @@
             "atoms": 321360
         },
         "6wfu": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 3464.46,
@@ -18944,7 +18944,7 @@
             "atoms": 440760
         },
         "6rpk": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 23.75,
@@ -19124,7 +19124,7 @@
             "atoms": 93960
         },
         "6lb1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 78.71,
@@ -19721,7 +19721,7 @@
             "atoms": 237960
         },
         "3cji": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.75,
@@ -19762,7 +19762,7 @@
             "atoms": 376080
         },
         "5yhq": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.37,
@@ -19862,7 +19862,7 @@
             "resolution": 10.3
         },
         "2wff": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 85.9,
@@ -19883,7 +19883,7 @@
             "atoms": 330360
         },
         "6cx1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 480.1,
@@ -19904,7 +19904,7 @@
             "atoms": 463920
         },
         "1fod": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 80.83,
@@ -19925,7 +19925,7 @@
             "atoms": 321720
         },
         "1mvm": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 64.41,
@@ -19986,7 +19986,7 @@
             "atoms": 2131680
         },
         "1m06": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 73.48,
@@ -20126,7 +20126,7 @@
             "atoms": 453600
         },
         "2x5i": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 96.41,
@@ -20346,7 +20346,7 @@
             "atoms": 85380
         },
         "1ev1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.72,
@@ -20621,7 +20621,7 @@
             "atoms": 270960
         },
         "1k3v": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 1943.1,
@@ -20642,7 +20642,7 @@
             "atoms": 258360
         },
         "1a34": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssRNA",
             "weight": 24.22,
@@ -20683,7 +20683,7 @@
             "atoms": 390360
         },
         "1aym": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 95.67,
@@ -20744,7 +20744,7 @@
             "atoms": 209040
         },
         "1ncq": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.86,
@@ -20866,7 +20866,7 @@
             "atoms": 206340
         },
         "1qgc": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 85.04,
@@ -20921,7 +20921,7 @@
             "resolution": 9.1
         },
         "1e57": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 59.97,
@@ -20942,7 +20942,7 @@
             "atoms": 224520
         },
         "1bev": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 92.92,
@@ -20983,7 +20983,7 @@
             "atoms": 263160
         },
         "4gmp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.3,
@@ -21103,7 +21103,7 @@
             "resolution": 7.0
         },
         "2g8g": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.77,
@@ -21359,7 +21359,7 @@
             "atoms": 214380
         },
         "4fte": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 136.47,
@@ -21538,7 +21538,7 @@
             "atoms": 1488300
         },
         "4ftb": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 136.78,
@@ -21639,7 +21639,7 @@
             "atoms": 75180
         },
         "3kic": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 1646.37,
@@ -21880,7 +21880,7 @@
             "atoms": 247920
         },
         "1ihm": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 169.89,
@@ -21910,7 +21910,7 @@
             "atoms": 618120
         },
         "1z7s": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 97.92,
@@ -21925,7 +21925,7 @@
             "atoms": 399420
         },
         "1zba": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 81.92,
@@ -21940,7 +21940,7 @@
             "atoms": 313620
         },
         "2qa0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "1",
             "genome": "ssDNA",
             "weight": 58.55,
@@ -21955,7 +21955,7 @@
             "atoms": 265680
         },
         "2wzr": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 81.91,
@@ -21970,7 +21970,7 @@
             "atoms": 312600
         },
         "3iyo": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "3",
             "genome": "ssRNA",
             "weight": 213.1,
@@ -21984,7 +21984,7 @@
             "resolution": 10.5
         },
         "3iyp": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.34,
@@ -21999,7 +21999,7 @@
             "atoms": 508860
         },
         "4bip": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 135.66,
@@ -22014,7 +22014,7 @@
             "atoms": 158580
         },
         "6aj0": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 87.18,
@@ -22029,7 +22029,7 @@
             "atoms": 369780
         },
         "6uh1": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 94.9,
@@ -22059,7 +22059,7 @@
             "atoms": 204120
         },
         "4q4w": {
-            "fold": "SJR, Vertical",
+            "fold": "SJR Vertical",
             "tnumber": "pT3",
             "genome": "ssRNA",
             "weight": 98.81,
@@ -88271,7 +88271,7 @@
             "Leviviridae-like",
             "Reo CP-like",
             "Retrotranscribing-like",
-            "SJR, Vertical"
+            "SJR Vertical"
         ],
         "tnumber": [
             "1",
