@@ -28,7 +28,8 @@ property of viral capsids in the database. By default, all values are included (
 only viruses with that value will be graphed; checking multiple values will let viruses with any of the checked values
 be included. This means clicking select all will exclude the capsids which have that field missing.
 
-Also on the filter bar you will find the delete button and a download button, which generates a newline-delimited text
+Also on the filter bar you will find the delete button and a download button, which generates a semicolon &
+newline-delimited (semicolon for separating coordinates, newline for points) text
 file with the data used to generate the graph (varies by the graph, but for example the scatter plot gives you
 'x-coordinate,y-coordinate,value,id' on each line correspinding to one point).
 
