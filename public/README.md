@@ -31,7 +31,7 @@ be included. This means clicking select all will exclude the capsids which have 
 Also on the filter bar you will find the delete button and a download button, which generates a semicolon &
 newline-delimited (semicolon for separating coordinates, newline for points) text
 file with the data used to generate the graph (varies by the graph, but for example the scatter plot gives you
-'x-coordinate,y-coordinate,value,id' on each line correspinding to one point).
+'x-coordinate;y-coordinate;value;id' on each line correspinding to one point).
 
 ## Fields
 
