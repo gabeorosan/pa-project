@@ -41,23 +41,24 @@ What follows is a detailed description of all of the data fields. They are group
 
 ## [ViperDB](https://viperdb.org/)
 
-average_radius (Å): The 'Ave' Radius value on Viper for the capsid
+average_radius (Å): The 'Ave' Radius value on Viper for the capsid\
 tnumber: The triangulation number <a
 href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7150055/#:~:text=The%20triangulation%20number%20(T)%20indicates,3%2C%20and%20T%20%3D%204.'>T-Number</a>
-can be thought of as describing how many proteins form the asymmetric unit of a capsid
-resolution (Å): Resolution of the shell coordinate reconstruction
-family: Family of the virus
-genus: Genus of the virus
-genome: Genome of the virus (for uniformity, viruses were grouped into either ssRNA, ssDNA, dsRNA, dsDNA, or NA meaning other)
+can be thought of as describing how many proteins form the asymmetric unit of a capsid\
+resolution (Å): Resolution of the shell coordinate reconstruction\
+family: Family of the virus\
+genus: Genus of the virus\
+genome: Genome of the virus (for uniformity, viruses were grouped into either ssRNA, ssDNA, dsRNA, dsDNA, or NA meaning
+other)\
 
 ## [RCSB](https://www.rcsb.org/)
 
-atoms: Atom Count (non-hydrogen atoms)
+atoms: Atom Count (non-hydrogen atoms)\
 weight (kDa): Total Structure Weight - molecular weight in all non-hydrogen atoms. Hydrogen atoms are included for the
-charged state in ARG, HIS & LYS residues.
-deposited_polymer_monomer_count: Deposited Residue Count - Number of all polymer monomer residues
-polymer_molecular_weight_maximum: Maximum molecular weight of polymers
-polymer_molecular_weight_minimum: Minimum molecular weight of polymers
+charged state in ARG, HIS & LYS residues.\
+deposited_polymer_monomer_count: Deposited Residue Count - Number of all polymer monomer residues\
+polymer_molecular_weight_maximum: Maximum molecular weight of polymers\
+polymer_molecular_weight_minimum: Minimum molecular weight of polymers\
 
 ## [SCOP](https://scop.mrc-lmb.cam.ac.uk/)
 

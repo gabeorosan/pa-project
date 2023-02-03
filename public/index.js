@@ -433,6 +433,7 @@ $(document).ready(function() {
         var graphEl = document.getElementById(`${id}graph`)
         var graphBox = document.getElementById(`${id}box`)
         var [boxWidth, boxHeight] = [graphBox.offsetWidth, graphBox.offsetHeight]
+        var bttm = margin.bottom + 80
         graphBox.innerHTML = ''
         var svg = makeSvg(id, boxWidth, boxHeight)
                     .attr("transform","translate(" + margin.left + "," + margin.top + ")");
@@ -441,14 +442,14 @@ $(document).ready(function() {
           .domain(d.map(function(d) { return d[0]; }))
           .padding(0.2);
         svg.append("g")
-          .attr("transform", "translate(0," + (boxHeight - margin.top - margin.bottom) + ")")
+          .attr("transform", "translate(0," + (boxHeight - margin.top - bttm) + ")")
           .call(d3.axisBottom(x))
           .selectAll("text")
             .attr("transform", "translate(-10,0)rotate(-45)")
             .style("text-anchor", "end")
         var y = d3.scaleLinear()
           .domain([0, yMax])
-          .range([ boxHeight - margin.top - margin.bottom, 0]);
+          .range([ boxHeight - margin.top - bttm, 0]);
         svg.append("g")
           .call(d3.axisLeft(y));
         var contString = continuous == 'count' ? 'count' : `average ${continuous}`
@@ -467,7 +468,7 @@ $(document).ready(function() {
             .attr("x", function(d) { return x(d[0]); })
             .attr("y", function(d) { return y(String(d[1])); })
             .attr("width", x.bandwidth())
-            .attr("height", function(d) { return boxHeight - margin.top - margin.bottom - y(d[1]); })
+            .attr("height", function(d) { return boxHeight - margin.top - bttm- y(d[1]); })
             .attr("fill", "#69b3a2")
             .on('mousemove', mousemove)
             .on('mouseover', mouseover)
@@ -589,7 +590,7 @@ $(document).ready(function() {
                 .domain([0, xMax])
                 .range([ 0, boxWidth - margin.left - margin.right ]);
         svg.append("g")
-            .attr("transform", "translate(0," + (boxHeight-margin.top -margin.bottom) + ")")
+            .attr("transform", "translate(0," + (boxHeight-margin.top - bttm) + ")")
             .call(d3.axisBottom(x));
         var y = d3.scaleLinear()
                 .domain([0,yMax])
