@@ -538,7 +538,7 @@ $(document).ready(function() {
         var exportBtn = document.getElementById(id + 'exportBtn')
 
         var exportData = [[discrete,'count'], ...Object.entries(data)]
-        exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, exportData.map(([k,v]) => `${k};${v}\n`))}
+        exportBtn.onclick = () => {save(`pie_${discrete}.txt`, exportData.map(([k,v]) => `${k};${v}\n`))}
         var legend = redrawLegend(id, colorDict)
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')

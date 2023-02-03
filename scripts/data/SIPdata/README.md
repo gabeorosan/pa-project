@@ -8,34 +8,33 @@ This is a repository for all the date files that are used in my
 Screenshots of graphs, along with the .txt files used to make them, are stored in the all/ and uniq/ directories,
 according to the id set used to generate them. 
 
+Each section begins with a line describing the format for how the plots are enumerated.
+
 ## Scatter
 
-Scatter plots are enumerated in the following format:
+<ids> | <color> x <x-axis> x <y-axis>
 
-<color> x <x-axis> x <y-axis>
-
-(tnumber, genome, gauge_point) x deposited_polymer_monomer_count x (polymer_molecular_weight_minumum, polymer_molectular_weight_maximum)
-(tnumber, genome, gauge_point) x atoms x (weight, average_radius, resolution)
+all | tnumber x atoms x (weight, average_radius, resolution)
 
 ## Bar 
 
-Bar plots are enumerated as:
+<ids> |  <x-axis> x <y-axis>
 
-<x-axis> x <y-axis>
-
-(tnumber, genome, gauge_point, closest_gp_aa, family, genus) x (count, atoms, resolution, average_radius)
+unique | (tnumber, genome, gauge_point, closest_gp_aa) x (count, atoms, average_radius)
 
 ## Pie
 
-<field>
+<ids> | <field>
 
-(fold, genome)
+all | (fold, genome, tnumber, gauge_point, closest_gp_aa, family)
 
 ## Heatmap
 
-tnumber x (gauge_point, closest_gp_aa, genome) x count
-closest_gp_aa x (gauge_point, genome, other_gp_aa) x count
-gauge_point x (tnumber, closest_gp_aa, genome) x (count, average_radius)
+<ids> | <x-axis> x <y-axis> x <shading>
+
+uniq | tnumber x (gauge_point, closest_gp_aa, genome) x count
+uniq | closest_gp_aa x (gauge_point, genome, other_gp_aa) x count
+uniq | gauge_point x genome x (count, average_radius, atoms)
 
 
 

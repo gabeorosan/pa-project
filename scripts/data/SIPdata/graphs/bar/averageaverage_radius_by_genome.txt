@@ -1,0 +1,6 @@
+genome;average_radius
+dsDNA;360
+ssDNA;171
+dsRNA;273
+ssRNA;158
+NA;144

@@ -1,0 +1,6 @@
+fold;count
+HK97-like;2
+Leviviridae-like;6
+Reo CP-like;8
+Retrotranscribing-like;6
+SJR Vertical;212

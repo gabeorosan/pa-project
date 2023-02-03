@@ -1,0 +1,6 @@
+genome;count
+dsDNA;166
+ssDNA;163
+dsRNA;52
+ssRNA;777
+NA;43
