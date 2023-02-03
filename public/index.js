@@ -416,7 +416,8 @@ $(document).ready(function() {
 
         var exportBtn = document.getElementById(id + 'exportBtn')
         var expContString = contString.replace(' ', '_')
-        exportBtn.onclick = () => {save(`${expContString}_by_${cats[1]}_vs_${cats[0]}.txt`, data.map((e => `${e[0]};${e[1]};${e[2]}\n`)))}
+        var expData = [[...cats,contString], ...data]
+        exportBtn.onclick = () => {save(`${expContString}_by_${cats[1]}_vs_${cats[0]}.txt`, expData.map((e => `${e[0]};${e[1]};${e[2]}\n`)))}
     }
     function makeSvg(id, boxWidth, boxHeight){
         var svg = d3.select(`#${id}box`)
@@ -480,9 +481,10 @@ $(document).ready(function() {
             .style("font-size", "16px")
             .text(`${contString}${unitText(continuous)} by ${discrete} (n = ${numElements})`);
         var filterWidget = document.getElementById(id + 'filters')
+        var exportData = [[discrete, continuous], ...d]
         var exportBtn = document.getElementById(id + 'exportBtn')
         var expContString = contString.replace(' ', '')
-        exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, d.map(e => `${e[0]};${e[1]}\n`))}
+        exportBtn.onclick = () => {save(`${expContString}_by_${discrete}.txt`, exportData.map(e => `${e[0]};${e[1]}\n`))}
     }
     function redrawPie(id, discrete, filterObj) {
         var [data, colorDict] = pieData(discrete, filterObj)
@@ -534,7 +536,9 @@ $(document).ready(function() {
             .style("font-size", "16px")
             .text(`n = ${numElements}`);
         var exportBtn = document.getElementById(id + 'exportBtn')
-        exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, Object.entries(data).map(([k,v]) => `${k};${v}\n`))}
+
+        var exportData = [[discrete,'count'], ...Object.entries(data)]
+        exportBtn.onclick = () => {save(`pie_${discrete}_.txt`, exportData.map(([k,v]) => `${k};${v}\n`))}
         var legend = redrawLegend(id, colorDict)
         var legendTitle = document.createElement('div')
         legendTitle.classList.add('legend-title')
@@ -643,7 +647,8 @@ $(document).ready(function() {
         legend.prepend(legendTitle)
         legendTitle.appendChild(primaryDropdown)
         var exportBtn = document.getElementById(id + 'exportBtn')
-        exportBtn.onclick = () => {save(`${yMetric}_vs_${xMetric}_${filterList.primary}.txt`, d.map((e =>`${e[0]};${e[1]};${e[2]};${e[3]}\n`)))}
+        var exportData = [[xMetric, yMetric, filterList.primary, 'id'], ...d]
+        exportBtn.onclick = () => {save(`${yMetric}_vs_${xMetric}_${filterList.primary}.txt`, exportData.map((e =>`${e[0]};${e[1]};${e[2]};${e[3]}\n`)))}
     }
     function makeDropdown(options, value) {
         var dropdown = document.createElement('select')
