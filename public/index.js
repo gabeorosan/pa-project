@@ -590,7 +590,7 @@ $(document).ready(function() {
                 .domain([0, xMax])
                 .range([ 0, boxWidth - margin.left - margin.right ]);
         svg.append("g")
-            .attr("transform", "translate(0," + (boxHeight-margin.top - bttm) + ")")
+            .attr("transform", "translate(0," + (boxHeight-margin.top - margin.bottom) + ")")
             .call(d3.axisBottom(x));
         var y = d3.scaleLinear()
                 .domain([0,yMax])
