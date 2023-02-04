@@ -69,6 +69,9 @@ getting PDB IDS of viruses containing those SCOP IDS.
 
 ## [Generated data](https://github.com/gabeorosan/pa-project/blob/master/SIP.md)
 
+- most_common_aa: The most frequent AA in the full capsid (generated using
+[makeicos.pl](https://github.com/gabeorosan/pa-project/blob/master/scripts/pipeline/makeicos.pl)
+
 the gauge point and the top 5 point arrays for each capsid were found with
 [franken_pas.m](https://github.com/gabeorosan/pa-project/blob/master/scripts/pipeline/franken_pas.m) (pipeline description
 in parent directory)
@@ -84,7 +87,5 @@ amino acid data distance calculations were done with
 - other_gp_aa: Another AA which was within 5 Angstroms of closest_gp_aa (NA if none)  
 - common_gauge_aa: The most common AA from those with distance less than 5 (even if not closest - including other_aa) from any point from the top PA  
 
-- most_common_aa: The most frequent AA in the full capsid (generated using
-[makeicos.pl](https://github.com/gabeorosan/pa-project/blob/master/scripts/pipeline/makeicos.pl)
 
 
