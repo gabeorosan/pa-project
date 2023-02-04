@@ -5,22 +5,22 @@ This is a repository for all the date files that are used in my
 
 ## Graphs
 
-Screenshots of graphs, along with the .txt files used to make them, are stored in the all/ and uniq/ directories,
-according to the id set used to generate them. 
+Screenshots of graphs, along with the .txt files used to make them, are stored in the graphs/ directory
 
-Each section begins with a line describing the format for how the plots are enumerated.
+Each section begins with a line describing the format for how the plots are enumerated. This generally corresponds to
+the naming of the graph/data files.
 
 ## Scatter
 
-<ids> | <color> x <x-axis> x <y-axis>
+<ids> |  <y-axis> x <x-axis> x <color>
 
-all | tnumber x atoms x (weight, average_radius, resolution)
+all | (weight, average_radius, resolution) x atoms x tnumber 
 
 ## Bar 
 
-<ids> |  <x-axis> x <y-axis>
+<ids> |  <y-axis> x <x-axis>
 
-unique | (tnumber, genome, gauge_point, closest_gp_aa) x (count, atoms, average_radius)
+unique | (count, atoms, average_radius) x (tnumber, genome, gauge_point, closest_gp_aa)
 
 ## Pie
 
@@ -32,9 +32,7 @@ all | (fold, genome, tnumber, gauge_point, closest_gp_aa, family)
 
 <ids> | <x-axis> x <y-axis> x <shading>
 
-uniq | tnumber x (gauge_point, closest_gp_aa, genome) x count
-uniq | closest_gp_aa x (gauge_point, genome, other_gp_aa) x count
-uniq | gauge_point x genome x (count, average_radius, atoms)
-
-
+uniq | count x (gauge_point, closest_gp_aa, genome) x tnumber
+uniq | count x (gauge_point, genome, other_gp_aa) x closest_gp_aa
+uniq | (count, average_radius, atoms) x genome x gauge_point
 
