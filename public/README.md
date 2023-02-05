@@ -35,7 +35,7 @@ file with the data used to generate the graph (varies by the graph, but for exam
 
 ## Fields
 
-What follows is a detailed description of all of the data fields, each starting with a bullet point. They are grouped into three categories:
+What follows is a description of all of the data fields, each starting with a bullet point. They are grouped into three categories:
 [ViperDB](https://viperdb.org/) data,
 [RCSB](https://www.rcsb.org/) data, [SCOP](https://scop.mrc-lmb.cam.ac.uk/) fold data, and generated data
 
