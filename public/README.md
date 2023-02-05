@@ -17,7 +17,7 @@ fields and values, separated by a colon, from the capsid object.
 
 ## Graphs
 
-Clicking on a chart will create a new graph. After creating a graph, click the info icon on the far left to get detailed
+Clicking on a chart will change the graph shown. After creating a graph, click the info icon on the far left to get detailed
 information about each specific graph. Graphs are initialized with random selections for x and y axes, and no filters;
 click on the dropdowns on each axis to change them. All graphs can be dragged & resized, and the axis dropdowns can be dragged.
 
@@ -28,7 +28,7 @@ property of viral capsids in the database. By default, all values are included (
 only viruses with that value will be graphed; checking multiple values will let viruses with any of the checked values
 be included. This means clicking select all will exclude the capsids which have that field missing.
 
-Also on the filter bar you will find the delete button and a download button, which generates a semicolon &
+Also on the filter bar you will find the download button, which generates a semicolon &
 newline-delimited (semicolon for separating coordinates, newline for points) text
 file with the data used to generate the graph (varies by the graph, but for example the scatter plot gives you
 'x-coordinate;y-coordinate;value;id' on each line corresponding to one point).

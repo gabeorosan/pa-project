@@ -43,6 +43,11 @@ other things). Among viruses with overlapping fields, the ones with the lowest r
 viruses with only C alpha residues are removed. The output is
 written to unids_ca.txt and uniq_lres_ca_removed.xlsx
 
+## count_aas.py
+
+This creates aas.json, containing the most common AA for each capsid. Note that this requires the full capsid files
+which are too large to attach; this script is included for documentation purposes.
+
 ## xlfiles_json.ipynb
 
 This notebook does all the data processing necessary to get from the find_aas and franken output to the db.json databse

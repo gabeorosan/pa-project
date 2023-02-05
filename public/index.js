@@ -559,10 +559,12 @@ $(document).ready(function() {
             .style("position", 'absolute');
         var mouseover = function (d) {
             tooltip.style("opacity", 1);
+            tooltip.style("z-index", 10);
             d3.select(this).style("stroke", "green").style("opacity", 1);
         }
         var mouseleave = function (d) {
             tooltip.style("opacity", 0);
+            tooltip.style("z-index", -1);
             d3.select(this).style("stroke", "none").style("opacity", 0.8);
         }
         return [tooltip, mouseover, mouseleave]
