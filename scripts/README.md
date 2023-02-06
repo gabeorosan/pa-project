@@ -105,7 +105,7 @@ chmod +x find_aas_exec
 then you can call it on a single pa like so:
 
 ```bash
-./find_aas_exec 2g33.pdb pa_346.pdb
+./find_aas_exec full_2g33.pdb pa_346.pdb
 ```
 
 or you can have it loop through a directory of pa files by using the run_pas_exec file
@@ -114,6 +114,6 @@ or you can have it loop through a directory of pa files by using the run_pas_exe
 chmod +x run_pas_exec
 ```
 ```bash
-./run_pas_exec 2g33.pdb pa_directory
+./run_pas_exec full_2g33.pdb pa_directory
 ```
 
