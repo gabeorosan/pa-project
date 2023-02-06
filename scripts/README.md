@@ -83,9 +83,9 @@ this contains functions that are used to make pie charts
 
 Make some pie charts comparing AA data from the unique ids to the whole data set.
 
-# Instructions for running find_aas_exec
+# Instructions for running find_aas
 
-# find_aas_exec
+## find_aas_exec
 
 find_aas_exec is a compiled executable version of find_aas.py. 
 
