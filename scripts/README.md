@@ -94,7 +94,7 @@ the nearest other AA if there is one within 5 Angstroms written to a sheet with 
 
 Install the requirements
 ```bash
-pip install numpy scipy openpyxl pandas
+python3 -m pip install numpy scipy openpyxl pandas
 ```
 
 then you can call it on a single pa like so:
