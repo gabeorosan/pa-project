@@ -83,24 +83,24 @@ this contains functions that are used to make pie charts
 
 Make some pie charts comparing AA data from the unique ids to the whole data set.
 
-# Instructions for running find_aas.py
+# Instructions for running find_aas
 
-NOTE: find_aas_exec is currently out of date, please follow the instructions below to use find_aas.py
-
+find_aas is an executable version of find_aas.py (made with pyinstaller)
 This script takes in virus capsid and point array PDB files and output creates/overwrites an excel file called
 \<virusname\>.xlsx
 with the closest Amino Acid in the capsid to each point in the PA for each chain, along with the distance and Atom at that point, and
 the nearest other AA if there is one within 5 Angstroms written to a sheet with the PA file name.
 
-Install the requirements
+Download the file, then you can made it executable by doing
+
 ```bash
-python3 -m pip install numpy scipy openpyxl pandas
+chmod +x find_aas
 ```
 
 then you can call it on a single pa like so:
 
 ```bash
-python3 find_aas.py full_2g33.pdb pa_346.pdb
+./find_aas full_2g33.pdb pa_346.pdb
 ```
 
 or you can have it loop through a directory of PA files by using the run_pas file
