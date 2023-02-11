@@ -6,6 +6,7 @@ import sys
 
 pdb_url = sys.argv[1]
 pa_url = sys.argv[2]
+max_dist = float(sys.argv[3]) if len(sys.argv) > 3 else 5
 
 with open(pdb_url) as pdb_file:
     pdb_coords = {}
@@ -46,7 +47,7 @@ for c in pdb_coords.keys():
         atom = pdb_info[c][min_ix]['atom']
 
         for d_ix in d_argsort[p_n]:
-            if distances[p_n][d_ix] > 5:
+            if distances[p_n][d_ix] > max_dist:
                 aa_others.append('N/A')
                 break
             else:

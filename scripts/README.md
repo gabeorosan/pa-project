@@ -9,7 +9,7 @@ dictionary mapping each chain to the coordinates of each constituent atom. I als
 into a list of [x,y,z] point coordinates. Next, I looped through each chain and used the function scipy.spatial.distance.cdist (scipy is a python
 library for scientific computing) to compute the distances from each member point for the chain to each point in the
 point array. I stored the minimum distance, along with the corresponding residue and atom, and looped through the sorted
-distances to find one where the distance was less than 5 and the residue was not the same as the closest one, storing
+distances to find one where the distance was less than 5 (or any given number) and the residue was not the same as the closest one, storing
 that residue if it existed or N/A otherwise. Finally, I wrote the results to an xlsx file, with a row for each PA point
 and 5 columns for each PA chain.
 
@@ -89,7 +89,7 @@ find_aas is an executable version of find_aas.py (made with pyinstaller)
 This script takes in virus capsid and point array PDB files and output creates/overwrites an excel file called
 \<virusname\>.xlsx
 with the closest Amino Acid in the capsid to each point in the PA for each chain, along with the distance and Atom at that point, and
-the nearest other AA if there is one within 5 Angstroms written to a sheet with the PA file name.
+the nearest other AA if there is one within a given number of Angstroms (defaulting to 5) written to a sheet with the PA file name.
 
 Download the file, then you can made it executable by doing
 
@@ -97,10 +97,10 @@ Download the file, then you can made it executable by doing
 chmod +x find_aas
 ```
 
-then you can call it on a single pa like so:
+then you can call it on a single pa like so with distance 10 Angstroms:
 
 ```bash
-./find_aas full_2g33.pdb pa_346.pdb
+./find_aas full_2g33.pdb pa_346.pdb 10
 ```
 
 or you can have it loop through a directory of PA files by using the run_pas file
@@ -115,3 +115,5 @@ then run it on a pa directory like so
 ./run_pas full_2g33.pdb pa_directory
 ```
 
+note that just like with find_aas, you can choose to pass a number at the end to specify the max distance for other AAs;
+if you don't then it defaults to 5
