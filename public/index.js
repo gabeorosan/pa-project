@@ -398,7 +398,7 @@ $(document).ready(function() {
       var mousemove = function (d) {
         tooltip
           .html(`(${d[0]}, ${d[1]}) : ${d[2]}`)
-          .style("left", d3.mouse(this)[0]  + "px")
+          .style("left", d3.mouse(this)[0] + 70  + "px")
           .style("top", d3.mouse(this)[1] + "px");
       }
           svg.selectAll()

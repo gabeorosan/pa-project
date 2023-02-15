@@ -4,8 +4,9 @@
 
 The 'ids included' option above the graph buttons allows you to limit the dataset to certain
 [PDB_IDs](https://www.rcsb.org/docs/general-help/identifiers-in-pdb). By default, all ids are included - the full
-dataset. 'unique' refers to a specific list of 195 capsids with unique combinations of fields T-number, genome, family, and
-genus which can be found [here](https://github.com/gabeorosan/pa-project/blob/master/scripts/data/unids.txt). Additionally
+dataset. 'unique' refers to a specific list of 187 capsids with: unique combinations of fields T-number, genome, family, and
+genus (prioritized by lowest resolution) which can be found
+[here](https://github.com/gabeorosan/pa-project/blob/master/scripts/data/unids_ca.txt). Additionally
 the 'custom' option lets you upload your own newline-delimited text file with PDB IDS to include (all others will be
 filtered out).
 
