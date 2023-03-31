@@ -45,7 +45,6 @@ a{
   -webkit-tap-highlight-color: white;
 }
 .tooltip {
-    z-index: 3;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none; /* Standard */
