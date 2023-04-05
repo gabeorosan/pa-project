@@ -21,9 +21,8 @@ results.
 
 Additionally, since in the script I made use of scipy, pandas, numpy, and openpyxl (all python libraries which must be
 installed by the user), I used pyinstaller to convert the script into an executable file find_aas_exec bundled with all
-the dependencies mentioned (and adapted the run_pas script accordingly, naming the new one run_pas_exec.sh). However,
-because the executable is slightly slower than the python script given the bundled dependencies, I ended up using the
-python script in the automated pipeline discussed below.
+the dependencies mentioned (and adapted the run_pas script accordingly - the one included works with the executable and
+not the python file. However, because the executable is slightly slower than the python script given the bundled dependencies, I ended up using the python script in the automated pipeline discussed below.
 
 ## custom_pas.ipynb
 

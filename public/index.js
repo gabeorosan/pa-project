@@ -764,7 +764,7 @@ $(document).ready(function() {
                 break
             case 'bar':
                 var barDiscrete = getRandom(discreteMetrics, 1)
-                makeBar(id, barDiscrete, filters[barDiscrete], getRandom(countContinuousMetrics, 1), {})
+                makeBar(id, barDiscrete, filters[barDiscrete], 'count', {})
                 break
             case 'pie':
                 makePie(id, getRandom(discreteMetrics, 1), {})
