@@ -774,7 +774,7 @@ $(document).ready(function() {
                 var discreteObj = {}
                 discreteObj[metrics[0]] = filters[metrics[0]]
                 discreteObj[metrics[1]] = filters[metrics[1]]
-                var cont = getRandom(countContinuousMetrics, 1)
+                var cont = 'count'
                 makeHeatmap(id, discreteObj, cont, {})
         }
     }
