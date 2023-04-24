@@ -82,13 +82,39 @@ this contains functions that are used to make pie charts
 
 Make some pie charts comparing AA data from the unique ids to the whole data set.
 
-# Instructions for running find_aas
+# Instructions for running find_aas.py
 
-find_aas is an executable version of find_aas.py (made with pyinstaller)
 This script takes in virus capsid and point array PDB files and output creates/overwrites an excel file called
 \<virusname\>.xlsx
 with the closest Amino Acid in the capsid to each point in the PA for each chain, along with the distance and Atom at that point, and
 the nearest other AA if there is one within a given number of Angstroms (defaulting to 5) written to a sheet with the PA file name.
+
+make sure you have python3 with numpy, scipy, openpyxl, and pandas installed (otherwise see the executable instructions
+below).
+
+you can call it on a single pa like so with distance 10 Angstroms:
+
+```bash
+python3 find_aas.py full_2g33.pdb pa_346.pdb 10
+```
+or you can have it loop through a directory of PA files (make sure "pa" is in each of their file names) by using the run_pas file
+
+make it executable
+```bash
+chmod +x run_pas_py
+```
+
+then run it on a pa directory like so
+```bash
+./run_pas_py full_2g33.pdb pa_directory
+```
+
+note that just like with find_aas.py, you can choose to pass a number at the end to specify the max distance for other AAs;
+if you don't then it defaults to 5
+
+# Instructions for running find_aas (NOT WORKING ON CERTAIN ARCHITECTURES)
+
+find_aas is an executable version of find_aas.py (made with pyinstaller)
 
 Download the file, then you can made it executable by doing
 
@@ -106,13 +132,14 @@ or you can have it loop through a directory of PA files by using the run_pas fil
 
 make it executable
 ```bash
-chmod +x run_pas
+chmod +x run_pas_ex
 ```
 
 then run it on a pa directory like so
 ```bash
-./run_pas full_2g33.pdb pa_directory
+./run_pas_ex full_2g33.pdb pa_directory
 ```
 
 note that just like with find_aas, you can choose to pass a number at the end to specify the max distance for other AAs;
 if you don't then it defaults to 5
+
